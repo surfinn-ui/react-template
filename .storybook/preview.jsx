@@ -11,6 +11,20 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import THEMES from '../src/themes';
 
 export const parameters = {
+  options: {
+    storySort: {
+      order: [
+        'Introduction',
+        'Foundations',
+        'Components',
+        [],
+        'Material UI',
+        ['Button'],
+        'Example',
+      ],
+      includeName: true,
+    },
+  },
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {
     expanded: true,

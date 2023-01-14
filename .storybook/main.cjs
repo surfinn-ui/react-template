@@ -1,8 +1,11 @@
 module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
+    'storybook-dark-mode',
     '@storybook/addon-links',
+    'storybook-addon-designs',
     '@storybook/addon-essentials',
+    '@storybook/addon-storysource',
     '@storybook/addon-interactions',
   ],
   framework: '@storybook/react',
