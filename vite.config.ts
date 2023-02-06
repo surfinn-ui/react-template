@@ -1,8 +1,5 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
-// import dns from 'dns'
-// dns.setDefaultResultOrder('verbatim')
-// dns.setDefaultResultOrder('ipv4first')
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -10,7 +7,6 @@ export default defineConfig({
   envPrefix: 'VITE_', // default  REACT_APP_ 으로 설정하면 .env 파일에서 REACT_APP_ 로 시작하는 변수를 읽어온다.
   plugins: [react()],
   appType: 'mpa', // multi-page application
-  // base: '/roulette-simulation/',
   // 개발 서버
   server: {
     host: 'local.surfinn.kr',
