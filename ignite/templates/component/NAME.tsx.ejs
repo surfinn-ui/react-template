@@ -1,14 +1,12 @@
 ---
+destinationDir: src/components
 patch:
-  path: "app/components/index.ts"
+  path: src/components/index.ts
   append: "export * from \"./<%= props.pascalCaseName %>\"\n"
   skip: <%= props.skipIndexFile %>
 ---
-import * as React from "react"
-import { StyleProp, TextStyle, View, ViewStyle } from "react-native"
+import React from "react"
 import { observer } from "mobx-react-lite"
-import { colors, typography } from "../theme"
-import { Text } from "./Text"
 
 export interface <%= props.pascalCaseName %>Props {
   /**
@@ -20,23 +18,11 @@ export interface <%= props.pascalCaseName %>Props {
 /**
  * Describe your component here
  */
-export const <%= props.pascalCaseName %> = observer(function <%= props.pascalCaseName %>(props: <%= props.pascalCaseName %>Props) {
-  const { style } = props
-  const $styles = [$container, style]
+export const <%= props.pascalCaseName %> = observer((props: <%= props.pascalCaseName %>Props) => {
 
   return (
-    <View style={$styles}>
-      <Text style={$text}>Hello</Text>
-    </View>
+    <React.Fragment>
+      <%= props.camelCaseName %>"
+    </React.Fragment>
   )
 })
-
-const $container: ViewStyle = {
-  justifyContent: "center",
-}
-
-const $text: TextStyle = {
-  fontFamily: typography.primary.normal,
-  fontSize: 14,
-  color: colors.palette.primary500,
-}

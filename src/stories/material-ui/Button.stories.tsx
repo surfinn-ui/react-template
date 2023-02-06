@@ -1,5 +1,6 @@
+import { Button } from '@mui/material';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { Button } from './Button';
+
 export default {
   title: 'Material UI/Button',
   component: Button,
@@ -7,7 +8,7 @@ export default {
 const Template: ComponentStory<typeof Button> = (args) => <Button {...args} />;
 export const Primary = Template.bind({});
 Primary.args = {
-  label: '프라이머리 버튼',
+  children: '프라이머리 버튼',
   color: 'primary',
   variant: 'contained',
   size: 'medium',
@@ -15,8 +16,8 @@ Primary.args = {
 
 // design resources for storybook
 Primary.parameters = {
-  design: {
-    type: "figma",
-    url: "https://www.figma.com/file/YhjUf9UYbA1JyaAwWmI4sw/Basic-UI-Kit-(Community)?node-id=2%3A599&t=pEisgMOo13ahr7zV-1",
-  },
+  // design: {
+  //   type: 'figma',
+  //   url: 'https://www.figma.com/file/YhjUf9UYbA1JyaAwWmI4sw/Basic-UI-Kit-(Community)?node-id=2%3A599&t=pEisgMOo13ahr7zV-1',
+  // },
 };

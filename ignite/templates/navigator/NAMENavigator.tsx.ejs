@@ -1,7 +1,7 @@
 ---
-destinationDir: app/navigators
+destinationDir: src/navigators
 patch:
-  path: "app/navigators/index.ts"
+  path: "src/navigators/index.ts"
   append: "export * from \"./<%= props.pascalCaseName %>Navigator\"\n"
   skip: <%= props.skipIndexFile %>
 ---

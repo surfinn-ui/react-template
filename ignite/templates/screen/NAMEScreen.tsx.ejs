@@ -1,6 +1,6 @@
 ---
 patch:
-  path: "app/screens/index.ts"
+  path: "src/screens/index.ts"
   append: "export * from \"./<%= props.pascalCaseName %>Screen\"\n"
   skip: <%= props.skipIndexFile %>
 ---

@@ -1,6 +1,6 @@
 import { useMemo, useState } from 'react';
 
-import { CssBaseline, ThemeProvider } from '@mui/material';
+import { Container, CssBaseline, ThemeProvider } from '@mui/material';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
@@ -16,11 +16,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-
-      <Box>
+      <div>
         <Button variant='contained'>Hello World</Button>
         <Button variant='contained'>한글 버튼</Button>
-      </Box>
+      </div>
     </ThemeProvider>
   );
 }

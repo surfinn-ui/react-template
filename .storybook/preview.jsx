@@ -54,9 +54,9 @@ export const decorators = [withMuiTheme];
 export const globalTypes = {
   theme: {
     name: 'Theme',
-    title: 'Theme',
-    description: 'Theme for your components',
-    defaultValue: 'light',
+    title: 'Mui Theme',
+    description: 'Mui Theme for your components',
+    defaultValue: 'dark',
     toolbar: {
       icon: 'paintbrush',
       dynamicTitle: true,
