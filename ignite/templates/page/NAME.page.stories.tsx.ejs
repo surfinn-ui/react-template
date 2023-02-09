@@ -1,0 +1,16 @@
+---
+destinationDir: src/pages/<%= props.name %>
+---
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import <%= props.pascalCaseName %>Page from './<%= props.pascalCaseName %>.page';
+
+export default {
+  title: 'pages/<%= props.pascalCaseName %>Page',
+  component: <%= props.pascalCaseName %>Page,
+} as ComponentMeta<typeof <%= props.pascalCaseName %>Page>;
+
+const Template: ComponentStory<typeof <%= props.pascalCaseName %>Page> = () => (
+  <<%= props.pascalCaseName %>Page />
+);
+
+export const Default = Template.bind({});

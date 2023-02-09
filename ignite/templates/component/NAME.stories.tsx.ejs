@@ -1,0 +1,20 @@
+---
+destinationDir: src/components/<%= props.name %>
+---
+import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { <%= props.pascalCaseName %> } from '../<%= props.pascalCaseName %>';
+
+export default {
+  title: 'components/<%= props.pascalCaseName %>',
+  component: <%= props.pascalCaseName %>,
+} as ComponentMeta<typeof <%= props.pascalCaseName %>>;
+
+const Template: ComponentStory<typeof <%= props.pascalCaseName %>> = (args) => (
+  <<%= props.pascalCaseName %> {...args} />
+);
+
+export const Default = Template.bind({});
+
+Default.args = {
+  
+};

@@ -1,11 +1,12 @@
-import * as React from 'react';
 import { observer } from 'mobx-react-lite';
 
-export interface TestProps {}
+export interface ITestProps {}
 
 /**
  * Describe your component here
  */
-export const Test = observer(function Test(props: TestProps) {
-  return <div style={{}}>Test</div>;
+export const Test = observer((props: ITestProps) => {
+  return <>test</>;
 });
+
+Test.displayName = 'Test Component';

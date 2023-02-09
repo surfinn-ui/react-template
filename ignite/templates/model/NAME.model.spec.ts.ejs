@@ -1,4 +1,7 @@
-import { <%= props.pascalCaseName %>Model } from "./<%= props.pascalCaseName %>"
+---
+destinationDir: "src/models"
+---
+import { <%= props.pascalCaseName %>Model } from "./<%= props.pascalCaseName %>.model"
 
 test("can be created", () => {
   const instance = <%= props.pascalCaseName %>Model.create({})

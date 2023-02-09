@@ -1,5 +1,6 @@
 ---
-patches:
+destinationDir: "src/models"
+<!-- patches:
   - path: "src/models/RootStore.ts"
     after: "from \"mobx-state-tree\"\n"
     insert: "import { <%= props.pascalCaseName %>Model } from \"./<%= props.pascalCaseName %>\"\n"
@@ -10,10 +11,10 @@ patches:
     skip: <%= !props.pascalCaseName.endsWith('Store') %>
   - path: "src/models/index.ts"
     append: "export * from \"./<%= props.pascalCaseName %>\"\n" 
-    skip: <%= props.skipIndexFile %>
+    skip: <%= props.skipIndexFile %> -->
 ---
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
-import { withSetPropAction } from "./helpers/withSetPropAction"
+import { withSetPropAction } from "../helpers/withSetPropAction"
 
 /**
  * Model description here for TypeScript hints.
@@ -25,7 +26,7 @@ export const <%= props.pascalCaseName %>Model = types
   .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 
-export interface <%= props.pascalCaseName %> extends Instance<typeof <%= props.pascalCaseName %>Model> {}
-export interface <%= props.pascalCaseName %>SnapshotOut extends SnapshotOut<typeof <%= props.pascalCaseName %>Model> {}
-export interface <%= props.pascalCaseName %>SnapshotIn extends SnapshotIn<typeof <%= props.pascalCaseName %>Model> {}
-export const create<%= props.pascalCaseName %>DefaultModel = () => types.optional(<%= props.pascalCaseName %>Model, {})
+export interface I<%= props.pascalCaseName %>Model extends Instance<typeof <%= props.pascalCaseName %>Model> {}
+export interface I<%= props.pascalCaseName %>ModelSnapshotOut extends SnapshotOut<typeof <%= props.pascalCaseName %>Model> {}
+export interface I<%= props.pascalCaseName %>ModelSnapshotIn extends SnapshotIn<typeof <%= props.pascalCaseName %>Model> {}
+export type T<%= props.pascalCaseName %>ModelKeys = keyof I<%= props.pascalCaseName %>ModelSnapshotIn & string;

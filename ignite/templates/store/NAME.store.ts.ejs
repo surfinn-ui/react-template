@@ -1,0 +1,32 @@
+---
+destinationDir: "src/stores"
+<!-- patches:
+  - path: "src/models/RootStore.ts"
+    after: "from \"mobx-state-tree\"\n"
+    insert: "import { <%= props.pascalCaseName %>Store } from \"./<%= props.pascalCaseName %>\"\n"
+    skip: <%= !props.pascalCaseName.endsWith('Store') %>
+  - path: "src/models/RootStore.ts"
+    after: "types.model(\"RootStore\").props({\n"
+    insert: "  <%= props.camelCaseName %>: types.optional(<%= props.pascalCaseName %>Store, {} as any),\n"
+    skip: <%= !props.pascalCaseName.endsWith('Store') %>
+  - path: "src/models/index.ts"
+    append: "export * from \"./<%= props.pascalCaseName %>\"\n" 
+    skip: <%= props.skipIndexFile %> -->
+---
+import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
+import { withSetPropAction } from "../helpers/withSetPropAction"
+
+/**
+ * Store description here for TypeScript hints.
+ */
+export const <%= props.pascalCaseName %>Store = types
+  .model("<%= props.pascalCaseName %>")
+  .props({})
+  .actions(withSetPropAction)
+  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+
+export interface I<%= props.pascalCaseName %>Store extends Instance<typeof <%= props.pascalCaseName %>Store> {}
+export interface I<%= props.pascalCaseName %>StoreSnapshotOut extends SnapshotOut<typeof <%= props.pascalCaseName %>Store> {}
+export interface I<%= props.pascalCaseName %>StoreSnapshotIn extends SnapshotIn<typeof <%= props.pascalCaseName %>Store> {}
+export type T<%= props.pascalCaseName %>StoreKeys = keyof I<%= props.pascalCaseName %>StoreSnapshotIn & string;

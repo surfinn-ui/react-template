@@ -5,24 +5,21 @@ patch:
   append: "export * from \"./<%= props.pascalCaseName %>\"\n"
   skip: <%= props.skipIndexFile %>
 ---
-import React from "react"
 import { observer } from "mobx-react-lite"
 
-export interface <%= props.pascalCaseName %>Props {
-  /**
-   * An optional style override useful for padding & margin.
-   */
-  style?: StyleProp<ViewStyle>
+export interface I<%= props.pascalCaseName %>Props {
 }
 
 /**
  * Describe your component here
  */
-export const <%= props.pascalCaseName %> = observer((props: <%= props.pascalCaseName %>Props) => {
-
+export const <%= props.pascalCaseName %> = observer((props: I<%= props.pascalCaseName %>Props) => {
   return (
-    <React.Fragment>
-      <%= props.camelCaseName %>"
-    </React.Fragment>
+    <>
+      <%= props.camelCaseName %>
+    </>
   )
 })
+
+<%= props.pascalCaseName %>.displayName = '<%= props.pascalCaseName %> Component'
+
