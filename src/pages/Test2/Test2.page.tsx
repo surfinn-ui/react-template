@@ -4,14 +4,14 @@ import { observer } from "mobx-react-lite"
 import { Page } from "../../components"
 import { useStores } from "../../stores"
 
-const TestPage = observer(() => {
+const Test2Page = observer(() => {
   // Pull in one of our MST stores
   const rootStore = useStores()
 
   return (
-    <Page title="Test" sx={styles.page}>
-      <p>Test</p>
-      <p>Test</p>
+    <Page title="Test2" sx={styles.page}>
+      <p>Test2</p>
+      <p>Test2</p>
     </Page>
   )
 })
@@ -22,6 +22,6 @@ const styles: { [key: string]: SxProps<Theme> } = {
   }
 }
 
-TestPage.displayName = 'Test_Page';
+Test2Page.displayName = 'Test2_Page';
 
-export default TestPage;
+export default Test2Page;

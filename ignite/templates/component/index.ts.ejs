@@ -1,0 +1,8 @@
+---
+destinationDir: src/components/<%= props.pascalCaseName %>
+patch:
+  path: src/components/index.ts
+  append: "export * from \"./<%= props.pascalCaseName %>\"\n"
+  skip: <%= props.skipIndexFile %>
+---
+export * from "./<%= props.pascalCaseName %>"

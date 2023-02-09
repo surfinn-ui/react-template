@@ -1,9 +1,5 @@
 ---
-destinationDir: src/components
-patch:
-  path: src/components/index.ts
-  append: "export * from \"./<%= props.pascalCaseName %>\"\n"
-  skip: <%= props.skipIndexFile %>
+destinationDir: src/components/<%= props.name %>
 ---
 import { observer } from "mobx-react-lite"
 
@@ -21,5 +17,5 @@ export const <%= props.pascalCaseName %> = observer((props: I<%= props.pascalCas
   )
 })
 
-<%= props.pascalCaseName %>.displayName = '<%= props.pascalCaseName %> Component'
+<%= props.pascalCaseName %>.displayName = '<%= props.pascalCaseName %>_Component'
 

@@ -7,6 +7,10 @@ import <%= props.pascalCaseName %>Page from './<%= props.pascalCaseName %>.page'
 export default {
   title: 'pages/<%= props.pascalCaseName %>Page',
   component: <%= props.pascalCaseName %>Page,
+  parameters: {
+    // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
+    layout: 'fullscreen',
+  },
 } as ComponentMeta<typeof <%= props.pascalCaseName %>Page>;
 
 const Template: ComponentStory<typeof <%= props.pascalCaseName %>Page> = () => (

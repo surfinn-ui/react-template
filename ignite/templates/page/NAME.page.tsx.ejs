@@ -17,8 +17,8 @@ const <%= props.pascalCaseName %>Page = observer(() => {
 
   return (
     <Page title="<%= props.pascalCaseName %>" sx={styles.page}>
-      <h1><%= props.pascalCaseName %></h1>
-      <h1><%= props.name %></h1>
+      <p><%= props.pascalCaseName %></p>
+      <p><%= props.name %></p>
     </Page>
   )
 })
@@ -29,6 +29,6 @@ const styles: { [key: string]: SxProps<Theme> } = {
   }
 }
 
-<%= props.pascalCaseName %>Page.displayName = '<%= props.pascalCaseName %> Page';
+<%= props.pascalCaseName %>Page.displayName = '<%= props.pascalCaseName %>_Page';
 
 export default <%= props.pascalCaseName %>Page;

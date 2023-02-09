@@ -22,6 +22,7 @@ export const Page = observer(({ title, ...props }: PageProps) => {
         <header>
           <h1>{title}</h1>
         </header>
+        <main>{props.children}</main>
       </Box>
     </React.Fragment>
   );
