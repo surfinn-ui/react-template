@@ -7,7 +7,7 @@
     "surfinn": "./bin/surfinn.js"
   },
   "scripts": {
-    "dev": "vite",
+    "start": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
     "surfinn": "./bin/surfinn.js",
