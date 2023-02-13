@@ -1,0 +1,25 @@
+---
+destinationDir: src/pages/<%= props.pascalCaseName %>
+---
+import { FC, useEffect, useCallback, useMemo, useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useStores } from "../../stores";
+import { 
+  <%= props.pascalCaseName %>PageView, 
+  I<%= props.pascalCaseName %>PageViewProps 
+} from "./<%= props.pascalCaseName %>Page.view";
+
+const <%= props.pascalCaseName %>Page = observer(() => {
+  // Pull in one of our MST stores
+  // const { <%= props.camelCaseName%>Store } = useStores();
+
+  const viewProps = useMemo<I<%= props.pascalCaseName %>PageViewProps>(() => ({
+    title: '<%= props.pascalCaseName %>',
+  }), []);
+
+  return <<%= props.pascalCaseName %>PageView {...viewProps} />
+})
+
+<%= props.pascalCaseName %>Page.displayName = '<%= props.pascalCaseName %>_Page';
+
+export default <%= props.pascalCaseName %>Page;

@@ -1,0 +1,19 @@
+---
+destinationDir: src/pages/<%= props.pascalCaseName %>
+<!-- patches:
+  - path: "src/routes/Main.routes.tsx"
+    before: "\n} from '../pages';\n"
+    insert: "\n  <%= props.pascalCaseName %>Page,"
+  - path: "src/routes/Main.navigator.tsx"
+    before: "\n  // 🔥 Your pages go here"
+    insert: "\n  <%= props.pascalCaseName %>: undefined;"
+  - path: "src/routes/Main.routes.tsx"
+    before: "\n    </Stack.Navigator>"
+    insert: "\n      <Stack.Screen name=\"<%= props.pascalCaseName %>\" component={<%= props.pascalCaseName %>Screen} />"
+  - path: "src/pages/index.ts"
+    after: "// export other pages here\n"
+    insert: "export * from './<%= props.pascalCaseName %>.pages';\n"
+    skip: <%= props.skipIndexFile %> -->
+---
+import <%= props.pascalCaseName %>Page from './<%= props.pascalCaseName %>Page';
+export default <%= props.pascalCaseName %>Page;

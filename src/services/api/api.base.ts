@@ -28,13 +28,13 @@ export class ApiBase {
   async get<T>(
     url: string,
     params?: TParams,
-    options: AxiosRequestConfig = {},
+    config: AxiosRequestConfig = {},
   ): Promise<TGetResult<T>> {
-    console.tron.log('ApiBase.get()', url, params, options);
+    console.log('ApiBase.get()', url, params, config);
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.get(
       url,
       params,
-      options,
+      config,
     );
 
     const problem = getGeneralApiProblem(response);
@@ -52,12 +52,12 @@ export class ApiBase {
   async getAll<T>(
     url: string,
     params?: TParams,
-    options: AxiosRequestConfig = {},
+    config: AxiosRequestConfig = {},
   ): Promise<TListResult<T>> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.get(
       url,
       params,
-      options,
+      config,
     );
 
     const problem = getGeneralApiProblem(response);
@@ -67,7 +67,7 @@ export class ApiBase {
     return {
       kind: 'ok',
       data: data.results,
-      info: data.info,
+      pagination: data.pagination,
     } as TListOkResult<T>;
   }
 
@@ -80,12 +80,12 @@ export class ApiBase {
   async post<T>(
     url: string,
     params?: T,
-    options: AxiosRequestConfig = {},
+    config: AxiosRequestConfig = {},
   ): Promise<TPostResult<T>> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.post(
       url,
       params,
-      options,
+      config,
     );
 
     const problem = getGeneralApiProblem(response);
@@ -105,12 +105,12 @@ export class ApiBase {
   async put<T>(
     url: string,
     params?: T,
-    options: AxiosRequestConfig = {},
+    config: AxiosRequestConfig = {},
   ): Promise<TPutResult<T>> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.put(
       url,
       params,
-      options,
+      config,
     );
 
     const problem = getGeneralApiProblem(response);
@@ -130,12 +130,12 @@ export class ApiBase {
   async patch<T>(
     url: string,
     params?: T,
-    options: AxiosRequestConfig = {},
+    config: AxiosRequestConfig = {},
   ): Promise<TPatchResult<T>> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.patch(
       url,
       params,
-      options,
+      config,
     );
 
     const problem = getGeneralApiProblem(response);
@@ -153,12 +153,12 @@ export class ApiBase {
   async delete<T>(
     url: string,
     params?: TParams,
-    options: AxiosRequestConfig = {},
+    config: AxiosRequestConfig = {},
   ): Promise<TDeleteResult> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.delete(
       url,
       params,
-      options,
+      config,
     );
 
     const problem = getGeneralApiProblem(response);

@@ -1,3 +1,5 @@
+import localforage from 'localforage';
+
 /**
  * Loads a string from storage.
  *
@@ -5,7 +7,7 @@
  */
 export async function loadString(key: string): Promise<string | null> {
   try {
-    return await window.localStorage.getItem(key);
+    return await localforage.getItem(key);
   } catch {
     // not sure why this would fail... even reading the RN docs I'm unclear
     return null;
@@ -20,7 +22,7 @@ export async function loadString(key: string): Promise<string | null> {
  */
 export async function saveString(key: string, value: string): Promise<boolean> {
   try {
-    await window.localStorage.setItem(key, value);
+    await localforage.setItem(key, value);
     return true;
   } catch {
     return false;
@@ -34,8 +36,9 @@ export async function saveString(key: string, value: string): Promise<boolean> {
  */
 export async function load(key: string): Promise<any | null> {
   try {
-    const almostThere = (await window.localStorage.getItem(key)) || 'null';
-    return JSON.parse(almostThere);
+    const almostThere = await localforage.getItem(key);
+    console.log(`localforage.load(${key}): `, almostThere);
+    return almostThere; //JSON.parse(almostThere);
   } catch {
     return null;
   }
@@ -49,7 +52,7 @@ export async function load(key: string): Promise<any | null> {
  */
 export async function save(key: string, value: any): Promise<boolean> {
   try {
-    await window.localStorage.setItem(key, JSON.stringify(value));
+    await localforage.setItem(key, JSON.stringify(value));
     return true;
   } catch {
     return false;
@@ -63,7 +66,7 @@ export async function save(key: string, value: any): Promise<boolean> {
  */
 export async function remove(key: string): Promise<void> {
   try {
-    await window.localStorage.removeItem(key);
+    await localforage.removeItem(key);
   } catch {}
 }
 
@@ -72,6 +75,6 @@ export async function remove(key: string): Promise<void> {
  */
 export async function clear(): Promise<void> {
   try {
-    await window.localStorage.clear();
+    await localforage.clear();
   } catch {}
 }

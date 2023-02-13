@@ -1,29 +1,22 @@
-import { Box, BoxProps } from '@mui/material';
-import { observer } from 'mobx-react-lite';
-import React from 'react';
 import { Helmet } from 'react-helmet';
+import { forwardRef, ReactNode } from 'react';
+// material
+import { Box, BoxProps } from '@mui/material';
 
-export interface PageProps extends BoxProps {
-  title: string;
+// ----------------------------------------------------------------------
+
+interface PageProps extends BoxProps {
+  children: ReactNode;
+  title?: string;
 }
 
-/**
- * Describe your component here
- */
-export const Page = observer(({ title, ...props }: PageProps) => {
-  return (
-    <React.Fragment>
+export const Page = forwardRef<HTMLDivElement, PageProps>(
+  ({ children, title = '', ...other }, ref) => (
+    <Box ref={ref} {...other}>
       <Helmet>
         <title>{title}</title>
-        <meta name='description' content={title} />
       </Helmet>
-
-      <Box {...props}>
-        <header>
-          <h1>{title}</h1>
-        </header>
-        <main>{props.children}</main>
-      </Box>
-    </React.Fragment>
-  );
-});
+      {children}
+    </Box>
+  ),
+);

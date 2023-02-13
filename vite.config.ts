@@ -1,11 +1,12 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react-swc';
+import removeConsole from 'vite-plugin-remove-console';
 
 // https://vitejs.dev/config/
 export default defineConfig({
   envDir: './.env',
   envPrefix: 'VITE_', // default  REACT_APP_ 으로 설정하면 .env 파일에서 REACT_APP_ 로 시작하는 변수를 읽어온다.
-  plugins: [react()],
+  plugins: [react(), removeConsole()],
   appType: 'mpa', // multi-page application
   // 개발 서버
   server: {

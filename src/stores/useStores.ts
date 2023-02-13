@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { IRootStore, RootStore } from './Root.store';
-import { setupRootStore } from './helpers/setupRootStore';
+import { setupRootStore } from './setupRootStore';
 
 /**
  * Create the initial (empty) global RootStore instance here.
@@ -18,7 +18,7 @@ const _rootStore = RootStore.create({});
 
 /**
  * The RootStoreContext provides a way to access
- * the RootStore in any screen or component.
+ * the RootStore in any screen or component.↑
  */
 const RootStoreContext = createContext<IRootStore>(_rootStore);
 

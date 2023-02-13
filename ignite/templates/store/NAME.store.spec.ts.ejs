@@ -1,10 +1,10 @@
 ---
 destinationDir: "src/stores"
 ---
-import { <%= props.pascalCaseName %>Model } from "./<%= props.pascalCaseName %>.model"
+import { <%= props.pascalCaseName %>Store } from "./<%= props.pascalCaseName %>.store"
 
-test("can be created", () => {
-  const instance = <%= props.pascalCaseName %>Model.create({})
+it("<%= props.pascalCaseName %>Store should be created", () => {
+  const instance = <%= props.pascalCaseName %>Store.create({})
 
   expect(instance).toBeTruthy()
 })

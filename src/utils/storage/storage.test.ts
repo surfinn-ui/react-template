@@ -1,4 +1,4 @@
-
+import localforage from 'localforage';
 import { load, loadString, save, saveString, clear, remove } from './storage';
 
 // fixtures
@@ -6,7 +6,7 @@ const VALUE_OBJECT = { x: 1 };
 const VALUE_STRING = JSON.stringify(VALUE_OBJECT);
 
 beforeEach(() =>
-  (window.localStorage.getItem as jest.Mock).mockReturnValue(
+  (localforage.getItem as jest.Mock).mockReturnValue(
     Promise.resolve(VALUE_STRING),
   ),
 );
@@ -24,20 +24,20 @@ test('loadString', async () => {
 
 test('save', async () => {
   await save('something', VALUE_OBJECT);
-  expect(window.localStorage.setItem).toHaveBeenCalledWith('something', VALUE_STRING);
+  expect(localforage.setItem).toHaveBeenCalledWith('something', VALUE_STRING);
 });
 
 test('saveString', async () => {
   await saveString('something', VALUE_STRING);
-  expect(window.localStorage.setItem).toHaveBeenCalledWith('something', VALUE_STRING);
+  expect(localforage.setItem).toHaveBeenCalledWith('something', VALUE_STRING);
 });
 
 test('remove', async () => {
   await remove('something');
-  expect(window.localStorage.removeItem).toHaveBeenCalledWith('something');
+  expect(localforage.removeItem).toHaveBeenCalledWith('something');
 });
 
 test('clear', async () => {
   await clear();
-  expect(window.localStorage.clear).toHaveBeenCalledWith();
+  expect(localforage.clear).toHaveBeenCalledWith();
 });

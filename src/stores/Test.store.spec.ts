@@ -1,7 +1,7 @@
-import { TestModel } from "./Test.model"
+import { TestStore } from "./Test.store"
 
-test("can be created", () => {
-  const instance = TestModel.create({})
+it("TestStore should be created", () => {
+  const instance = TestStore.create({})
 
   expect(instance).toBeTruthy()
 })

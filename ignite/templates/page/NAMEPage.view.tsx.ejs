@@ -1,0 +1,27 @@
+---
+destinationDir: src/pages/<%= props.pascalCaseName %>
+---
+import { SxProps, Theme } from '@mui/material';
+import { FC } from "react";
+import { observer } from "mobx-react-lite";
+import { Page } from "../../components";
+
+export interface I<%= props.pascalCaseName %>PageViewProps {
+  title: string;
+}
+
+export const <%= props.pascalCaseName %>PageView = observer((props: I<%= props.pascalCaseName %>PageViewProps) => {
+  return (
+    <Page title="<%= props.pascalCaseName %>" sx={styles.page}>
+      <p><%= props.pascalCaseName %> contents goes hear.</p>
+    </Page>
+  )
+})
+
+const styles: { [key: string]: SxProps<Theme> } = {
+  page: {
+    flex: 1,
+  }
+}
+
+<%= props.pascalCaseName %>PageView.displayName = '<%= props.pascalCaseName %>_Page_View';
