@@ -10,7 +10,7 @@ export default defineConfig({
   appType: 'mpa', // multi-page application
   // 개발 서버
   server: {
-    host: 'local.surfinn.kr',
+    // host: 'local.surfinn.kr',
     open: true,
   },
   // 빌드
@@ -19,7 +19,7 @@ export default defineConfig({
   },
   // 빌드한 파일을 실행할 서버
   preview: {
-    host: 'local.surfinn.kr',
+    // host: 'local.surfinn.kr',
     open: true,
   },
 });
