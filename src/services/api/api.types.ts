@@ -91,4 +91,3 @@ export type TApiErrorResponse = {
 };
 
 export type TApiResponse<T> = TApiErrorResponse | TApiOkResponse<T>;
-

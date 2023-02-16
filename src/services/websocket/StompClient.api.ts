@@ -1,11 +1,21 @@
-import { Client, IFrame, IPublishParams, Message, StompSubscription } from '@stomp/stompjs';
+import {
+  Client,
+  IFrame,
+  IPublishParams,
+  Message,
+  StompSubscription,
+} from '@stomp/stompjs';
 
 export class StompClient {
   private client: Client;
   private subscriptions: { [key: string]: StompSubscription };
 
   constructor() {
-    const { REACT_APP_WS_PREFIX, REACT_APP_WS_URL, REACT_APP_API_CONTEXT_PATH } = process.env;
+    const {
+      REACT_APP_WS_PREFIX,
+      REACT_APP_WS_URL,
+      REACT_APP_API_CONTEXT_PATH,
+    } = process.env;
     this.client = new Client({
       brokerURL: `${REACT_APP_WS_PREFIX}${REACT_APP_WS_URL}${REACT_APP_API_CONTEXT_PATH}/ws/maiwacs`,
       debug: function (str) {

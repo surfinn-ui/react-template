@@ -8,10 +8,7 @@
 import { authApi } from './Auth.api';
 import { ApisauceInstance, create } from 'apisauce';
 import Axios, { AxiosInstance } from 'axios';
-import {
-  applyAuthTokenInterceptor,
-  TokenRefreshRequest,
-} from 'axios-jwt';
+import { applyAuthTokenInterceptor, TokenRefreshRequest } from 'axios-jwt';
 import type { IApiConfig } from './api.types';
 
 /**

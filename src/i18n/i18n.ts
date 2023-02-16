@@ -41,11 +41,13 @@ type RecursiveKeyOfInner<TObj extends object> = {
   >;
 }[keyof TObj & (string | number)];
 
-type RecursiveKeyOfHandleValue<TValue, Text extends string> =
-  TValue extends any[]
-    ? Text
-    : TValue extends object
-    ? Text | `${Text}${RecursiveKeyOfInner<TValue>}`
-    : Text;
+type RecursiveKeyOfHandleValue<
+  TValue,
+  Text extends string,
+> = TValue extends any[]
+  ? Text
+  : TValue extends object
+  ? Text | `${Text}${RecursiveKeyOfInner<TValue>}`
+  : Text;
 
 export default i18n;

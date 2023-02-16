@@ -77,7 +77,8 @@ const ko = {
     authentication: {
       screenName: '회원가입',
       submitButtonLabel: '휴대폰 본인 인증',
-      describe: "본 프로그램 PaniCare 앱을 사용하기 위한 본인인증을 진행합니다."
+      describe:
+        '본 프로그램 PaniCare 앱을 사용하기 위한 본인인증을 진행합니다.',
     },
     userInfo: {
       name: '아이디',
@@ -85,12 +86,13 @@ const ko = {
       nameHelper: '아이디를 입력하세요',
       password: '비밀번호',
       passwordPlaceholder: '비밀번호를 입력하세요',
-      passwordHelper: '비밀번호는 대소문자, 숫자, 특수문자를 포함한 8자 이상으로 만드세요',
+      passwordHelper:
+        '비밀번호는 대소문자, 숫자, 특수문자를 포함한 8자 이상으로 만드세요',
       passwordConfirm: '비밀번호 확인',
       passwordConfirmPlaceholder: '비밀번호를 한번 더 입력하세요',
       passwordConfirmHelper: '동일한 비밀번호를 한번 더 입력하세요',
       submitButton: '회원가입',
-    }
+    },
   },
 
   introduction: {

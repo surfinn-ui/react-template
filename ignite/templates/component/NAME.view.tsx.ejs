@@ -1,0 +1,21 @@
+---
+destinationDir: src/components/<%= props.pascalCaseName %>
+---
+import { observer } from "mobx-react-lite"
+
+export interface I<%= props.pascalCaseName %>ViewProps {
+}
+
+/**
+ * Describe your component here
+ */
+export const <%= props.pascalCaseName %>View = observer((props: I<%= props.pascalCaseName %>ViewProps) => {
+  return (
+    <>
+      <%= props.pascalCaseName %>View
+    </>
+  )
+})
+
+<%= props.pascalCaseName %>View.displayName = '<%= props.pascalCaseName %>_Component_View'
+

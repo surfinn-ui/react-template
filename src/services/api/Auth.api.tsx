@@ -18,7 +18,7 @@ class AuthApi {
           Base64.btoa(
             `${import.meta.env.AUTH_API_CLIENT_ID}:${
               import.meta.env.AUTH_API_CLIENT_SECRET
-            }`
+            }`,
           ),
       },
       timeout: import.meta.env.AUTH_API_TIMEOUT,

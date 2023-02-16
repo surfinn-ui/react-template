@@ -1,6 +1,7 @@
 import { Instance, SnapshotOut, types } from 'mobx-state-tree';
-import { TestStore } from './Test.store';
-import { ConfigStore } from './Config.store';
+import { StoreStore } from './Store.store';
+import { UserStore } from './User.store';
+import { PetStore } from './Pet.store';
 
 /**
  * A RootStore model.
@@ -8,13 +9,12 @@ import { ConfigStore } from './Config.store';
 export const RootStore = types
   .model('RootStore')
   .props({
-    // CONFIGS
-    configStore: types.optional(ConfigStore, {}),
     // STORES
+    petStore: types.optional(PetStore, {}),
+    userStore: types.optional(UserStore, {}),
+    store: types.optional(StoreStore, {}),
   })
-  .actions((self) => ({
-
-  }));
+  .actions((self) => ({}));
 
 /**
  * The RootStore instance.

@@ -7,23 +7,22 @@ import '@mui/icons-material';
 
 import { useMemo } from 'react';
 import { CssBaseline, ThemeProvider } from '@mui/material';
+import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 import THEMES from '../src/themes';
 
 export const parameters = {
   options: {
     storySort: {
-      order: [
-        'Introduction',
-        'Foundations',
-        'Components',
-        [],
-        'Material UI',
-        ['Button'],
-        'Example',
-      ],
+      order: ['Introduction', 'Foundation', 'Components', 'Pages', 'Material UI', 'Example'],
       includeName: true,
     },
+  },
+
+  viewport: {
+    viewports: INITIAL_VIEWPORTS,
+    defaultViewport: 'responsive',
+    // defaultViewport: 'iphone12promax',
   },
   actions: { argTypesRegex: '^on[A-Z].*' },
   controls: {

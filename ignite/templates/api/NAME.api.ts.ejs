@@ -1,89 +1,15 @@
 ---
 destinationDir: src/services/api
-<!-- patch:
+patch:
   path: "src/services/api/index.ts"
-  after: "export * from './api.types';\n"
+  before: "// export generated api goes hear\n"
   insert: "export * from './<%= props.pascalCaseName %>.api';\n"
-  skip: <%= props.skipIndexFile %> -->
+  skip: <%= props.skipIndexFile %>
 ---
 import { ApiBase } from './api.base';
-import { I<%= props.pascalCaseName %>Model } from "../../models/<%= props.pascalCaseName %>.model";
 
 class <%= props.pascalCaseName %>Api extends ApiBase {
   url = '/<%= props.camelCaseName %>';
-
-  /**
-   * Fetch <%= props.pascalCaseName %>Models list
-   *
-   * @param Query parameters
-   * @returns <%= props.pascalCaseName %>Model[]
-   */
-  async fetchAll(params?: { [key: string]: any }) {
-    return this.getAll<I<%= props.pascalCaseName %>Model>(this.url, params);
-  }
-
-  /**
-   * Fetch a <%= props.pascalCaseName %>Model by id
-   *
-   * @param id of <%= props.pascalCaseName %>Model
-   * @returns <%= props.pascalCaseName %>Model
-   */
-  async fetchById(id: number) {
-    return this.getOne<I<%= props.pascalCaseName %>Model>(`${this.url}/${id}`);
-  }
-
-  /**
-   * Create a <%= props.pascalCaseName %>Model
-   *
-   * @param payload of <%= props.pascalCaseName %>Model
-   * @returns 
-   */
-  async create(payload: Partial<I<%= props.pascalCaseName %>Model>) {
-    return this.post<Partial<I<%= props.pascalCaseName %>Model>>(this.url, payload);
-  }
-
-  /**
-    * Update a <%= props.pascalCaseName %>Model
-    *
-    * @param id of <%= props.pascalCaseName %>Model
-    * @param payload of <%= props.pascalCaseName %>Model
-    * @returns 
-    */
-  async update(id: number, payload: Partial<I<%= props.pascalCaseName %>Model>) {
-    return this.put<Partial<I<%= props.pascalCaseName %>Model>>(`${this.url}/${id}`, payload);
-  }
-
-  /**
-   * Patch a <%= props.pascalCaseName %>Model
-   *
-   * @param id of <%= props.pascalCaseName %>Model
-   * @returns 
-   */
-  async modify(id: number, payload: Partial<I<%= props.pascalCaseName %>Model>) {
-    return this.patch<Partial<I<%= props.pascalCaseName %>Model>>(`${this.url}/${id}`, payload);
-  }
-
-  /**
-   * Remove a <%= props.pascalCaseName %>Model 
-   *
-   * @param id of <%= props.pascalCaseName %>Model
-   * @returns 
-   */
-  async remove(id: number) {
-    return this.delete(`${this.url}/${id}`);
-  }
-
-  /**
-   * Remove <%= props.pascalCaseName %>Models list 
-   *
-   * @param ids of <%= props.pascalCaseName %>Models
-   * @returns 
-   */
-  async removeAll(ids: number[]) {
-    return this.delete(this.url, { ids });
-  }
-
-  // Please fill out the additional API method below.
 
 }
 

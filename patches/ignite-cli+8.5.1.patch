@@ -1,0 +1,16 @@
+diff --git a/node_modules/ignite-cli/build/commands/generate.js b/node_modules/ignite-cli/build/commands/generate.js
+index 9b95002..6942080 100644
+--- a/node_modules/ignite-cli/build/commands/generate.js
++++ b/node_modules/ignite-cli/build/commands/generate.js
+@@ -70,8 +70,9 @@ function generate(toolbox) {
+                     pascalName = strings.pascalCase(name);
+                     if (pascalName.endsWith(pascalGenerator)) {
+                         (0, pretty_1.p)("Stripping ".concat(pascalGenerator, " from end of name"));
+-                        (0, pretty_1.p)("Note that you don't need to add ".concat(pascalGenerator, " to the end of the name -- we'll do it for you!"));
+-                        pascalName = pascalName.slice(0, -1 * pascalGenerator.length);
++                        // PetStore openapi 문서의 store를 생성하기 위해서 변경.
++                        // (0, pretty_1.p)("Note that you don't need to add ".concat(pascalGenerator, " to the end of the name -- we'll do it for you!"));
++                        // pascalName = pascalName.slice(0, -1 * pascalGenerator.length);
+                         (0, pretty_1.command)("ignite generate ".concat(generator, " ").concat(pascalName));
+                     }
+                     // okay, let's do it!
