@@ -29,7 +29,7 @@ function generateModels(api, cb) {
   schemes.forEach((scheme) => {
     generators.push((cb) => {
       try {
-        exec(`cd ../ && npx ignite-cli generate "model" "${scheme.name}"`, cb);
+        exec(`cd ../ && yarn gen  "model" "${scheme.name}"`, cb);
       } catch (e) {
         console.log('ERROR', e);
       }
@@ -95,19 +95,18 @@ function addPropsToModel(scheme, cb) {
 
   fs.readFile(filepath, 'utf8', (err, file) => {
     if (err) {
-      console.log(err);
-    } else {
-      let codeLines = [];
-      codeLines = file.toString().split('\n');
-      const index = codeLines.findIndex((line) => line.includes(`.props({`));
-
-      const codes = getModelPropsCode(scheme.value.properties);
-      codeLines.splice(index + 1, 0, codes);
-      fs.writeFile(filepath, codeLines.join('\n'), () => {
-        console.log('write', filepath);
-        cb();
-      });
+      return console.log(err);
     }
+    let codeLines = [];
+    codeLines = file.toString().split('\n');
+    const index = codeLines.findIndex((line) => line.includes(`.props({`));
+
+    const codes = getModelPropsCode(scheme.value.properties);
+    codeLines.splice(index + 1, 0, codes);
+    fs.writeFile(filepath, codeLines.join('\n'), () => {
+      console.log('write', filepath);
+      cb();
+    });
   });
 }
 
@@ -121,7 +120,6 @@ function getModelPropsCode(properties) {
   const keys = Object.keys(properties);
   keys.forEach((key) => {
     const prop = properties[key];
-
     let type = 'types.string';
     switch (prop.type) {
       case 'integer':
@@ -140,7 +138,6 @@ function getModelPropsCode(properties) {
         if (prop.items.type) {
           type = `types.array(types.${prop.items.type})`;
         } else if (prop.items.$ref) {
-          // (prop.items.$ref).replace('#', '$').replace('/', '.');
           const $ref = prop.items.$ref.substring(
             prop.items.$ref.lastIndexOf('/') + 1,
           );
@@ -152,7 +149,8 @@ function getModelPropsCode(properties) {
     }
 
     if (key === 'id' || key === 'Id') {
-      type = 'types.identifier';
+      type =
+        prop.type === 'string' ? 'types.identifier' : 'types.identifierNumber';
     } else if (key.endsWith('Sid')) {
       type = 'types.identifierNumber';
     }

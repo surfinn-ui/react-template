@@ -68,9 +68,17 @@ const AppView = () => {
         <a href="https://github.com/infinitered/ignite" target="_blank">
           <img src="/ignite.jpg" className="logo" alt="Ignite logo" />
         </a>
+        <a href="https://www.openapis.org/" target="_blank">
+          <img
+            src="/OpenAPI_Logo_Pantone-1.png"
+            className="logo"
+            alt="OpenAPI logo"
+          />
+        </a>
       </div>
       <h1>
-        Vite + React + MobX-state-tree + Material UI + Storybook + Ignite-cli{' '}
+        Vite + React + MobX-state-tree + Material UI + Storybook + Ignite-cli +
+        OpenAPI
       </h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>

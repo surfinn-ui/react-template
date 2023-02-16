@@ -13,12 +13,13 @@ patches:
     skip: <%= props.skipIndexFile %>
 ---
 import { flow, Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
-import { <%= props.pascalCaseName %>Model, I<%= props.pascalCaseName %>Model } from '../models/<%= props.pascalCaseName %>.model';
 import { withSetPropAction } from '../models/withSetPropAction';
 import { TDeleteResult, TGetResult, TListResult, TPatchResult, TPostResult, TPutResult } from '../services/api';
 import { <%= props.camelCaseName %>Api } from '../services/api/<%= props.pascalCaseName %>.api';
 import { FetchStates, withFetchStates } from './withFetchStates';
 import { withPagination } from './withPagination';
+// ^ generated dependencies by openapi-generator
+// $ generated dependencies by openapi-generator
 
 /**
  * Store description here for TypeScript hints.
@@ -26,165 +27,30 @@ import { withPagination } from './withPagination';
 export const <%= props.pascalCaseName %>Store = types
   .model("<%= props.pascalCaseName %>Store")
   .props({
-    /**
-     * List of <%= props.pascalCaseName %>Models
-     */
-    list: types.array(<%= props.pascalCaseName %>Model),
-
-    /**
-     * Current <%= props.pascalCaseName %>Model
-     */
-    current: types.maybeNull(types.reference(<%= props.pascalCaseName %>Model)),
+    // ^ generated props by openapi-generator
+    // $ generated props by openapi-generator
   })
   // Formatted Data 
   .views((self) => ({}))
-  // Extends
   .extend(withFetchStates) // Fetch State
   .extend(withPagination) // Pagination Information
-  // Actions
   .actions(withSetPropAction) // Set Property Action
   // Update Store State 
   .actions((self) => ({
-    /**
-     * Set current item
-     */
-    select: (value: null | number | I<%= props.pascalCaseName %>Model) => {
-      let id: null | number = null;
-      if (typeof value === 'number') {
-        id = value;
-      } else if (value) {
-        id = value.id;
-      }
-      if (self.list.findIndex((item) => item.id === id) >= 0) {
-        self.setProp('current', id);
-      } else {
-        self.setProp('current', null);
-      }
-    }, 
-
-    /**
-     * Replace store items
-     */
-    replace: (data: I<%= props.pascalCaseName %>Model[]) => {
-      self.list.replace(data);
-    },
-    
-    /**
-     * Add item to store
-     */
-    add: (item: I<%= props.pascalCaseName %>Model) => {
-      self.list.push(item);
-    },
-
-    /**
-     * Remove item from store
-     */    
-    remove: (item: I<%= props.pascalCaseName %>Model) => {
-      self.list.remove(item);
-    },
-    
-    /**
-     * Update or add item to store
-     */
-    save: (item: I<%= props.pascalCaseName %>Model) => {
-      const index = self.list.findIndex((_item) => _item.id === item.id);
-      if (index >= 0) {
-        self.list[index] = item;
-      } else {
-        self.list.push(item);
-      }
-    },
+    // ^ generated update state actions by openapi-generator
+    // $ generated update state actions by openapi-generator
   }))
-  // API CALLS 
+  // OPEN API GENERATOR ACTIONS
+  .actions((self) => {
+    // updaters
+
+    return ({
+      // ^ generated actions by openapi-generator
+      // $ generated actions by openapi-generator
+    })
+  })
+  // CUSTOM ACTIONS
   .actions((self) => ({
-    /**
-     * Fetch all <%= props.camelCaseName %>s
-     */
-    fetchAll: flow(function* (params: Partial<I<%= props.pascalCaseName %>Model>) {
-      self.setFetchState(FetchStates.PENDING);
-      const result: TListResult<I<%= props.pascalCaseName %>Model> = yield <%= props.camelCaseName %>Api.fetchAll(params);
-      if (result.kind === 'ok') {
-        self.setFetchState(FetchStates.DONE);
-        self.replace(result.data);
-        self.setPagination(result.pagination);
-      } else {
-        self.setFetchState(FetchStates.ERROR);
-        console.error(result.kind);
-      }
-    }),
-
-    /**
-     * Fetch <%= props.camelCaseName %> by id
-     */
-    fetchById: flow(function* (id:number) {
-      self.setFetchState(FetchStates.PENDING);
-      const result: TGetResult<I<%= props.pascalCaseName %>Model> = yield <%= props.camelCaseName %>Api.fetchById(id);
-      if (result.kind === 'ok') {
-        self.setFetchState(FetchStates.DONE);
-        self.save(result.data);
-      } else {
-        self.setFetchState(FetchStates.ERROR);
-        console.error(result.kind);
-      }
-    }),
-    
-    /**
-     * Delete <%= props.camelCaseName %> by id
-     */
-    create: flow(function* (payload: Partial<I<%= props.pascalCaseName %>Model>) {
-      self.setFetchState(FetchStates.PENDING);
-      const result: TPostResult<I<%= props.pascalCaseName %>Model> = yield <%= props.camelCaseName %>Api.create(payload);
-      if (result.kind === 'ok') {
-        self.setFetchState(FetchStates.DONE);
-      } else {
-        self.setFetchState(FetchStates.ERROR);
-        console.error(result.kind);
-      }
-    }),
-
-    /**
-     * Delete <%= props.camelCaseName %> by id
-     */
-    update: flow(function* (id: number, payload: Partial<I<%= props.pascalCaseName %>Model>) {
-      self.setFetchState(FetchStates.PENDING);
-      const result: TPutResult<I<%= props.pascalCaseName %>Model> = yield <%= props.camelCaseName %>Api.update(id, payload);
-      if (result.kind === 'ok') {
-        self.setFetchState(FetchStates.DONE);
-      } else {
-        self.setFetchState(FetchStates.ERROR);
-        console.error(result.kind);
-      }
-    }),
-    
-    /**
-     * Delete <%= props.camelCaseName %> by id
-     */
-    patch: flow(function* (id: number, payload: Partial<I<%= props.pascalCaseName %>Model>) {
-      self.setFetchState(FetchStates.PENDING);
-      const result: TPatchResult<I<%= props.pascalCaseName %>Model> = yield <%= props.camelCaseName %>Api.modify(id, payload);
-      if (result.kind === 'ok') {
-        self.setFetchState(FetchStates.DONE);
-      } else {
-        self.setFetchState(FetchStates.ERROR);
-        console.error(result.kind);
-      }
-    }),
-
-    /**
-     * Delete <%= props.camelCaseName %> by id or ids
-     */
-    delete: flow(function* (id: number | number[]) {
-      self.setFetchState(FetchStates.PENDING);
-      const result: TDeleteResult = Array.isArray(id) 
-        ? yield <%= props.camelCaseName %>Api.removeAll(id)
-        : yield <%= props.camelCaseName %>Api.remove(id);
-      if (result.kind === 'ok') {
-        self.setFetchState(FetchStates.DONE);
-      } else {
-        self.setFetchState(FetchStates.ERROR);
-        console.error(result.kind);
-      }
-    }),
   }));
 
 export interface I<%= props.pascalCaseName %>Store extends Instance<typeof <%= props.pascalCaseName %>Store> {}

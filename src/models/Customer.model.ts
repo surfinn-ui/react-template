@@ -8,7 +8,7 @@ import { AddressModel } from './Address.model';
 export const CustomerModel = types
   .model('Customer')
   .props({
-    id: types.maybeNull(types.identifier), // undefined | int64 | 100000 | undefined | undefined | undefined | undefined | undefined
+    id: types.maybeNull(types.identifierNumber), // undefined | int64 | 100000 | undefined | undefined | undefined | undefined | undefined
     username: types.maybeNull(types.string), // undefined | undefined | fehguy | undefined | undefined | undefined | undefined | undefined
     address: types.maybeNull(types.array(AddressModel)), // undefined | undefined | undefined | undefined | undefined | undefined | undefined | undefined
   })

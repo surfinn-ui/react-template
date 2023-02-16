@@ -26,7 +26,7 @@ async function generateApis(api, cb) {
   getTagNames(api).forEach((tag) => {
     generators.push((cb) => {
       try {
-        exec(`cd ../ && npx ignite-cli generate "api" "${tag}"`, cb);
+        exec(`cd ../ && yarn gen "api" "${tag}"`, cb);
       } catch (e) {
         console.log('ERROR', e);
       }
@@ -179,15 +179,15 @@ function getApiCode(tag, path, node) {
     const paramDocs = pathParams
       .map(
         (p) =>
-          `     * @param ${p.name}  *${convertDataType(p.schema)}*${
-            p.required ? ' **(REQUIRED)** ' : ''
+          `     * @param ${p.name}  ${convertDataType(p.schema)} ${
+            p.required ? ' **REQUIRED** ' : 'optional'
           }, in path. ${p.description}`,
       )
       .concat(
         queryParams.map(
           (p) =>
             `     * @param ${p.name}  *${convertDataType(p.schema)}*${
-              p.required ? ' **(REQUIRED)** ' : ''
+              p.required ? ' **REQUIRED** ' : 'optional'
             }, in query. ${p.description}`,
         ),
       )

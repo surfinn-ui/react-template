@@ -7,7 +7,7 @@ class UserApi extends ApiBase {
   /**
    * Get user by user name
    *
-   * @param username  *string* **(REQUIRED)** , in path. The name that needs to be fetched. Use user1 for testing.
+   * @param username  string  **REQUIRED** , in path. The name that needs to be fetched. Use user1 for testing.
    * @returns
    */
   async getUserByName(username: string) {
@@ -17,7 +17,7 @@ class UserApi extends ApiBase {
   /**
    * Update user
    * This can only be done by the logged in user.
-   * @param username  *string* **(REQUIRED)** , in path. name that need to be deleted
+   * @param username  string  **REQUIRED** , in path. name that need to be deleted
    * @returns
    */
   async updateUser(username: string) {
@@ -27,7 +27,7 @@ class UserApi extends ApiBase {
   /**
    * Delete user
    * This can only be done by the logged in user.
-   * @param username  *string* **(REQUIRED)** , in path. The name that needs to be deleted
+   * @param username  string  **REQUIRED** , in path. The name that needs to be deleted
    * @returns
    */
   async deleteUser(username: string) {
@@ -47,8 +47,8 @@ class UserApi extends ApiBase {
   /**
    * Logs user into the system
    *
-   * @param username  *string*, in query. The user name for login
-   * @param password  *string*, in query. The password for login in clear text
+   * @param username  *string*optional, in query. The user name for login
+   * @param password  *string*optional, in query. The password for login in clear text
    * @returns
    */
   async loginUser(username: string, password: string) {

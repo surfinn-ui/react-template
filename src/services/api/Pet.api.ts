@@ -8,8 +8,8 @@ class PetApi extends ApiBase {
   /**
    * uploads an image
    *
-   * @param petId  *number* **(REQUIRED)** , in path. ID of pet to update
-   * @param additionalMetadata  *string*, in query. Additional Metadata
+   * @param petId  number  **REQUIRED** , in path. ID of pet to update
+   * @param additionalMetadata  *string*optional, in query. Additional Metadata
    * @returns
    */
   async uploadFile(petId: number, additionalMetadata: string, payload: any) {
@@ -23,7 +23,7 @@ class PetApi extends ApiBase {
   /**
    * Find pet by ID
    * Returns a single pet
-   * @param petId  *number* **(REQUIRED)** , in path. ID of pet to return
+   * @param petId  number  **REQUIRED** , in path. ID of pet to return
    * @returns
    */
   async getPetById(petId: number) {
@@ -33,9 +33,9 @@ class PetApi extends ApiBase {
   /**
    * Updates a pet in the store with form data
    *
-   * @param petId  *number* **(REQUIRED)** , in path. ID of pet that needs to be updated
-   * @param name  *string*, in query. Name of pet that needs to be updated
-   * @param status  *string*, in query. Status of pet that needs to be updated
+   * @param petId  number  **REQUIRED** , in path. ID of pet that needs to be updated
+   * @param name  *string*optional, in query. Name of pet that needs to be updated
+   * @param status  *string*optional, in query. Status of pet that needs to be updated
    * @returns
    */
   async updatePetWithForm(petId: number, name: string, status: string) {
@@ -45,7 +45,7 @@ class PetApi extends ApiBase {
   /**
    * Deletes a pet
    * delete a pet
-   * @param petId  *number* **(REQUIRED)** , in path. Pet id to delete
+   * @param petId  number  **REQUIRED** , in path. Pet id to delete
    * @returns
    */
   async deletePet(petId: number) {
@@ -55,7 +55,7 @@ class PetApi extends ApiBase {
   /**
    * Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-   * @param tags  *string[]*, in query. Tags to filter by
+   * @param tags  *string[]*optional, in query. Tags to filter by
    * @returns
    */
   async findPetsByTags(tags: string[]) {
@@ -65,7 +65,7 @@ class PetApi extends ApiBase {
   /**
    * Finds Pets by status
    * Multiple status values can be provided with comma separated strings
-   * @param status  *string*, in query. Status values that need to be considered for filter
+   * @param status  *string*optional, in query. Status values that need to be considered for filter
    * @returns
    */
   async findPetsByStatus(status: string) {

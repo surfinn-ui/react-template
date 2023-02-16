@@ -8,7 +8,7 @@ import { TagModel } from './Tag.model';
 export const PetModel = types
   .model('Pet')
   .props({
-    id: types.maybeNull(types.identifier), // undefined | int64 | 10 | undefined | undefined | undefined | undefined | undefined
+    id: types.maybeNull(types.identifierNumber), // undefined | int64 | 10 | undefined | undefined | undefined | undefined | undefined
     name: types.maybeNull(types.string), // undefined | undefined | doggie | undefined | undefined | undefined | undefined | undefined
     category: types.maybeNull(types.string), // undefined | undefined | undefined | undefined | undefined | undefined | undefined | undefined
     photoUrls: types.maybeNull(types.array(types.string)), // undefined | undefined | undefined | undefined | undefined | undefined | undefined | undefined

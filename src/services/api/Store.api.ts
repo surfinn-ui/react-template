@@ -7,7 +7,7 @@ class StoreApi extends ApiBase {
   /**
    * Find purchase order by ID
    * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
-   * @param orderId  *number* **(REQUIRED)** , in path. ID of order that needs to be fetched
+   * @param orderId  number  **REQUIRED** , in path. ID of order that needs to be fetched
    * @returns
    */
   async getOrderById(orderId: number) {
@@ -17,7 +17,7 @@ class StoreApi extends ApiBase {
   /**
    * Delete purchase order by ID
    * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
-   * @param orderId  *number* **(REQUIRED)** , in path. ID of the order that needs to be deleted
+   * @param orderId  number  **REQUIRED** , in path. ID of the order that needs to be deleted
    * @returns
    */
   async deleteOrder(orderId: number) {

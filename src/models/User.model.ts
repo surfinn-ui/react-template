@@ -7,7 +7,7 @@ import { withSetPropAction } from './withSetPropAction';
 export const UserModel = types
   .model('User')
   .props({
-    id: types.maybeNull(types.identifier), // undefined | int64 | 10 | undefined | undefined | undefined | undefined | undefined
+    id: types.maybeNull(types.identifierNumber), // undefined | int64 | 10 | undefined | undefined | undefined | undefined | undefined
     username: types.maybeNull(types.string), // undefined | undefined | theUser | undefined | undefined | undefined | undefined | undefined
     firstName: types.maybeNull(types.string), // undefined | undefined | John | undefined | undefined | undefined | undefined | undefined
     lastName: types.maybeNull(types.string), // undefined | undefined | James | undefined | undefined | undefined | undefined | undefined

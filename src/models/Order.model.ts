@@ -7,7 +7,7 @@ import { withSetPropAction } from './withSetPropAction';
 export const OrderModel = types
   .model('Order')
   .props({
-    id: types.maybeNull(types.identifier), // undefined | int64 | 10 | undefined | undefined | undefined | undefined | undefined
+    id: types.maybeNull(types.identifierNumber), // undefined | int64 | 10 | undefined | undefined | undefined | undefined | undefined
     petId: types.maybeNull(types.number), // undefined | int64 | 198772 | undefined | undefined | undefined | undefined | undefined
     quantity: types.maybeNull(types.number), // undefined | int32 | 7 | undefined | undefined | undefined | undefined | undefined
     shipDate: types.maybeNull(types.string), // undefined | date-time | undefined | undefined | undefined | undefined | undefined | undefined

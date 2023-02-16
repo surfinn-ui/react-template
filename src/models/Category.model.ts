@@ -7,7 +7,7 @@ import { withSetPropAction } from './withSetPropAction';
 export const CategoryModel = types
   .model('Category')
   .props({
-    id: types.maybeNull(types.identifier), // undefined | int64 | 1 | undefined | undefined | undefined | undefined | undefined
+    id: types.maybeNull(types.identifierNumber), // undefined | int64 | 1 | undefined | undefined | undefined | undefined | undefined
     name: types.maybeNull(types.string), // undefined | undefined | Dogs | undefined | undefined | undefined | undefined | undefined
   })
   .actions(withSetPropAction);
