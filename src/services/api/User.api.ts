@@ -1,59 +1,80 @@
 import { ApiBase } from './api.base';
+import { IUserModel } from '../../models/User.model';
 
-import { IUserModel } from '../../models';
-
-export class UserApi extends ApiBase {
-  baseUrl = '/user';
-
-  /**
-   * 자신의 정보를 가져옵니다.
-   * 사인인 시 사용합니다.
-   *
-   * @returns
-   */
-  async getMe() {
-    return this.get<IUserModel>(`user/me`);
-  }
+class UserApi extends ApiBase {
+  url = '/user';
 
   /**
-   * 자신의 계정을 삭제합니다.
-   * 회원 탈퇴를 의미합니다.
+   * Get user by user name
    *
+   * @param username  *string* **(REQUIRED)** , in path. The name that needs to be fetched. Use user1 for testing.
    * @returns
    */
-  async withdraw() {
-    return this.delete<IUserModel>(`user/withdraw`);
+  async getUserByName(username: string) {
+    return this.getOne<IUserModel>(`/user/${username}`);
   }
 
-  async joining(user: IUserModel) {
-    return this.post<IUserModel>(`user`, user);
+  /**
+   * Update user
+   * This can only be done by the logged in user.
+   * @param username  *string* **(REQUIRED)** , in path. name that need to be deleted
+   * @returns
+   */
+  async updateUser(username: string) {
+    return this.put<any>(`/user/${username}`);
   }
 
-  async listUser(params?: string | { [key: string]: any }) {
-    if (typeof params === 'string') {
-      return this.getAll<IUserModel>(params);
-    }
-    return this.getAll<IUserModel>('user', params);
+  /**
+   * Delete user
+   * This can only be done by the logged in user.
+   * @param username  *string* **(REQUIRED)** , in path. The name that needs to be deleted
+   * @returns
+   */
+  async deleteUser(username: string) {
+    return this.delete<any>(`/user/${username}`);
   }
 
-  async getUser(id: number) {
-    return this.get<IUserModel>(`user/${id}`);
+  /**
+   * Logs out current logged in user session
+   * 
+
+    * @returns
+    */
+  async logoutUser() {
+    return this.getOne<any>(`/user/logout`);
   }
 
-  async postUser(user: IUserModel) {
-    return this.post<IUserModel>(`user`, user);
+  /**
+   * Logs user into the system
+   *
+   * @param username  *string*, in query. The user name for login
+   * @param password  *string*, in query. The password for login in clear text
+   * @returns
+   */
+  async loginUser(username: string, password: string) {
+    return this.getOne<any>(
+      `/user/login?username=${username}&password=${password}`,
+    );
   }
 
-  async putUser(id: number, user: IUserModel) {
-    return this.put<IUserModel>(`user/${id}`, user);
+  /**
+   * Creates list of users with given input array
+   * Creates list of users with given input array
+
+    * @returns
+    */
+  async createUsersWithListInput() {
+    return this.post<IUserModel>(`/user/createWithList`);
   }
 
-  async patchUser(id: number, user: IUserModel) {
-    return this.patch<IUserModel>(`user/${id}`, user);
-  }
+  /**
+   * Create user
+   * This can only be done by the logged in user.
 
-  async deleteUser(id: number) {
-    return this.delete(`user/${id}`);
+    * @returns
+    */
+  async createUser() {
+    return this.post<IUserModel>(`/user`);
   }
 }
 

@@ -64,6 +64,6 @@ export const reportCrash = (error: any, type: ErrorType = ErrorType.FATAL) => {
     // Sentry.Native.captureException(error)
     // crashlytics().recordError(error)
     // Bugsnag.notify(error)
-    console.error(error)
+    console.error(error);
   }
 };

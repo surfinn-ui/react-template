@@ -1,5 +1,10 @@
 ---
 destinationDir: src/pages/<%= props.pascalCaseName %>
+patch:
+  path: src/pages/index.ts
+  before: "// export generated pages here\n"
+  insert: "export { default as <%= props.pascalCaseName %>Page } from \"./<%= props.pascalCaseName %>\"\n"
+  skip: <%= props.skipIndexFile %>
 <!-- patches:
   - path: "src/routes/Main.routes.tsx"
     before: "\n} from '../pages';\n"
@@ -15,5 +20,4 @@ destinationDir: src/pages/<%= props.pascalCaseName %>
     insert: "export * from './<%= props.pascalCaseName %>.pages';\n"
     skip: <%= props.skipIndexFile %> -->
 ---
-import <%= props.pascalCaseName %>Page from './<%= props.pascalCaseName %>Page';
-export default <%= props.pascalCaseName %>Page;
+export { default } from './<%= props.pascalCaseName %>Page';

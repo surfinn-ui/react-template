@@ -11,7 +11,8 @@ destinationDir: "src/models"
     skip: <%= !props.pascalCaseName.endsWith('Store') %> -->
 patches:
   - path: "src/models/index.ts"
-    append: "export * from \"./<%= props.pascalCaseName %>\"\n" 
+    before: "// export generated models here"
+    insert: "export * from \"./<%= props.pascalCaseName %>.model\"\n" 
     skip: <%= props.skipIndexFile %>
 ---
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
@@ -23,7 +24,6 @@ import { withSetPropAction } from "./withSetPropAction"
 export const <%= props.pascalCaseName %>Model = types
   .model("<%= props.pascalCaseName %>")
   .props({
-    id: types.maybeNull(types.identifierNumber),
   })
   .actions(withSetPropAction)
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

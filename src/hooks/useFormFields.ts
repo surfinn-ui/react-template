@@ -26,12 +26,12 @@ interface IFormFieldOptions {
 
 export function useFormFields<T>(
   initialState: T,
-  options: { [key in keyof T & string]?: IFormFieldOptions } = {}
+  options: { [key in keyof T & string]?: IFormFieldOptions } = {},
 ): [
   T, // fields
   (field: keyof T & string, value: any) => void, // onChange
   () => void, // reset
-  { [key in keyof T & string]?: string } // errors
+  { [key in keyof T & string]?: string }, // errors
 ] {
   const [fields, setValue] = useState(initialState);
 
@@ -40,32 +40,41 @@ export function useFormFields<T>(
       return undefined;
     }
 
-    if (!options[field]) {
+    if (!options[field as keyof T & string]) {
       return undefined;
     }
 
     // required
-    if (options[field].required && (!value || ('' + value).trim() === '')) {
+    if (
+      options[field as keyof T & string]?.required &&
+      (!value || ('' + value).trim() === '')
+    ) {
       return 'Required';
     }
 
     // pattern
     if (
-      options[field].pattern &&
-      !options[field].pattern.value.test(value as string)
+      options[field as keyof T & string]?.pattern &&
+      !options[field as keyof T & string]?.pattern?.value.test(value as string)
     ) {
-      return options[field].pattern.message;
+      return options[field as keyof T & string]?.pattern?.message;
     }
 
     // number check
     if (typeof value === 'number' || value instanceof Number) {
       // min
-      if (options[field].min && value < options[field].min.value) {
-        return options[field].min.message;
+      if (
+        options[field as keyof T & string]?.min &&
+        value < options[field as keyof T & string]?.min?.value!
+      ) {
+        return options[field as keyof T & string]?.min?.message;
       }
       // max
-      if (options[field].max && value > options[field].max.value) {
-        return options[field].max.message;
+      if (
+        options[field as keyof T & string]?.max &&
+        value > options[field as keyof T & string]?.max?.value!
+      ) {
+        return options[field as keyof T & string]?.max?.message;
       }
     }
 
@@ -73,25 +82,30 @@ export function useFormFields<T>(
     if (typeof value === 'string' || value instanceof String) {
       // minLength
       if (
-        options[field].minLength &&
-        (value as string).length < options[field].minLength.value
+        options[field as keyof T & string]?.minLength &&
+        (value as string).length <
+          options[field as keyof T & string]?.minLength?.value!
       ) {
-        return options[field].minLength.message;
+        return options[field as keyof T & string]?.minLength?.message;
       }
       // maxLength
       if (
-        options[field].maxLength &&
-        (value as string).length > options[field].maxLength.value
+        options[field as keyof T & string]?.maxLength &&
+        (value as string).length >
+          options[field as keyof T & string]?.maxLength?.value!
       ) {
-        return options[field].maxLength.message;
+        return options[field as keyof T & string]?.maxLength?.message;
       }
     }
   }
 
   const errors = useMemo(() => {
-    const errors = {};
-    Object.keys(fields).forEach((field) => {
-      errors[field] = validate(field, fields[field]);
+    const errors: { [key in keyof T & string]?: string } = {};
+    Object.keys(fields!).forEach((field) => {
+      if (field) {
+        // @ts-ignore
+        errors[field] = validate(field, fields[field as keyof T & string]);
+      }
     });
     return errors;
   }, [fields]);

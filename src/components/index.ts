@@ -1,1 +1,4 @@
-export * from "./Page"
+export * from './Page';
+// ------------------------------------
+// export generated components here
+// ------------------------------------

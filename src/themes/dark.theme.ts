@@ -1,9 +1,9 @@
-import { createTheme } from "@mui/material";
-import { blueGrey, cyan, pink } from "@mui/material/colors";
+import { createTheme } from '@mui/material';
+import { blueGrey, cyan, pink } from '@mui/material/colors';
 
 export const darkTheme = createTheme({
   palette: {
-    mode: "dark",
+    mode: 'dark',
     // primary: {
     //   main: pink["A200"],
     // },

@@ -1,5 +1,5 @@
 import { Locale, format, parseISO } from 'date-fns';
-import i18n from '../i18n/i18n'
+import i18n from '../i18n/i18n';
 
 // import ar from 'date-fns/locale/ar-SA';
 import ko from 'date-fns/locale/ko';
@@ -15,7 +15,7 @@ const getLocale = (): Locale => {
 export const formatDate = (
   date: string,
   dateFormat?: string,
-  options?: Options
+  options?: Options,
 ) => {
   const locale = getLocale();
   const dateOptions = {

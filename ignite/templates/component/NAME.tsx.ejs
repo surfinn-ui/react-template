@@ -2,7 +2,13 @@
 destinationDir: src/components/<%= props.pascalCaseName %>
 ---
 import { observer } from "mobx-react-lite"
+import { useMemo } from "react"
 
+import { <%= props.pascalCaseName %>View, I<%= props.pascalCaseName %>ViewProps } from "./<%= props.pascalCaseName %>.view"
+
+/**
+ * Describe your component properties here
+ */
 export interface I<%= props.pascalCaseName %>Props {
 }
 
@@ -10,11 +16,12 @@ export interface I<%= props.pascalCaseName %>Props {
  * Describe your component here
  */
 export const <%= props.pascalCaseName %> = observer((props: I<%= props.pascalCaseName %>Props) => {
-  return (
-    <>
-      <%= props.camelCaseName %>
-    </>
-  )
+
+  const viewProps = useMemo<I<%= props.pascalCaseName %>ViewProps>(() => ({
+    ...props,
+  }), [props])
+
+  return <<%= props.pascalCaseName %>View {...viewProps} />
 })
 
 <%= props.pascalCaseName %>.displayName = '<%= props.pascalCaseName %>_Component'

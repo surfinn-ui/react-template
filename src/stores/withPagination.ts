@@ -8,13 +8,15 @@ export interface IPagination {
   totalCount: number;
 }
 
+const defaultPagination: IPagination = {
+  currentPage: 1,
+  totalPages: 0,
+  rowCount: 10,
+  totalCount: 0,
+};
+
 export const withPagination = <T extends IStateTreeNode>(_store: T) => {
-  const pagination = observable.box<IPagination>({
-    currentPage: 1,
-    totalPages: 1,
-    rowCount: 0,
-    totalCount: 0,
-  });
+  const pagination = observable.box<IPagination>({ ...defaultPagination });
 
   return {
     views: {
@@ -25,15 +27,10 @@ export const withPagination = <T extends IStateTreeNode>(_store: T) => {
 
     actions: {
       setPagination(newPagination?: IPagination) {
-        if (newPagination){
+        if (newPagination) {
           pagination.set(newPagination);
         } else {
-          pagination.set({
-            currentPage: 1,
-            totalPages: 1,
-            rowCount: 0,
-            totalCount: 0,
-          });
+          pagination.set({ ...defaultPagination });
         }
       },
       updatePagination(newPagination: Partial<IPagination>) {
