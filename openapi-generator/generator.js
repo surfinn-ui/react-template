@@ -1,11 +1,9 @@
 const series = require('async').series;
-const { exec } = require('child_process');
 const SwaggerParser = require('@apidevtools/swagger-parser');
-const jsonpath = require('jsonpath');
-const fs = require('fs');
 
-const { generateModels } = require('./generatorModel');
-const { generateServiceApis } = require('./generatorApi');
+const { generateModels } = require('./generateModel');
+const { generateApis } = require('./generateApi');
+const { generateStores } = require('./generateStore');
 const { format } = require('./utils');
 
 async function run(api = 'petstore3.0.3.json') {
@@ -23,9 +21,15 @@ async function run(api = 'petstore3.0.3.json') {
         cb();
       }),
     (cb) =>
-      generateServiceApis(bundled, (err, result) => {
+      generateApis(bundled, (err, result) => {
         err && console.log(err);
         console.log('Generate Apis Done.');
+        cb();
+      }),
+    (cb) =>
+      generateStores(bundled, (err, result) => {
+        err && console.log(err);
+        console.log('Generate Stores Done.');
         cb();
       }),
     (cb) =>

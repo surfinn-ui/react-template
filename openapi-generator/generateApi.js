@@ -14,10 +14,12 @@ const {
 } = require('./utils');
 
 /**
- *
- * @param {*} api
+ * generate service apis
+ * 
+ * @param {*} api 
+ * @param {*} cb 
  */
-async function generateServiceApis(api, cb) {
+async function generateApis(api, cb) {
   const generators = [];
 
   // generate service api by tags
@@ -253,5 +255,5 @@ ${paramDocs}
 }
 
 module.exports = {
-  generateServiceApis,
+  generateApis,
 };
