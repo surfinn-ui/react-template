@@ -5,76 +5,77 @@ class UserApi extends ApiBase {
   url = '/user';
 
   /**
-   * Get user by user name
+   * ## Get user by user name
    *
-   * @param username  string  **REQUIRED** , in path. The name that needs to be fetched. Use user1 for testing.
+   * @param {string} username **(REQUIRED)** The name that needs to be fetched. Use user1 for testing.
    * @returns
    */
   async getUserByName(username: string) {
-    return this.getOne<IUserModel>(`/user/${username}`);
+    return this.getOne<IUserModel>(`${this.url}/${username}`);
   }
 
   /**
-   * Update user
+   * ## Update user
    * This can only be done by the logged in user.
-   * @param username  string  **REQUIRED** , in path. name that need to be deleted
+   * @param {string} username **(REQUIRED)** name that need to be deleted
+   * @param {any} payload **(REQUIRED)**
    * @returns
    */
-  async updateUser(username: string) {
-    return this.put<any>(`/user/${username}`);
+  async updateUser(username: string, payload: any) {
+    return this.put<any>(`${this.url}/${username}`, payload);
   }
 
   /**
-   * Delete user
+   * ## Delete user
    * This can only be done by the logged in user.
-   * @param username  string  **REQUIRED** , in path. The name that needs to be deleted
+   * @param {string} username **(REQUIRED)** The name that needs to be deleted
    * @returns
    */
   async deleteUser(username: string) {
-    return this.delete<any>(`/user/${username}`);
+    return this.delete<any>(`${this.url}/${username}`);
   }
 
   /**
-   * Logs out current logged in user session
-   * 
-
-    * @returns
-    */
-  async logoutUser() {
-    return this.getOne<any>(`/user/logout`);
-  }
-
-  /**
-   * Logs user into the system
+   * ## Logs out current logged in user session
    *
-   * @param username  *string*optional, in query. The user name for login
-   * @param password  *string*optional, in query. The password for login in clear text
+   *
    * @returns
    */
-  async loginUser(username: string, password: string) {
+  async logoutUser() {
+    return this.getOne<any>(`${this.url}/logout`);
+  }
+
+  /**
+   * ## Logs user into the system
+   *
+   * @param {string} [username]  The user name for login
+   * @param {string} [password]  The password for login in clear text
+   * @returns
+   */
+  async loginUser(username?: string, password?: string) {
     return this.getOne<any>(
-      `/user/login?username=${username}&password=${password}`,
+      `${this.url}/login?username=${username}&password=${password}`,
     );
   }
 
   /**
+   * ## Creates list of users with given input array
    * Creates list of users with given input array
-   * Creates list of users with given input array
-
-    * @returns
-    */
-  async createUsersWithListInput() {
-    return this.post<IUserModel>(`/user/createWithList`);
+   * @param {IUserModel[]} payload **(REQUIRED)**
+   * @returns
+   */
+  async createUsersWithListInput(payload: IUserModel[]) {
+    return this.post<IUserModel>(`${this.url}/createWithList`, payload);
   }
 
   /**
-   * Create user
+   * ## Create user
    * This can only be done by the logged in user.
-
-    * @returns
-    */
-  async createUser() {
-    return this.post<IUserModel>(`/user`);
+   * @param {any} payload **(REQUIRED)**
+   * @returns
+   */
+  async createUser(payload: any) {
+    return this.post<IUserModel>(`${this.url}`, payload);
   }
 }
 

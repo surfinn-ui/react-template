@@ -5,12 +5,14 @@ const fs = require('fs');
 
 const {
   convertDataType,
+  isResponseTypeArray,
+  returnType,
   toCamelCase,
   toPascalCase,
   format,
   getTagNames,
   getPaths,
-  getSchemes,
+  getSchemasFromComponents,
 } = require('./utils');
 
 /**
@@ -20,13 +22,13 @@ const {
 function generateModels(api, cb) {
   const generators = [];
 
-  const schemes = getSchemes(api).map((node) => {
+  const schemas = getSchemasFromComponents(api).map((node) => {
     const name = node.path.pop();
     const object = node.value;
     return { name, value: object };
   });
 
-  schemes.forEach((scheme) => {
+  schemas.forEach((scheme) => {
     generators.push((cb) => {
       try {
         exec(`cd ../ && yarn gen  "model" "${scheme.name}"`, cb);
@@ -36,8 +38,8 @@ function generateModels(api, cb) {
     });
   });
 
-  // add imports to the model
-  schemes.forEach((scheme) => {
+  // Add imports to the model
+  schemas.forEach((scheme) => {
     const imports = [];
     jsonpath
       .query(scheme.value.properties, '$..items["$ref"]')
@@ -49,7 +51,7 @@ function generateModels(api, cb) {
   });
 
   // add props to the model
-  schemes.forEach((scheme) => {
+  schemas.forEach((scheme) => {
     generators.push((cb) => addPropsToModel(scheme, cb));
   });
 
@@ -87,11 +89,11 @@ function addImportsToModel(name, imports, cb) {
 
 /**
  *
- * @param {*} scheme
+ * @param {*} schema
  * @param {*} cb
  */
-function addPropsToModel(scheme, cb) {
-  const filepath = `../src/models/${scheme.name}.model.ts`;
+function addPropsToModel(schema, cb) {
+  const filepath = `../src/models/${schema.name}.model.ts`;
 
   fs.readFile(filepath, 'utf8', (err, file) => {
     if (err) {
@@ -101,7 +103,7 @@ function addPropsToModel(scheme, cb) {
     codeLines = file.toString().split('\n');
     const index = codeLines.findIndex((line) => line.includes(`.props({`));
 
-    const codes = getModelPropsCode(scheme.value.properties);
+    const codes = getModelPropsCode(schema);
     codeLines.splice(index + 1, 0, codes);
     fs.writeFile(filepath, codeLines.join('\n'), () => {
       console.log('write', filepath);
@@ -112,10 +114,11 @@ function addPropsToModel(scheme, cb) {
 
 /**
  *
- * @param {*} properties
+ * @param {*} schema
  * @returns
  */
-function getModelPropsCode(properties) {
+function getModelPropsCode(schema) {
+  const properties = schema.value.properties;
   const codeLines = [];
   const keys = Object.keys(properties);
   keys.forEach((key) => {

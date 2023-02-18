@@ -27,15 +27,19 @@ export type TListOkResult<T> = {
 export type TListResult<T> = TListOkResult<T> | TGeneralApiProblem;
 
 /**
- * 상세 조회 결과
+ * 단건 조회 결과
  */
-export type TGetOkResult<T> = { kind: 'ok'; data: T; pagination?: never };
+export type TGetOkResult<T> = { kind: 'ok'; data: T; pagination?: IPagination };
 export type TGetResult<T> = TGetOkResult<T> | TGeneralApiProblem;
 
 /**
  * 생성 결과
  */
-export type TSaveOkResult<T> = { kind: 'ok'; data?: T; pagination?: never };
+export type TSaveOkResult<T> = {
+  kind: 'ok';
+  data?: T | T[];
+  pagination?: IPagination;
+};
 export type TSaveResult<T> = TSaveOkResult<T> | TGeneralApiProblem;
 export type TPostResult<T> = TSaveResult<T>;
 
@@ -48,14 +52,18 @@ export type TPatchResult<T> = TSaveResult<T>;
 /**
  * 삭제 결과
  */
-export type TDeleteOkResult = { kind: 'ok'; data: never; pagination: never };
-export type TDeleteResult = TDeleteOkResult | TGeneralApiProblem;
+export type TDeleteOkResult<T> = {
+  kind: 'ok';
+  data?: T | T[];
+  pagination?: IPagination;
+};
+export type TDeleteResult<T> = TDeleteOkResult<T> | TGeneralApiProblem;
 
 export type TResult<T> =
   | TListResult<T>
   | TGetResult<T>
   | TSaveResult<T>
-  | TDeleteResult;
+  | TDeleteResult<T>;
 
 /**
  * RestApi 구현에 따라 다른 형태의 응답이 올 수 있으므로,
@@ -69,7 +77,7 @@ export type TResult<T> =
 export type TApiOkResponse<T> =
   | {
       resultCode: 'S';
-      results?: T[];
+      data?: T | T[];
       pagination?: IPagination;
     } & T;
 

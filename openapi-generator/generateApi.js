@@ -5,24 +5,26 @@ const fs = require('fs');
 
 const {
   convertDataType,
+  isResponseTypeArray,
+  returnType,
   toCamelCase,
   toPascalCase,
   format,
   getTagNames,
   getPaths,
-  getSchemes,
+  getSchemasFromComponents,
 } = require('./utils');
 
 /**
  * generate service apis
- * 
- * @param {*} api 
- * @param {*} cb 
+ *
+ * @param {*} api
+ * @param {*} cb
  */
 async function generateApis(api, cb) {
   const generators = [];
 
-  // generate service api by tags
+  // Create API documents with each tag
   getTagNames(api).forEach((tag) => {
     generators.push((cb) => {
       try {
@@ -33,12 +35,29 @@ async function generateApis(api, cb) {
     });
   });
 
-  // add api for each path by first tag
-  getPaths(api).forEach((node) => {
+  const paths = getPaths(api);
+
+  // Add import statements for the referenced model in each api.
+  paths.forEach((node) => {
+    const object = node.value;
+    const tag = jsonpath.query(object, '$..tags[0]')[0];
+    const imports = new Set();
+    jsonpath
+      .query(object, '$..responses..["$ref"]')
+      .map((ref) => ref.substring(ref.lastIndexOf('/') + 1))
+      .forEach((ref) => {
+        imports.add(
+          `import { I${ref}Model } from '../../models/${ref}.model';`,
+        );
+      });
+    generators.push((cb) => addImportsToApi(tag, [...imports], cb));
+  });
+
+  // Add the api method for each path to the document created with the first tag of api
+  paths.forEach((node) => {
     const path = node.path.pop();
     const object = node.value;
     const tag = jsonpath.query(object, '$..tags[0]')[0];
-    // console.log(path, object, tag);
     generators.push((cb) => {
       try {
         addMethodToApi(tag, path, object, cb);
@@ -46,21 +65,6 @@ async function generateApis(api, cb) {
         console.log('ERROR', e);
       }
     });
-  });
-
-  // add imports to the model
-  // TODO add imports to the api
-  getPaths(api).forEach((node) => {
-    const object = node.value;
-    const tag = jsonpath.query(object, '$..tags[0]')[0];
-    const imports = new Set();
-    const resRefs = jsonpath
-      .query(object, '$..responses..["$ref"]')
-      .map((ref) => ref.substring(ref.lastIndexOf('/') + 1));
-    resRefs.forEach((ref) => {
-      imports.add(`import { I${ref}Model } from '../../models/${ref}.model';`);
-    });
-    generators.push((cb) => addImportsToApi(tag, [...imports], cb));
   });
 
   series(generators, cb);
@@ -139,112 +143,61 @@ function addMethodToApi(tag, path, node, cb) {
 function getApiCode(tag, path, node) {
   const codeLines = [];
 
-  // console.log('path', path, 'node', node);
-
   const methods = Object.keys(node);
 
   methods.forEach((method) => {
-    const pathParams = jsonpath
-      .query(node[method], '$..parameters[*]')
-      .filter((p) => p.in === 'path');
+    const operationId = node[method].operationId;
+
+    const { docs, params } = translateParameters(node[method]);
 
     const queryParams = jsonpath
       .query(node[method], '$..parameters[*]')
       .filter((p) => p.in === 'query');
 
-    const requestBody = ['post', 'put', 'patch'].includes(method)
-      ? jsonpath.query(node[method], '$..requestBody.content')[0]
-      : '';
-
-    const requestContentType = requestBody
-      ? Object.keys(requestBody).includes('application/json')
-        ? null
-        : Object.keys(requestBody)[0]
-      : null;
-
-    const requestContent = requestContentType
-      ? requestBody[requestContentType].schema.type === 'string'
-        ? 'JSON.stringify(payload)'
-        : 'payload'
-      : '';
-
-    const requestConfig = requestContentType
-      ? {
-          headers: {
-            'Content-Type': requestContentType,
-          },
-        }
-      : '';
-
-    const paramDocs = pathParams
-      .map(
-        (p) =>
-          `     * @param ${p.name}  ${convertDataType(p.schema)} ${
-            p.required ? ' **REQUIRED** ' : 'optional'
-          }, in path. ${p.description}`,
-      )
-      .concat(
-        queryParams.map(
-          (p) =>
-            `     * @param ${p.name}  *${convertDataType(p.schema)}*${
-              p.required ? ' **REQUIRED** ' : 'optional'
-            }, in query. ${p.description}`,
-        ),
-      )
-      .join('\n');
-
-    const params = pathParams
-      .map((p) => `${p.name}: ${convertDataType(p.schema)}`)
-      .concat(queryParams.map((p) => `${p.name}: ${convertDataType(p.schema)}`))
-      .join(', ');
-    // const paramNames = pathParams.map((p) => p.name).join(', ');
-
     const urlSearchParams = [];
     queryParams.forEach((p) => {
       urlSearchParams.push(`${p.name}=\${${p.name}}`);
     });
-
-    const operationId = node[method].operationId;
-    const isResponseTypeArray =
-      jsonpath.query(
-        node[method],
-        '$..responses[200].content[*].schema.type',
-      )[0] === 'array';
-
     const queryString =
       urlSearchParams.length > 0 ? `?${urlSearchParams.join('&')}` : '';
 
-    let resultType = `I${toPascalCase(tag)}Model`;
+    const url = `\${this.url}${path
+      .replace(new RegExp(`^/${tag}`), '')
+      .replaceAll('{', '${')}${queryString}`;
 
-    const resRefs = new Set();
-    const refs = jsonpath.query(node[method], '$..responses..["$ref"]') || [];
-    
-    refs.forEach((ref) => {
-      const refName = ref.substring(ref.lastIndexOf('/') + 1);
-      if (refName !== 'Error') {
-        resRefs.add(refName);
-      }
-    });
+    const {
+      docs: requestBodyDocs,
+      params: requestBodyParams,
+      requestBody,
+      requestConfig,
+    } = translateRequestBody(node, method);
 
-    if (resRefs.size > 0) {
-      resultType = `I${resRefs.values().next().value}Model`;
-    } else {
-      resultType = 'any'; 
-    }
+    const baseApiName = getBaseApiName(node, method);
 
+    let resultType = returnType(node, method); // || `I${toPascalCase(tag)}Model`;
     codeLines.push(`
   /**
-   * ${node[method].summary}
+   * ## ${node[method].summary}
    * ${node[method].description}
-${paramDocs}
-    * @returns
-    */
-  async ${operationId}( ${params} ${requestContent ? ', payload: any' : ''} ) {
-    return this.${method}${
-      method === 'get' ? (isResponseTypeArray ? 'All' : 'One') : ''
-    }<${resultType}>(
-      \`${path.replaceAll('{', '${')}${queryString}\`
-      ${requestContent ? `, payload` : ''}
+${
+  docs || requestBodyDocs
+    ? `${docs}${docs && requestBodyDocs && '\n'}${requestBodyDocs}`
+    : '   *'
+}
+   * @returns
+   */
+  async ${operationId}( ${[]
+      .concat(params.path, params.query, requestBodyParams)
+      .sort((a, b) => {
+        const ao = a.isOptional ? 1 : 0;
+        const bo = b.isOptional ? 1 : 0;
+        return ao - bo;
+      })
+      .map((p) => `${p.name}${p.isOptional}: ${p.type}`)
+      .join(', ')}) {
+    return this.${baseApiName}${resultType ? `<${resultType}>` : ''}(
+      \`${url}\`
+      ${requestBody ? `, payload` : ''}
       ${requestConfig ? `, ${JSON.stringify(requestConfig)}` : ''}
     );
   }
@@ -257,3 +210,155 @@ ${paramDocs}
 module.exports = {
   generateApis,
 };
+
+
+function getBaseApiName(node, method) {
+  const name = method;
+  if (method === 'get') {
+    return isResponseTypeArray(node, method) ? 'getAll' : 'getOne';
+  }
+
+  return toCamelCase(name);
+}
+
+function translateParameters(node) {
+  const parameters = jsonpath.query(node, '$..parameters[*]');
+
+  const headerParams = translateHeaderParameters(
+    parameters.filter((p) => p.in === 'header'),
+  );
+  const pathParams = translatePathParameters(
+    parameters.filter((p) => p.in === 'path'),
+  );
+  const queryParams = translateQueryParameters(
+    parameters.filter((p) => p.in === 'query'),
+  );
+
+  return {
+    docs: []
+      .concat(headerParams.docs, pathParams.docs, queryParams.docs)
+      .join('\n'),
+    params: {
+      header: headerParams.params,
+      path: pathParams.params,
+      query: queryParams.params,
+    },
+  };
+}
+
+function translateParam(param, placement) {
+  const info = [];
+  const name = param.name;
+  const type = convertDataType(param.schema);
+  const format = param.schema.format;
+  const isOptional = param.required ? '' : '?';
+  const required = param.required ? '**(REQUIRED)**' : '';
+  const description = param.description || '';
+  info.push(
+    `   * @param {${type}} ${param.required ? name : `[${name}]`} ${required} ${
+      format ? `{${format}} ` : ''
+    }${description}`,
+  );
+  param = { name, type, isOptional, format };
+  return {
+    info: info.join('\n'),
+    param,
+  };
+}
+
+function translateHeaderParameters(parameters) {
+  const docs = [];
+  const params = [];
+  if (parameters) {
+    parameters.forEach((p) => {
+      const { info, param } = translateParam(p, 'header');
+      docs.push(info);
+      params.push(param);
+    });
+  }
+  return { docs, params };
+}
+
+function translatePathParameters(parameters) {
+  const docs = [];
+  const params = [];
+  if (parameters) {
+    parameters.forEach((p) => {
+      const { info, param } = translateParam(p, 'param');
+      docs.push(info);
+      params.push(param);
+    });
+  }
+  return { docs, params };
+}
+
+function translateQueryParameters(parameters) {
+  const docs = [];
+  const params = [];
+  if (parameters) {
+    parameters.forEach((p) => {
+      const { info, param } = translateParam(p, 'query');
+      docs.push(info);
+      params.push(param);
+    });
+  }
+  return { docs, params };
+}
+
+function translateRequestBody(node, method) {
+  const hasRequestBody =
+    ['post', 'put', 'patch'].includes(method) && node[method].requestBody;
+
+  const requestBody = hasRequestBody
+    ? jsonpath.query(node[method], '$..requestBody.content')[0]
+    : '';
+
+  const contentType = requestBody
+    ? Object.keys(requestBody).includes('application/json')
+      ? 'application/json'
+      : Object.keys(requestBody)[0]
+    : null;
+
+  const content = contentType
+    ? requestBody[contentType].schema.type === 'string'
+      ? 'JSON.stringify(payload)'
+      : 'payload'
+    : undefined;
+
+  const requestConfig =
+    contentType && contentType !== 'application/json' && content !== ''
+      ? {
+          headers: {
+            'Content-Type': contentType,
+          },
+        }
+      : '';
+
+  const type = contentType
+    ? convertDataType(requestBody[contentType].schema)
+    : 'any';
+  const format = contentType ? requestBody[contentType].schema.format : '';
+
+  const docs = hasRequestBody
+    ? `   * @param {${type || '*'}} payload **(REQUIRED)** ${
+        format ? `{${format}}` : ''
+      }`
+    : '';
+  const params = hasRequestBody
+    ? [
+        {
+          name: 'payload',
+          isOptional: '',
+          type,
+          format,
+        },
+      ]
+    : [];
+  // console.log('*** *** *** ***', method, node[method].operationId, params);
+  return {
+    docs,
+    params,
+    requestBody: content,
+    requestConfig,
+  };
+}

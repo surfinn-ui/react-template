@@ -4,12 +4,14 @@ const jsonpath = require('jsonpath');
 const fs = require('fs');
 const {
   convertDataType,
+  isResponseTypeArray,
+  returnType,
   toCamelCase,
   toPascalCase,
   format,
   getTagNames,
   getPaths,
-  getSchemes,
+  getSchemasFromComponents,
 } = require('./utils');
 
 /**
@@ -32,12 +34,12 @@ function generateStores(api, cb) {
     getPathsByTag(api, tag).forEach((node) => {
       const path = node.path.pop();
       const object = node.value;
-      console.log(
-        '--------------------------------------------------------------------------',
-      );
-      console.log(tag, ' : ', path);
-      console.log('------------------');
-      console.log(object);
+      // console.log(
+      //   '--------------------------------------------------------------------------',
+      // );
+      // console.log(tag, ' : ', path);
+      // console.log('------------------');
+      // console.log(object);
       generators.push((cb) => {
         try {
           addActionsToStore(tag, path, object, cb);
@@ -45,9 +47,9 @@ function generateStores(api, cb) {
           console.log('ERROR', e);
         }
       });
-      console.log(
-        '--------------------------------------------------------------------------',
-      );
+      // console.log(
+      //   '--------------------------------------------------------------------------',
+      // );
     });
   });
   series(generators, cb);
@@ -98,42 +100,30 @@ function getActionCodes(path, object) {
       const operationId = toCamelCase(pathInfo.operationId);
 
       const parameters = parseParameters(pathInfo.parameters);
+      // const options = parseOptions(pathInfo);
       const requestBody = parseRequestBody(pathInfo.requestBody);
       const responses = parseResponses(pathInfo.responses);
 
       return `
 
     /**
-     * ${pathInfo.summary}
-     * 
+     * ## ${pathInfo.summary}
      * ${pathInfo.description}
-     * 
-     * @tags *${pathInfo.tags.join(', ')}*
-     * @method **${method.toUpperCase()}**
-     * @endpoint \`${path}\`
-${parameters.headerDocs.join('\n')}
-${parameters.paramDocs.join('\n')}
-${requestBody.payloadDocs.join('\n')}
+     * @tags ${pathInfo.tags ? `\`${pathInfo.tags.join(', ')}\`` : ''}
+     * ${[].concat(parameters.paramDocs, requestBody.docs).join('\n     * ')}
      */
     ${operationId}: flow(function* (${parameters.paramArgs
+        .concat(requestBody.payload)
         .map((i) => i.join(': '))
         .join(', ')} 
-        ${
-          requestBody.payload &&
-          `, ${requestBody.payload.map((i) => i.join(': ')).join(', ')}`
-        }  
     ) {
       self.setFetchState(FetchStates.PENDING);
       const response = yield ${toCamelCase(
         pathInfo.tags[0],
-      )}Api.${operationId}(${parameters.paramArgs.map((i) => i[0]).join(', ')} 
-        ${
-          requestBody.payload &&
-          `, ${requestBody.payload.map((i) => i[0]).join(', ')}`
-        } );
+      )}Api.${operationId}(${[].concat(parameters.paramArgs, requestBody.payload).map((i) => i[0]).join(', ')});
       if (response.kind === 'ok') {
         self.setFetchState(FetchStates.DONE);
-        return response.data as ${responses.responseType};
+        return response.data.data as ${'any'};
       } else {
         self.setFetchState(FetchStates.ERROR);
         console.error(response.kind);
@@ -144,60 +134,66 @@ ${requestBody.payloadDocs.join('\n')}
 }
 
 function parseParameters(params) {
-  const headerDocs = [];
   const paramDocs = [];
   const paramArgs = [];
-
+  console.log(params);
   params &&
     params
-      // .filter((p) => p.in === 'path' || p.in === 'query')
+      .filter((p) => p.in === 'path' || p.in === 'query')
       .forEach((p) => {
         const name = toCamelCase(p.name);
         const type = convertDataType(p.schema);
-        const required = p.required ? '**REQUIRED**' : 'optional';
-        const paramIn = `in ${p.in}`;
+        const format = p.schema.format ? `(${p.schema.format})` : '';
+        const required = p.required ? '**REQUIRED**' : '';
         const description = p.description || '';
-        paramDocs.push(`     * @param ${name} ${description}`);
         paramDocs.push(
-          `     *        It's a ${type}, ${required} and ${paramIn}.`,
+          `@param {${type}} ${name} ${required} ${format} ${description}`,
         );
         if (p.in === 'path' || p.in === 'query') {
           paramArgs.push([`${name}`, `${type}`]);
-        } else if (p.in === 'header') {
-          headerDocs.push(`     * @header ${name} ${description}`);
-          headerDocs.push(
-            `     *        It's a ${type}, ${required} and ${paramIn}.`,
-          );
         }
       });
 
   return {
-    headerDocs,
     paramDocs,
     paramArgs,
   };
 }
 
 function parseRequestBody(requestBody) {
-  const payloadDocs = [];
+  const docs = [];
   const payload = [];
   if (requestBody) {
-    payload.push(['payload', 'string']);
-    payloadDocs.push(`     @payload ${Object.keys(requestBody?.content)}`);
-    payloadDocs.push(`              ${requestBody?.description}`);
-    payloadDocs.push(
-      `              ${requestBody?.required ? '**REQUIRED**' : 'optional'}`,
+    const required = requestBody.required ? '**REQUIRED**' : '';
+    const description = requestBody.description || '';
+
+    const contentType = Object.keys(requestBody).includes(
+      'application/json',
+    )
+      ? 'application/json'
+      : Object.keys(requestBody.content)[0];
+
+    // const type = contentType
+    //   ? convertDataType(requestBody.content[contentType].schema)
+    //   : 'any';
+    // const format = `{${type}}`;
+    const type = 'any'
+    const format = `{any}`;
+
+    docs.push(
+      [
+        '@param',
+        `{${type}}`,
+        'payload',
+        required,
+        format,
+        description,
+      ].join(' '),
     );
-    payloadDocs.push(
-      `              ${
-        requestBody?.content['application/json']
-          ? requestBody?.content['application/json'].schema
-          : Object.keys(requestBody?.content)?.[0]
-      }`,
-    );
+    payload.push(['payload', type]);
   }
   return {
-    payloadDocs,
+    docs,
     payload,
   };
 }

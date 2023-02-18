@@ -6,90 +6,96 @@ class PetApi extends ApiBase {
   url = '/pet';
 
   /**
-   * uploads an image
+   * ## uploads an image
    *
-   * @param petId  number  **REQUIRED** , in path. ID of pet to update
-   * @param additionalMetadata  *string*optional, in query. Additional Metadata
+   * @param {number} petId **(REQUIRED)** {int64} ID of pet to update
+   * @param {string} [additionalMetadata]  Additional Metadata
+   * @param {string} payload **(REQUIRED)** {binary}
    * @returns
    */
-  async uploadFile(petId: number, additionalMetadata: string, payload: any) {
+  async uploadFile(
+    petId: number,
+    payload: string,
+    additionalMetadata?: string,
+  ) {
     return this.post<IApiResponseModel>(
-      `/pet/${petId}/uploadImage?additionalMetadata=${additionalMetadata}`,
+      `${this.url}/${petId}/uploadImage?additionalMetadata=${additionalMetadata}`,
       payload,
       { headers: { 'Content-Type': 'application/octet-stream' } },
     );
   }
 
   /**
-   * Find pet by ID
+   * ## Find pet by ID
    * Returns a single pet
-   * @param petId  number  **REQUIRED** , in path. ID of pet to return
+   * @param {number} petId **(REQUIRED)** {int64} ID of pet to return
    * @returns
    */
   async getPetById(petId: number) {
-    return this.getOne<IPetModel>(`/pet/${petId}`);
+    return this.getOne<IPetModel>(`${this.url}/${petId}`);
   }
 
   /**
-   * Updates a pet in the store with form data
+   * ## Updates a pet in the store with form data
    *
-   * @param petId  number  **REQUIRED** , in path. ID of pet that needs to be updated
-   * @param name  *string*optional, in query. Name of pet that needs to be updated
-   * @param status  *string*optional, in query. Status of pet that needs to be updated
+   * @param {number} petId **(REQUIRED)** {int64} ID of pet that needs to be updated
+   * @param {string} [name]  Name of pet that needs to be updated
+   * @param {string} [status]  Status of pet that needs to be updated
    * @returns
    */
-  async updatePetWithForm(petId: number, name: string, status: string) {
-    return this.post<any>(`/pet/${petId}?name=${name}&status=${status}`);
+  async updatePetWithForm(petId: number, name?: string, status?: string) {
+    return this.post<any>(`${this.url}/${petId}?name=${name}&status=${status}`);
   }
 
   /**
-   * Deletes a pet
+   * ## Deletes a pet
    * delete a pet
-   * @param petId  number  **REQUIRED** , in path. Pet id to delete
+   * @param {string} [api_key]
+   * @param {number} petId **(REQUIRED)** {int64} Pet id to delete
    * @returns
    */
   async deletePet(petId: number) {
-    return this.delete<any>(`/pet/${petId}`);
+    return this.delete<any>(`${this.url}/${petId}`);
   }
 
   /**
-   * Finds Pets by tags
+   * ## Finds Pets by tags
    * Multiple tags can be provided with comma separated strings. Use tag1, tag2, tag3 for testing.
-   * @param tags  *string[]*optional, in query. Tags to filter by
+   * @param {string[]} [tags]  Tags to filter by
    * @returns
    */
-  async findPetsByTags(tags: string[]) {
-    return this.getOne<IPetModel>(`/pet/findByTags?tags=${tags}`);
+  async findPetsByTags(tags?: string[]) {
+    return this.getAll<IPetModel>(`${this.url}/findByTags?tags=${tags}`);
   }
 
   /**
-   * Finds Pets by status
+   * ## Finds Pets by status
    * Multiple status values can be provided with comma separated strings
-   * @param status  *string*optional, in query. Status values that need to be considered for filter
+   * @param {string} [status]  Status values that need to be considered for filter
    * @returns
    */
-  async findPetsByStatus(status: string) {
-    return this.getOne<IPetModel>(`/pet/findByStatus?status=${status}`);
+  async findPetsByStatus(status?: string) {
+    return this.getAll<IPetModel>(`${this.url}/findByStatus?status=${status}`);
   }
 
   /**
-   * Update an existing pet
+   * ## Update an existing pet
    * Update an existing pet by Id
-
-    * @returns
-    */
-  async updatePet() {
-    return this.put<IPetModel>(`/pet`);
+   * @param {any} payload **(REQUIRED)**
+   * @returns
+   */
+  async updatePet(payload: any) {
+    return this.put<IPetModel>(`${this.url}`, payload);
   }
 
   /**
+   * ## Add a new pet to the store
    * Add a new pet to the store
-   * Add a new pet to the store
-
-    * @returns
-    */
-  async addPet() {
-    return this.post<IPetModel>(`/pet`);
+   * @param {any} payload **(REQUIRED)**
+   * @returns
+   */
+  async addPet(payload: any) {
+    return this.post<IPetModel>(`${this.url}`, payload);
   }
 }
 

@@ -18,12 +18,40 @@ function convertDataType(schema) {
       return 'boolean';
     case 'array':
       if (schema.items.$ref) {
-        return `${schema.items.$ref.replace('#', '$').replace('/', '.')}[]`;
+        // return `${schema.items.$ref.replace('#', '$').replaceAll('/', '.')}[]`;
+        return `I${schema.items.$ref.substring(
+          schema.items.$ref.lastIndexOf('/') + 1,
+        )}Model[]`;
       } else {
         return `${schema.items.type}[]`;
       }
     case 'object':
       return 'object';
+    default:
+      return 'any';
+  }
+}
+
+function isResponseTypeArray(node, method) {
+  return (
+    jsonpath.query(node[method], '$..responses..content[*].schema.type')[0] ===
+    'array'
+  );
+}
+
+
+function returnType(node, method) {
+  let refs;
+  if (isResponseTypeArray(node, method)) {
+    refs = jsonpath.query(node[method], '$.responses..items["$ref"]')[0];
+    return `I${refs.substring(refs.lastIndexOf('/') + 1)}Model`;
+  } else {
+    refs = jsonpath.query(node[method], '$.responses..schema["$ref"]')[0];
+    if (refs === undefined) {
+      refs = jsonpath.query(node[method], '$.responses..schema.type')[0];
+      return convertDataType(refs?.substring(refs.lastIndexOf('/') + 1) || 'any');
+    }
+    return `I${refs.substring(refs.lastIndexOf('/') + 1)}Model`;
   }
 }
 
@@ -46,8 +74,6 @@ function toCamelCase(string) {
 function toPascalCase(string) {
   return toCamelCase(string).replace(/^[a-z]/, (val) => val.toUpperCase());
 }
-
-
 
 function format(cb) {
   exec(`cd ../ && npm run format && cd openapi-generator`, cb);
@@ -76,17 +102,18 @@ function getPaths(api) {
  * @param {*} api
  * @returns
  */
-function getSchemes(api) {
+function getSchemasFromComponents(api) {
   return jsonpath.nodes(api, '$.components.schemas.*');
 }
 
 module.exports = {
   convertDataType,
+  isResponseTypeArray,
+  returnType,
   toCamelCase,
   toPascalCase,
   format,
   getTagNames,
   getPaths,
-  getSchemes,
-
-}
+  getSchemasFromComponents,
+};

@@ -64,11 +64,11 @@ export class ApiBase {
     const problem = getGeneralApiProblem(response);
     if (problem) return problem;
 
-    const data = response.data as TApiOkResponse<T>;
+    const result = response.data as TApiOkResponse<T>;
     return {
       kind: 'ok',
-      data: data.results,
-      pagination: data.pagination,
+      data: result.data,
+      pagination: result.pagination,
     } as TListOkResult<T>;
   }
 
@@ -92,8 +92,8 @@ export class ApiBase {
     const problem = getGeneralApiProblem(response);
     if (problem) return problem;
 
-    const data = response.data as TApiOkResponse<T>;
-    return { kind: 'ok', data } as TSaveOkResult<T>;
+    const result = response.data as TApiOkResponse<T>;
+    return { kind: 'ok', data: result.data } as TSaveOkResult<T>;
   }
 
   /**
@@ -117,8 +117,8 @@ export class ApiBase {
     const problem = getGeneralApiProblem(response);
     if (problem) return problem;
 
-    const data = response.data as TApiOkResponse<T>;
-    return { kind: 'ok', data } as TSaveOkResult<T>;
+    const result = response.data as TApiOkResponse<T>;
+    return { kind: 'ok', data: result.data } as TSaveOkResult<T>;
   }
 
   /**
@@ -142,8 +142,8 @@ export class ApiBase {
     const problem = getGeneralApiProblem(response);
     if (problem) return problem;
 
-    const data = response.data as TApiOkResponse<T>;
-    return { kind: 'ok', data } as TSaveOkResult<T>;
+    const result = response.data as TApiOkResponse<T>;
+    return { kind: 'ok', data: result.data } as TSaveOkResult<T>;
   }
 
   /**
@@ -155,7 +155,7 @@ export class ApiBase {
     url: string,
     params?: TParams,
     config?: AxiosRequestConfig,
-  ): Promise<TDeleteResult> {
+  ): Promise<TDeleteResult<T>> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.delete(
       url,
       params,
@@ -164,8 +164,8 @@ export class ApiBase {
 
     const problem = getGeneralApiProblem(response);
     if (problem) return problem;
-
-    return { kind: 'ok' } as TDeleteOkResult;
+    const result = response.data as TApiOkResponse<T>;
+    return { kind: 'ok', data: result.data } as TDeleteOkResult<T>;
   }
 
   // -----------------------------------------------------------------------------------------
