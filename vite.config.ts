@@ -19,7 +19,6 @@ export default defineConfig({
   },
   // 빌드한 파일을 실행할 서버 설정
   preview: {
-    host: 'localhost',
-    open: true,
-  },
+    host: 'localhost'
+  }
 });
