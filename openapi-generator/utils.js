@@ -9,24 +9,27 @@ const { exec } = require('child_process');
 function convertDataType(schema) {
   switch (schema.type) {
     case 'integer':
-      return 'number';
     case 'number':
       return 'number';
+
     case 'string':
       return 'string';
+
     case 'boolean':
       return 'boolean';
+
     case 'array':
       if (schema.items.$ref) {
-        // return `${schema.items.$ref.replace('#', '$').replaceAll('/', '.')}[]`;
         return `I${schema.items.$ref.substring(
           schema.items.$ref.lastIndexOf('/') + 1,
         )}Model[]`;
       } else {
         return `${schema.items.type}[]`;
       }
+
     case 'object':
       return 'object';
+
     default:
       return 'any';
   }
@@ -75,6 +78,19 @@ function toPascalCase(string) {
   return toCamelCase(string).replace(/^[a-z]/, (val) => val.toUpperCase());
 }
 
+function toSnakeCase(string) {
+  return string.replace(/([A-Z])/g, ($1) => `_${$1.toLowerCase()}`);
+}
+
+function toConstantCase(string) {
+  return string.replace(/([A-Z])/g, ($1) => `_${$1.toUpperCase()}`);
+}
+
+function toKebabCase(string) {
+  return string.replace(/([A-Z])/g, ($1) => `-${$1.toLowerCase()}`);
+}
+
+
 function format(cb) {
   exec(`cd ../ && npm run format && cd openapi-generator`, cb);
 }
@@ -112,6 +128,10 @@ module.exports = {
   returnType,
   toCamelCase,
   toPascalCase,
+  toSnakeCase,
+  toConstantCase,
+  toKebabCase,
+
   format,
   getTagNames,
   getPaths,
