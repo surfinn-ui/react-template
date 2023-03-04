@@ -1,4 +1,4 @@
-import { getGeneralApiProblem } from './api.problem';
+import { getGeneralApiProblem } from './ApiProblem';
 import { ApiErrorResponse } from 'apisauce';
 
 test('handles connection errors', () => {

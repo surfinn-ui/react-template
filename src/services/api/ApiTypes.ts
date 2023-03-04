@@ -1,5 +1,5 @@
-import { IPagination } from '../../stores/withPagination';
-import { TGeneralApiProblem } from './api.problem';
+import { IPagination } from '../../models/withPagination';
+import { TGeneralApiProblem } from './ApiProblem';
 
 /**
  * The options used to configure apisauce.
@@ -19,35 +19,39 @@ export interface IApiConfig {
 /**
  * 목록 조회 결과
  */
-export type TListOkResult<T> = {
+export type TSearchOkResult<T> = {
   kind: 'ok';
   data: T[];
   pagination?: IPagination;
 };
-export type TListResult<T> = TListOkResult<T> | TGeneralApiProblem;
+export type TSearchResult<T> = TSearchOkResult<T> | TGeneralApiProblem;
 
 /**
  * 단건 조회 결과
  */
-export type TGetOkResult<T> = { kind: 'ok'; data: T; pagination?: IPagination };
-export type TGetResult<T> = TGetOkResult<T> | TGeneralApiProblem;
+export type TFindOkResult<T> = { kind: 'ok'; data: T; pagination?: IPagination };
+export type TFindResult<T> = TFindOkResult<T> | TGeneralApiProblem;
 
 /**
  * 생성 결과
  */
-export type TSaveOkResult<T> = {
+export type TCreateOkResult<T> = {
   kind: 'ok';
   data?: T | T[];
   pagination?: IPagination;
 };
-export type TSaveResult<T> = TSaveOkResult<T> | TGeneralApiProblem;
-export type TPostResult<T> = TSaveResult<T>;
+export type TCreateResult<T> = TCreateOkResult<T> | TGeneralApiProblem;
 
 /**
  * 수정 결과
  */
-export type TPutResult<T> = TSaveResult<T>;
-export type TPatchResult<T> = TSaveResult<T>;
+export type TUpdateOkResult<T> = {
+  kind: 'ok';
+  data?: T | T[];
+  pagination?: IPagination;
+};
+export type TUpdateResult<T> = TUpdateOkResult<T> | TGeneralApiProblem;
+export type TPartialUpdateResult<T> = TUpdateOkResult<T> | TGeneralApiProblem;
 
 /**
  * 삭제 결과
@@ -59,10 +63,15 @@ export type TDeleteOkResult<T> = {
 };
 export type TDeleteResult<T> = TDeleteOkResult<T> | TGeneralApiProblem;
 
+/**
+ * 목록 조회, 단건 조회, 생성, 수정, 삭제 결과
+ */
 export type TResult<T> =
-  | TListResult<T>
-  | TGetResult<T>
-  | TSaveResult<T>
+  | TSearchResult<T>
+  | TFindResult<T>
+  | TCreateResult<T>
+  | TUpdateResult<T>
+  | TPartialUpdateResult<T>
   | TDeleteResult<T>;
 
 /**

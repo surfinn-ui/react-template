@@ -1,0 +1,25 @@
+---
+destinationDir: src/services/api/<%= props.camelCaseName %>
+patch:
+  path: "src/services/api/index.ts"
+  before: "// export generated api goes hear\n"
+  insert: "export * from './<%= props.pascalCaseName %>Api';\n"
+  skip: <%= props.skipIndexFile %>
+---
+import { ApiBase } from './ApiBase';
+import { IPagination } from '../../models/withPagination';
+import { <%= props.pascalCase %>Model, I<%= props.pascalCase %>Model, I<%= props.pascalCase %>ModelSnapshotIn } from '../../models/<%= props.camelCase %>/<%= props.pascalCase %>Model';
+
+export interface I<%= props.pascalCaseName %>ApiSearchParams extends I<%= props.pascalCase %>Model, IPagination {
+} 
+
+/**
+ * <%= props.pascalCaseName %>Api
+ */
+class <%= props.pascalCaseName %>Api extends ApiBase {
+  private BASE_URL = `${process.env.VITE_APP_API_URL}/<%= props.camelCaseName %>`;
+  // ^ generated props by openapi-generator
+  // $ generated props by openapi-generator
+}
+
+export const <%= props.camelCaseName %>Api = new <%= props.pascalCaseName %>Api();

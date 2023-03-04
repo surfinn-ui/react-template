@@ -1,0 +1,48 @@
+---
+destinationDir: src/models/<%= props.camelCaseName %>/specs
+---
+import { <%= props.pascalCaseName %>Store } from "../<%= props.pascalCaseName %>Store"
+
+describe('<%= props.pascalCaseName %>Store', () => {
+  
+  it('should be created', () => {
+    const instance = <%= props.pascalCaseName %>Store.create({});
+    expect(instance).toBeTruthy();
+  });
+
+  describe('Search', () => {
+    it('should be able to search all <%= props.pascalCaseName %>.', () => {
+      const instance = <%= props.pascalCaseName %>Store.create({});
+      expect(instance).toBeTruthy();
+    });
+  });
+
+  describe('Find', () => {
+    it('should be able to find a <%= props.pascalCaseName %> by ID.', () => {
+      const instance = <%= props.pascalCaseName %>Store.create({});
+      expect(instance).toBeTruthy();
+    });
+  });
+
+  describe('Create', () => {
+    it('should be able to create a <%= props.pascalCaseName %>.', () => {
+      const instance = <%= props.pascalCaseName %>Store.create({});
+      expect(instance).toBeTruthy();
+    });
+  });
+
+  describe('Update', () => {
+    it('should be able to update a <%= props.pascalCaseName %>.', () => {
+      const instance = <%= props.pascalCaseName %>Store.create({});
+      expect(instance).toBeTruthy();
+    }
+  });
+
+  describe('Delete', () => {
+    it('should be able to delete a <%= props.pascalCaseName %> by ID.', () => {
+      const instance = <%= props.pascalCaseName %>Store.create({});
+      expect(instance).toBeTruthy();
+    });
+  });
+
+});

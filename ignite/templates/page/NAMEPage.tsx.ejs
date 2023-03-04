@@ -3,11 +3,11 @@ destinationDir: src/pages/<%= props.pascalCaseName %>
 ---
 import { FC, useEffect, useCallback, useMemo, useState } from "react";
 import { observer } from "mobx-react-lite";
-import { useStores } from "../../stores";
+import { useStores } from "../../models";
 import { 
   <%= props.pascalCaseName %>PageView, 
   I<%= props.pascalCaseName %>PageViewProps 
-} from "./<%= props.pascalCaseName %>Page.view";
+} from "./<%= props.pascalCaseName %>PageView";
 
 const <%= props.pascalCaseName %>Page = observer(() => {
   // Pull in one of our MST stores

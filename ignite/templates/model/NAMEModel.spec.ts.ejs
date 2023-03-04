@@ -1,0 +1,15 @@
+---
+destinationDir: src/models/<%= props.camelCaseName %>/specs
+---
+import { <%= props.pascalCaseName %>Model } from "../<%= props.pascalCaseName %>Model"
+
+describe("<%= props.pascalCaseName %>Model", () => {
+
+  it("can be created", () => {
+    const instance = <%= props.pascalCaseName %>Model.create({});
+    expect(instance).toBeTruthy();
+  });
+
+  
+
+});

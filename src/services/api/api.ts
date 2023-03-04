@@ -5,11 +5,11 @@
  * See the [Backend API Integration](https://github.com/infinitered/ignite/blob/master/docs/Backend-API-Integration.md)
  * documentation for more details.
  */
-import { authApi } from './Auth.api';
+import { authApi } from './AuthApi';
 import { ApisauceInstance, create } from 'apisauce';
 import Axios, { AxiosInstance } from 'axios';
 import { applyAuthTokenInterceptor, TokenRefreshRequest } from 'axios-jwt';
-import type { IApiConfig } from './api.types';
+import type { IApiConfig } from './ApiTypes';
 
 /**
  * Configuring the apisauce instance.

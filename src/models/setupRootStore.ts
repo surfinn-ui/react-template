@@ -10,7 +10,7 @@
  * @refresh reset
  */
 import { applySnapshot, IDisposer, onSnapshot } from 'mobx-state-tree';
-import type { IRootStore } from './Root.store';
+import type { IRootStore } from './RootStore';
 import * as storage from '../utils/storage';
 
 /**

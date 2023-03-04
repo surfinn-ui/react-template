@@ -1,30 +1,24 @@
 ---
-destinationDir: "src/models"
-<!-- patches:
-  - path: "src/models/RootStore.ts"
-    after: "from \"mobx-state-tree\"\n"
-    insert: "import { <%= props.pascalCaseName %>Model } from \"./<%= props.pascalCaseName %>\"\n"
-    skip: <%= !props.pascalCaseName.endsWith('Store') %>
-  - path: "src/models/RootStore.ts"
-    after: "types.model(\"RootStore\").props({\n"
-    insert: "  <%= props.camelCaseName %>: types.optional(<%= props.pascalCaseName %>Model, {} as any),\n"
-    skip: <%= !props.pascalCaseName.endsWith('Store') %> -->
+destinationDir: src/models/<%= props.camelCaseName %>
 patches:
   - path: "src/models/index.ts"
     before: "// export generated models here"
-    insert: "export * from \"./<%= props.pascalCaseName %>.model\"\n" 
+    insert: "export * from \"./<%= props.camelCaseName %>/<%= props.pascalCaseName %>Model\"\n" 
     skip: <%= props.skipIndexFile %>
 ---
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
-import { withSetPropAction } from "./withSetPropAction"
+import { withSetPropAction } from "../withSetPropAction"
+
+const <%= props.pascalCaseName %>Props = {
+  // ^ generated props by openapi-generator
+  // $ generated props by openapi-generator
+};
 
 /**
  * Model description here for TypeScript hints.
  */
 export const <%= props.pascalCaseName %>Model = types
-  .model("<%= props.pascalCaseName %>")
-  .props({
-  })
+  .model("<%= props.pascalCaseName %>", <%= props.pascalCaseName %>Props)
   .actions(withSetPropAction)
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

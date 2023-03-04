@@ -1,26 +1,26 @@
 import { ApiResponse } from 'apisauce';
 import { AxiosRequestConfig } from 'axios';
-import { api } from './api';
-import { getGeneralApiProblem } from './api.problem';
+import { api } from './Api';
+import { getGeneralApiProblem, TGeneralApiProblem } from './ApiProblem';
 import {
   TApiOkResponse,
   TApiResponse,
   TDeleteOkResult,
   TDeleteResult,
-  TGetOkResult,
-  TGetResult,
-  TListOkResult,
-  TListResult,
-  TPatchResult,
-  TPostResult,
-  TPutResult,
-  TSaveOkResult,
-} from './api.types';
+  TFindOkResult,
+  TFindResult,
+  TSearchOkResult,
+  TSearchResult,
+  TPartialUpdateResult,
+  TCreateResult,
+  TUpdateResult,
+  TCreateOkResult
+} from './ApiTypes';
 
 type TParams = { [key: string]: any } | undefined;
 
 export class ApiBase {
-  url: string = '';
+  private Base_URL: string = '';
 
   /**
    * 단건 조회
@@ -31,7 +31,7 @@ export class ApiBase {
     url: string,
     params?: TParams,
     config?: AxiosRequestConfig,
-  ): Promise<TGetResult<T>> {
+  ): Promise<TFindResult<T>> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.get(
       url,
       params,
@@ -39,10 +39,13 @@ export class ApiBase {
     );
 
     const problem = getGeneralApiProblem(response);
-    if (problem) return problem;
+    if (problem) {
+      log<T>('getOne', response, problem);
+      return problem;
+    }
 
     const data = response.data as TApiOkResponse<T>;
-    return { kind: 'ok', data } as TGetOkResult<T>;
+    return { kind: 'ok', data } as TFindOkResult<T>;
   }
 
   /**
@@ -54,7 +57,7 @@ export class ApiBase {
     url: string,
     params?: TParams,
     config?: AxiosRequestConfig,
-  ): Promise<TListResult<T>> {
+  ): Promise<TSearchResult<T>> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.get(
       url,
       params,
@@ -62,14 +65,17 @@ export class ApiBase {
     );
 
     const problem = getGeneralApiProblem(response);
-    if (problem) return problem;
+    if (problem) {
+      log<T>('Search', response, problem);
+      return problem;
+    }
 
     const result = response.data as TApiOkResponse<T>;
     return {
       kind: 'ok',
       data: result.data,
       pagination: result.pagination,
-    } as TListOkResult<T>;
+    } as TSearchOkResult<T>;
   }
 
   /**
@@ -82,7 +88,7 @@ export class ApiBase {
     url: string,
     payload?: any,
     config?: AxiosRequestConfig,
-  ): Promise<TPostResult<T>> {
+  ): Promise<TCreateResult<T>> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.post(
       url,
       payload,
@@ -90,10 +96,13 @@ export class ApiBase {
     );
 
     const problem = getGeneralApiProblem(response);
-    if (problem) return problem;
+    if (problem) {
+      log<T>('getOne', response, problem);
+      return problem;
+    }
 
     const result = response.data as TApiOkResponse<T>;
-    return { kind: 'ok', data: result.data } as TSaveOkResult<T>;
+    return { kind: 'ok', data: result.data } as TCreateOkResult<T>;
   }
 
   /**
@@ -107,7 +116,7 @@ export class ApiBase {
     url: string,
     payload?: any,
     config: AxiosRequestConfig = {},
-  ): Promise<TPutResult<T>> {
+  ): Promise<TUpdateResult<T>> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.put(
       url,
       payload,
@@ -115,10 +124,13 @@ export class ApiBase {
     );
 
     const problem = getGeneralApiProblem(response);
-    if (problem) return problem;
+    if (problem) {
+      log<T>('getOne', response, problem);
+      return problem;
+    }
 
     const result = response.data as TApiOkResponse<T>;
-    return { kind: 'ok', data: result.data } as TSaveOkResult<T>;
+    return { kind: 'ok', data: result.data } as TCreateOkResult<T>;
   }
 
   /**
@@ -132,7 +144,7 @@ export class ApiBase {
     url: string,
     payload?: TParams,
     config?: AxiosRequestConfig,
-  ): Promise<TPatchResult<T>> {
+  ): Promise<TPartialUpdateResult<T>> {
     const response: ApiResponse<TApiResponse<T>> = await api.apisauce.patch(
       url,
       payload,
@@ -140,10 +152,13 @@ export class ApiBase {
     );
 
     const problem = getGeneralApiProblem(response);
-    if (problem) return problem;
+    if (problem) {
+      log<T>('getOne', response, problem);
+      return problem;
+    }
 
     const result = response.data as TApiOkResponse<T>;
-    return { kind: 'ok', data: result.data } as TSaveOkResult<T>;
+    return { kind: 'ok', data: result.data } as TCreateOkResult<T>;
   }
 
   /**
@@ -163,30 +178,35 @@ export class ApiBase {
     );
 
     const problem = getGeneralApiProblem(response);
-    if (problem) return problem;
+    if (problem) {
+      log<T>('getOne', response, problem);
+      return problem;
+    }
+
     const result = response.data as TApiOkResponse<T>;
     return { kind: 'ok', data: result.data } as TDeleteOkResult<T>;
   }
 
   // -----------------------------------------------------------------------------------------
+
   /**
-   * Fetch <%= props.pascalCaseName %>Models list
+   * Search <%= props.pascalCaseName %>Models list
    *
    * @param Query parameters
    * @returns <%= props.pascalCaseName %>Model[]
    */
-  async fetchAll<T>(params?: { [key: string]: any }) {
-    return this.getAll<T>(this.url, params);
+  async search<T>(params?: { [key: string]: any }) {
+    return this.getAll<T>(this.Base_URL, params);
   }
 
   /**
-   * Fetch a <%= props.pascalCaseName %>Model by id
+   * Find a <%= props.pascalCaseName %>Model by id
    *
    * @param id of <%= props.pascalCaseName %>Model
    * @returns <%= props.pascalCaseName %>Model
    */
-  async fetchById<T>(id: number) {
-    return this.getOne<T>(`${this.url}/${id}`);
+  async find<T>(id: number) {
+    return this.getOne<T>(`${this.Base_URL}/${id}`);
   }
 
   /**
@@ -196,7 +216,7 @@ export class ApiBase {
    * @returns
    */
   async create<T>(payload: Partial<T>) {
-    return this.post<Partial<T>>(this.url, payload);
+    return this.post<Partial<T>>(this.Base_URL, payload);
   }
 
   /**
@@ -207,17 +227,17 @@ export class ApiBase {
    * @returns
    */
   async update<T>(id: number, payload: Partial<T>) {
-    return this.put<Partial<T>>(`${this.url}/${id}`, payload);
+    return this.put<Partial<T>>(`${this.Base_URL}/${id}`, payload);
   }
 
   /**
-   * Patch a <%= props.pascalCaseName %>Model
+   * Partial update a <%= props.pascalCaseName %>Model
    *
    * @param id of <%= props.pascalCaseName %>Model
    * @returns
    */
-  async modify<T>(id: number, payload: Partial<T>) {
-    return this.patch<Partial<T>>(`${this.url}/${id}`, payload);
+  async partial<T>(id: number, payload: Partial<T>) {
+    return this.patch<Partial<T>>(`${this.Base_URL}/${id}`, payload);
   }
 
   /**
@@ -227,7 +247,7 @@ export class ApiBase {
    * @returns
    */
   async remove<T>(id: number) {
-    return this.delete<T>(`${this.url}/${id}`);
+    return this.delete<T>(`${this.Base_URL}/${id}`);
   }
 
   /**
@@ -237,6 +257,25 @@ export class ApiBase {
    * @returns
    */
   async removeAll<T>(ids: number[]) {
-    return this.delete<T>(this.url, { ids });
+    return this.delete<T>(this.Base_URL, { ids });
   }
+}
+
+// prettier-ignore
+function log<T>(
+  name: string,
+  response: ApiResponse<TApiResponse<T>>,
+  problem: TGeneralApiProblem,
+) {
+  console.groupCollapsed(name);
+    console.groupCollapsed('Response');
+      console.log(JSON.stringify(response, null, 2));
+    console.groupEnd();
+
+    console.groupCollapsed('Problem');
+      console.log(JSON.stringify(problem, null, 2));
+    console.groupEnd();
+
+    console.trace('Stack Trace');
+  console.groupEnd();
 }

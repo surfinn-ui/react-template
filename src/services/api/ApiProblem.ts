@@ -1,5 +1,5 @@
 import { ApiResponse } from 'apisauce';
-import { TApiResponse, TApiErrorResponse } from './api.types';
+import { TApiResponse, TApiErrorResponse } from './ApiTypes';
 
 export type TGeneralApiProblem =
   /**
