@@ -53,13 +53,14 @@ export const StoreStore = types
        * @param {number} orderId **REQUIRED** (int64) ID of order that needs to be fetched
        */
       getOrderById: flow(function* (orderId: number) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield storeApi.getOrderById(orderId);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -71,13 +72,14 @@ export const StoreStore = types
        * @param {number} orderId **REQUIRED** (int64) ID of the order that needs to be deleted
        */
       deleteOrder: flow(function* (orderId: number) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield storeApi.deleteOrder(orderId);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -89,13 +91,14 @@ export const StoreStore = types
        * @param {any} payload  {any}
        */
       placeOrder: flow(function* (payload: any) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield storeApi.placeOrder(payload);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -107,13 +110,14 @@ export const StoreStore = types
        *
        */
       getInventory: flow(function* () {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield storeApi.getInventory();
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),

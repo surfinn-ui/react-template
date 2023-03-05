@@ -59,17 +59,18 @@ export const PetStore = types
         additionalMetadata: string,
         payload: any,
       ) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield petApi.uploadFile(
           petId,
           additionalMetadata,
           payload,
         );
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -81,13 +82,14 @@ export const PetStore = types
        * @param {number} petId **REQUIRED** (int64) ID of pet to return
        */
       getPetById: flow(function* (petId: number) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield petApi.getPetById(petId);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -105,13 +107,14 @@ export const PetStore = types
         name: string,
         status: string,
       ) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield petApi.updatePetWithForm(petId, name, status);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -123,13 +126,14 @@ export const PetStore = types
        * @param {number} petId **REQUIRED** (int64) Pet id to delete
        */
       deletePet: flow(function* (petId: number) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield petApi.deletePet(petId);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -141,13 +145,14 @@ export const PetStore = types
        * @param {string[]} tags   Tags to filter by
        */
       findPetsByTags: flow(function* (tags: string[]) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield petApi.findPetsByTags(tags);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -159,13 +164,14 @@ export const PetStore = types
        * @param {string} status   Status values that need to be considered for filter
        */
       findPetsByStatus: flow(function* (status: string) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield petApi.findPetsByStatus(status);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -177,13 +183,14 @@ export const PetStore = types
        * @param {any} payload **REQUIRED** {any} Update an existent pet in the store
        */
       updatePet: flow(function* (payload: any) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield petApi.updatePet(payload);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -195,13 +202,14 @@ export const PetStore = types
        * @param {any} payload **REQUIRED** {any} Create a new pet in the store
        */
       addPet: flow(function* (payload: any) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield petApi.addPet(payload);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),

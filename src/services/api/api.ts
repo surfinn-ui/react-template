@@ -15,8 +15,8 @@ import type { IApiConfig } from './api.types';
  * Configuring the apisauce instance.
  */
 export const DEFAULT_API_CONFIG: IApiConfig = {
-  url: import.meta.env.REACT_APP_API_URL,
-  timeout: import.meta.env.REACT_APP_API_TIMEOUT,
+  url: import.meta.env.VITE_APP_API_URL,
+  timeout: import.meta.env.VITE_APP_API_TIMEOUT,
 };
 
 /**

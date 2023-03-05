@@ -1,4 +1,10 @@
-import { IStateTreeNode, SnapshotIn } from 'mobx-state-tree';
+import {
+  applyPatch,
+  applySnapshot,
+  getSnapshot,
+  IStateTreeNode,
+  SnapshotIn,
+} from 'mobx-state-tree';
 
 /**
  * If you include this in your model in an action() block just under your props,
@@ -29,11 +35,14 @@ export const withSetPropAction = <T extends IStateTreeNode>(
     field: K,
     newValue: V,
   ) {
-    // @ts-ignore - for some reason TS complains about this, but it still works fine
-    mstInstance[field] = newValue;
+    applyPatch(mstInstance, {
+      op: 'replace',
+      path: `/${String(field)}`,
+      value: newValue,
+    });
   },
 
   setProps(newValues: Partial<SnapshotIn<T>>) {
-    Object.assign(mstInstance, newValues);
+    applySnapshot(mstInstance, { ...getSnapshot(mstInstance), ...newValues });
   },
 });

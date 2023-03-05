@@ -117,15 +117,16 @@ function getActionCodes(path, object) {
         .map((i) => i.join(': '))
         .join(', ')} 
     ) {
-      self.setFetchState(FetchStates.PENDING);
+      if(self.isPending) return;
+      self.pending();
       const response = yield ${toCamelCase(
         pathInfo.tags[0],
       )}Api.${operationId}(${[].concat(parameters.paramArgs, requestBody.payload).map((i) => i[0]).join(', ')});
       if (response.kind === 'ok') {
-        self.setFetchState(FetchStates.DONE);
+        self.done();
         return response.data.data as ${'any'};
       } else {
-        self.setFetchState(FetchStates.ERROR);
+        self.error(response);
         console.error(response.kind);
       }
     })`;

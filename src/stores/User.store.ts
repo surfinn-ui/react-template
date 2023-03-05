@@ -53,13 +53,14 @@ export const UserStore = types
        * @param {string} username **REQUIRED**  The name that needs to be fetched. Use user1 for testing.
        */
       getUserByName: flow(function* (username: string) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield userApi.getUserByName(username);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -72,13 +73,14 @@ export const UserStore = types
        * @param {any} payload  {any} Update an existent user in the store
        */
       updateUser: flow(function* (username: string, payload: any) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield userApi.updateUser(username, payload);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -90,13 +92,14 @@ export const UserStore = types
        * @param {string} username **REQUIRED**  The name that needs to be deleted
        */
       deleteUser: flow(function* (username: string) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield userApi.deleteUser(username);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -108,13 +111,14 @@ export const UserStore = types
        *
        */
       logoutUser: flow(function* () {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield userApi.logoutUser();
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -127,13 +131,14 @@ export const UserStore = types
        * @param {string} password   The password for login in clear text
        */
       loginUser: flow(function* (username: string, password: string) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield userApi.loginUser(username, password);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -145,13 +150,14 @@ export const UserStore = types
        * @param {any} payload  {any}
        */
       createUsersWithListInput: flow(function* (payload: any) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield userApi.createUsersWithListInput(payload);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
@@ -163,13 +169,14 @@ export const UserStore = types
        * @param {any} payload  {any} Created user object
        */
       createUser: flow(function* (payload: any) {
-        self.setFetchState(FetchStates.PENDING);
+        if (self.isPending) return;
+        self.pending();
         const response = yield userApi.createUser(payload);
         if (response.kind === 'ok') {
-          self.setFetchState(FetchStates.DONE);
+          self.done();
           return response.data.data as any;
         } else {
-          self.setFetchState(FetchStates.ERROR);
+          self.error(response);
           console.error(response.kind);
         }
       }),
