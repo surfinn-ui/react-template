@@ -67,7 +67,7 @@ function getPathsByTag(api, tag) {
 }
 
 function addActionsToStore(tag, path, object, cb) {
-  const filepath = `../src/stores/${tag}.store.ts`;
+  const filepath = `../src/models/${toCamelCase(tag)}/${toPascalCase(tag)}Store.ts`;
 
   fs.readFile(filepath, 'utf8', (err, data) => {
     if (err) {
@@ -112,25 +112,26 @@ function getActionCodes(path, object) {
      * @tags ${pathInfo.tags ? `\`${pathInfo.tags.join(', ')}\`` : ''}
      * ${[].concat(parameters.paramDocs, requestBody.docs).join('\n     * ')}
      */
-    ${operationId}: flow(function* (${parameters.paramArgs
+    const ${operationId} = flow(function* (${parameters.paramArgs
         .concat(requestBody.payload)
         .map((i) => i.join(': '))
         .join(', ')} 
     ) {
-      self.setFetchState(FetchStates.PENDING);
+      if(self.isPending) return;
+      self.pending();
       const response = yield ${toCamelCase(
         pathInfo.tags[0],
       )}Api.${operationId}(${[].concat(parameters.paramArgs, requestBody.payload).map((i) => i[0]).join(', ')});
       if (response.kind === 'ok') {
-        self.setFetchState(FetchStates.DONE);
+        self.done();
         return response.data.data as ${'any'};
       } else {
-        self.setFetchState(FetchStates.ERROR);
+        self.error(response);
         console.error(response.kind);
       }
     })`;
     })
-    .join(',\n');
+    .join(';\n\n');
 }
 
 function parseParameters(params) {

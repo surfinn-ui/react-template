@@ -1,4 +1,10 @@
-import { IStateTreeNode, SnapshotIn } from 'mobx-state-tree';
+import {
+  applyPatch,
+  applySnapshot,
+  getSnapshot,
+  IStateTreeNode,
+  SnapshotIn,
+} from 'mobx-state-tree';
 
 /**
  * If you include this in your model in an action() block just under your props,
@@ -24,16 +30,27 @@ import { IStateTreeNode, SnapshotIn } from 'mobx-state-tree';
 export const withSetPropAction = <T extends IStateTreeNode>(
   mstInstance: T,
 ) => ({
-  // generic setter for all properties
+  /**
+   * Sets a single property on the model.
+   * @param field
+   * @param newValue
+   */
   setProp<K extends keyof SnapshotIn<T>, V extends SnapshotIn<T>[K]>(
     field: K,
     newValue: V,
   ) {
-    // @ts-ignore - for some reason TS complains about this, but it still works fine
-    mstInstance[field] = newValue;
+    applyPatch(mstInstance, {
+      op: 'replace',
+      path: `/${String(field)}`,
+      value: newValue,
+    });
   },
 
+  /**
+   * Sets multiple properties on the model.
+   * @param newValues
+   */
   setProps(newValues: Partial<SnapshotIn<T>>) {
-    Object.assign(mstInstance, newValues);
+    applySnapshot(mstInstance, { ...getSnapshot(mstInstance), ...newValues });
   },
 });

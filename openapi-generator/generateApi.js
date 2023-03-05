@@ -47,7 +47,7 @@ async function generateApis(api, cb) {
       .map((ref) => ref.substring(ref.lastIndexOf('/') + 1))
       .forEach((ref) => {
         imports.add(
-          `import { I${ref}Model } from '../../models/${ref}.model';`,
+          `import { I${ref}Model } from '../../../models/${toCamelCase(ref)}/${toPascalCase(ref)}Model';`,
         );
       });
     generators.push((cb) => addImportsToApi(tag, [...imports], cb));
@@ -77,15 +77,15 @@ async function generateApis(api, cb) {
  * @param {*} cb
  */
 function addImportsToApi(name, imports, cb) {
-  const filepath = `../src/services/api/${name}.api.ts`;
+  const filepath = `../src/services/api/${toCamelCase(name)}/${toPascalCase(name)}Api.ts`;
   fs.readFile(filepath, 'utf8', (err, file) => {
     if (err) {
       console.log(err);
     } else {
       let codeLines = [];
       codeLines = file.toString().split('\n');
-      const index = codeLines.findIndex((line) =>
-        line.includes(`import { ApiBase } from './api.base'`),
+      const index = codeLines.findLastIndex((line) =>
+        line.startsWith(`import `),
       );
       imports.forEach((importCode) => {
         if (!codeLines.includes(importCode)) {
@@ -108,7 +108,7 @@ function addImportsToApi(name, imports, cb) {
  * @param {*} cb
  */
 function addMethodToApi(tag, path, node, cb) {
-  const filepath = `../src/services/api/${toPascalCase(tag)}.api.ts`;
+  const filepath = `../src/services/api/${toCamelCase(tag)}/${toPascalCase(tag)}Api.ts`;
 
   let codeLines = [];
 
@@ -118,7 +118,7 @@ function addMethodToApi(tag, path, node, cb) {
     } else {
       codeLines = file.toString().split('\n');
       const index = codeLines.findIndex((line) =>
-        line.includes(`url = '/${tag}'`),
+        line.startsWith(`  private BASE_URL`),
       );
 
       // add api codes
@@ -215,7 +215,15 @@ module.exports = {
 function getBaseApiName(node, method) {
   const name = method;
   if (method === 'get') {
-    return isResponseTypeArray(node, method) ? 'getAll' : 'getOne';
+    return isResponseTypeArray(node, method) ? 'search' : 'find';
+  } else if (method === 'post') {
+    return 'create';
+  } else if (method === 'put') {
+    return 'update';
+  } else if (method === 'patch') {
+    return 'partialUpdate';
+  } else if (method === 'delete') {
+    return 'delete';
   }
 
   return toCamelCase(name);

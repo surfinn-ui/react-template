@@ -6,20 +6,19 @@ patch:
   insert: "export * from './<%= props.pascalCaseName %>Api';\n"
   skip: <%= props.skipIndexFile %>
 ---
-import { ApiBase } from './ApiBase';
+import { ApiBase } from '../ApiBase';
 import { IPagination } from '../../models/withPagination';
-import { <%= props.pascalCase %>Model, I<%= props.pascalCase %>Model, I<%= props.pascalCase %>ModelSnapshotIn } from '../../models/<%= props.camelCase %>/<%= props.pascalCase %>Model';
+import { <%= props.pascalCase %>Model, I<%= props.pascalCaseName %>Model, I<%= props.pascalCaseName %>ModelSnapshotIn } from '../../models/<%= props.camelCaseName %>/<%= props.pascalCaseName %>Model';
 
-export interface I<%= props.pascalCaseName %>ApiSearchParams extends I<%= props.pascalCase %>Model, IPagination {
+export interface I<%= props.pascalCaseName %>ApiSearchParams extends I<%= props.pascalCaseName %>Model, IPagination {
 } 
 
 /**
  * <%= props.pascalCaseName %>Api
  */
 class <%= props.pascalCaseName %>Api extends ApiBase {
-  private BASE_URL = `${process.env.VITE_APP_API_URL}/<%= props.camelCaseName %>`;
-  // ^ generated props by openapi-generator
-  // $ generated props by openapi-generator
+  private BASE_URL = `/<%= props.camelCaseName %>`;
+
 }
 
 export const <%= props.camelCaseName %>Api = new <%= props.pascalCaseName %>Api();

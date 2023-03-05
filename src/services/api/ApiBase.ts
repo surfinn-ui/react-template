@@ -1,5 +1,6 @@
 import { ApiResponse } from 'apisauce';
 import { AxiosRequestConfig } from 'axios';
+import { IPagination } from '../../models/withPagination';
 import { api } from './Api';
 import { getGeneralApiProblem, TGeneralApiProblem } from './ApiProblem';
 import {
@@ -14,10 +15,10 @@ import {
   TPartialUpdateResult,
   TCreateResult,
   TUpdateResult,
-  TCreateOkResult
+  TCreateOkResult,
 } from './ApiTypes';
 
-type TParams = { [key: string]: any } | undefined;
+type TParams = Record<string, any> | undefined;
 
 export class ApiBase {
   private Base_URL: string = '';
@@ -27,7 +28,7 @@ export class ApiBase {
    * @param url 조회 URL
    * @returns
    */
-  async getOne<T>(
+  async find<T>(
     url: string,
     params?: TParams,
     config?: AxiosRequestConfig,
@@ -40,7 +41,7 @@ export class ApiBase {
 
     const problem = getGeneralApiProblem(response);
     if (problem) {
-      log<T>('getOne', response, problem);
+      log<T>('Find', response, problem);
       return problem;
     }
 
@@ -53,7 +54,7 @@ export class ApiBase {
    * @param url 조회 URL
    * @returns
    */
-  async getAll<T>(
+  async search<T>(
     url: string,
     params?: TParams,
     config?: AxiosRequestConfig,
@@ -71,6 +72,7 @@ export class ApiBase {
     }
 
     const result = response.data as TApiOkResponse<T>;
+
     return {
       kind: 'ok',
       data: result.data,
@@ -84,7 +86,7 @@ export class ApiBase {
    * @param payload
    * @returns
    */
-  async post<T>(
+  async create<T>(
     url: string,
     payload?: any,
     config?: AxiosRequestConfig,
@@ -97,7 +99,7 @@ export class ApiBase {
 
     const problem = getGeneralApiProblem(response);
     if (problem) {
-      log<T>('getOne', response, problem);
+      log<T>('Create', response, problem);
       return problem;
     }
 
@@ -112,7 +114,7 @@ export class ApiBase {
    * @param payload 저장할 모든 속성을 포함한 객체
    * @returns
    */
-  async put<T>(
+  async update<T>(
     url: string,
     payload?: any,
     config: AxiosRequestConfig = {},
@@ -125,7 +127,7 @@ export class ApiBase {
 
     const problem = getGeneralApiProblem(response);
     if (problem) {
-      log<T>('getOne', response, problem);
+      log<T>('Update', response, problem);
       return problem;
     }
 
@@ -140,7 +142,7 @@ export class ApiBase {
    * @param payload 일부 속성만 포함한 객체
    * @returns
    */
-  async patch<T>(
+  async partial<T>(
     url: string,
     payload?: TParams,
     config?: AxiosRequestConfig,
@@ -153,7 +155,7 @@ export class ApiBase {
 
     const problem = getGeneralApiProblem(response);
     if (problem) {
-      log<T>('getOne', response, problem);
+      log<T>('Partial update', response, problem);
       return problem;
     }
 
@@ -163,6 +165,7 @@ export class ApiBase {
 
   /**
    * 단건 삭제
+   *
    * @param url
    * @returns
    */
@@ -179,88 +182,21 @@ export class ApiBase {
 
     const problem = getGeneralApiProblem(response);
     if (problem) {
-      log<T>('getOne', response, problem);
+      log<T>('Remove', response, problem);
       return problem;
     }
 
     const result = response.data as TApiOkResponse<T>;
     return { kind: 'ok', data: result.data } as TDeleteOkResult<T>;
   }
-
-  // -----------------------------------------------------------------------------------------
-
-  /**
-   * Search <%= props.pascalCaseName %>Models list
-   *
-   * @param Query parameters
-   * @returns <%= props.pascalCaseName %>Model[]
-   */
-  async search<T>(params?: { [key: string]: any }) {
-    return this.getAll<T>(this.Base_URL, params);
-  }
-
-  /**
-   * Find a <%= props.pascalCaseName %>Model by id
-   *
-   * @param id of <%= props.pascalCaseName %>Model
-   * @returns <%= props.pascalCaseName %>Model
-   */
-  async find<T>(id: number) {
-    return this.getOne<T>(`${this.Base_URL}/${id}`);
-  }
-
-  /**
-   * Create a <%= props.pascalCaseName %>Model
-   *
-   * @param payload of <%= props.pascalCaseName %>Model
-   * @returns
-   */
-  async create<T>(payload: Partial<T>) {
-    return this.post<Partial<T>>(this.Base_URL, payload);
-  }
-
-  /**
-   * Update a <%= props.pascalCaseName %>Model
-   *
-   * @param id of <%= props.pascalCaseName %>Model
-   * @param payload of <%= props.pascalCaseName %>Model
-   * @returns
-   */
-  async update<T>(id: number, payload: Partial<T>) {
-    return this.put<Partial<T>>(`${this.Base_URL}/${id}`, payload);
-  }
-
-  /**
-   * Partial update a <%= props.pascalCaseName %>Model
-   *
-   * @param id of <%= props.pascalCaseName %>Model
-   * @returns
-   */
-  async partial<T>(id: number, payload: Partial<T>) {
-    return this.patch<Partial<T>>(`${this.Base_URL}/${id}`, payload);
-  }
-
-  /**
-   * Remove a <%= props.pascalCaseName %>Model
-   *
-   * @param id of <%= props.pascalCaseName %>Model
-   * @returns
-   */
-  async remove<T>(id: number) {
-    return this.delete<T>(`${this.Base_URL}/${id}`);
-  }
-
-  /**
-   * Remove <%= props.pascalCaseName %>Models list
-   *
-   * @param ids of <%= props.pascalCaseName %>Models
-   * @returns
-   */
-  async removeAll<T>(ids: number[]) {
-    return this.delete<T>(this.Base_URL, { ids });
-  }
 }
 
+/**
+ *
+ * @param name
+ * @param response
+ * @param problem
+ */
 // prettier-ignore
 function log<T>(
   name: string,

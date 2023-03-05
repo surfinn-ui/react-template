@@ -15,6 +15,7 @@
     "format": "npm-run-all format:*",
     "format:md": "prettier --write \"**/*.md\"",
     "format:ts": "prettier --write \"src/**/*.ts{,x}\"",
+    "postinstall": "patch-package",
     "gen": "ignite-cli generate",
     "doctor": "ignite-cli doctor",
     "test": "jest"

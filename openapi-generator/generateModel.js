@@ -45,7 +45,7 @@ function generateModels(api, cb) {
       .query(scheme.value.properties, '$..items["$ref"]')
       .forEach((ref) => {
         const $ref = ref.substring(ref.lastIndexOf('/') + 1);
-        imports.push(`import { ${$ref}Model } from './${$ref}.model';`);
+        imports.push(`import { ${$ref}Model } from './${$ref}Model';`);
       });
     generators.push((cb) => addImportsToModel(scheme.name, imports, cb));
   });
@@ -65,19 +65,16 @@ function generateModels(api, cb) {
  * @param {*} cb
  */
 function addImportsToModel(name, imports, cb) {
-  const filepath = `../src/models/${name}.model.ts`;
+  const filepath = `../src/models/${toCamelCase(name)}/${name}Model.ts`;
   fs.readFile(filepath, 'utf8', (err, file) => {
     if (err) {
       console.log(err);
     } else {
       let codeLines = [];
       codeLines = file.toString().split('\n');
-      const index = codeLines.findIndex((line) =>
-        line.includes(
-          `import { withSetPropAction } from "./withSetPropAction"`,
-        ),
+      const index = codeLines.findLastIndex((line) =>
+        line.startsWith(`import `),
       );
-
       codeLines.splice(index + 1, 0, imports);
       fs.writeFile(filepath, codeLines.join('\n'), () => {
         console.log('write', filepath);
@@ -93,7 +90,9 @@ function addImportsToModel(name, imports, cb) {
  * @param {*} cb
  */
 function addPropsToModel(schema, cb) {
-  const filepath = `../src/models/${schema.name}.model.ts`;
+  const filepath = `../src/models/${toCamelCase(schema.name)}/${
+    schema.name
+  }Model.ts`;
 
   fs.readFile(filepath, 'utf8', (err, file) => {
     if (err) {
@@ -101,7 +100,7 @@ function addPropsToModel(schema, cb) {
     }
     let codeLines = [];
     codeLines = file.toString().split('\n');
-    const index = codeLines.findIndex((line) => line.includes(`.props({`));
+    const index = codeLines.findIndex((line) => line.endsWith(`Props = {`));
 
     const codes = getModelPropsCode(schema);
     codeLines.splice(index + 1, 0, codes);
@@ -120,23 +119,16 @@ function addPropsToModel(schema, cb) {
 function getModelPropsCode(schema) {
   const properties = schema.value.properties;
   const codeLines = [];
-  const keys = Object.keys(properties);
-  keys.forEach((key) => {
+  Object.keys(properties).forEach((key) => {
     const prop = properties[key];
     let type = 'types.string';
+
+    // prettier-ignore
     switch (prop.type) {
-      case 'integer':
-        type = 'types.number';
-        break;
-      case 'number':
-        type = 'types.number';
-        break;
-      case 'string':
-        type = 'types.string';
-        break;
-      case 'boolean':
-        type = 'types.boolean';
-        break;
+      case 'integer': type = 'types.number';  break;
+      case 'number' : type = 'types.number';  break;
+      case 'string' : type = 'types.string';  break;
+      case 'boolean': type = 'types.boolean'; break;
       case 'array':
         if (prop.items.type) {
           type = `types.array(types.${prop.items.type})`;
@@ -147,8 +139,17 @@ function getModelPropsCode(schema) {
           type = `types.array(${$ref}Model)`;
         }
         break;
+
+      // TODO  컴포넌트에 정의된 타입을 찾아서 추가해야 한다.
       case 'object':
-        type = `types.frozen({})`;
+        if (prop.items.$ref) {
+          const $ref = prop.items.$ref.substring(
+            prop.items.$ref.lastIndexOf('/') + 1,
+          );
+          type = `${$ref}Model`;
+        } else {
+          type = `types.frozen({})`;
+        }        
     }
 
     if (key === 'id' || key === 'Id') {
@@ -159,7 +160,9 @@ function getModelPropsCode(schema) {
     }
 
     codeLines.push(
-      `    ${key}: types.maybeNull(${type}), // ${prop.required} | ${prop.format} | ${prop.example} | ${prop.maxLength} | ${prop.minLength} | ${prop.minimum} | ${prop.maximum} | ${prop.pattern}`,
+      `    ${key}: types.maybeNull(${type}), // ${
+        prop.required 
+      }`, //| ${prop.format} | ${prop.example} | ${prop.maxLength} | ${prop.minLength} | ${prop.minimum} | ${prop.maximum} | ${prop.pattern}`,
     );
   });
 

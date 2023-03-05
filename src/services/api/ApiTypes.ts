@@ -29,7 +29,11 @@ export type TSearchResult<T> = TSearchOkResult<T> | TGeneralApiProblem;
 /**
  * 단건 조회 결과
  */
-export type TFindOkResult<T> = { kind: 'ok'; data: T; pagination?: IPagination };
+export type TFindOkResult<T> = {
+  kind: 'ok';
+  data: T;
+  pagination?: IPagination;
+};
 export type TFindResult<T> = TFindOkResult<T> | TGeneralApiProblem;
 
 /**
