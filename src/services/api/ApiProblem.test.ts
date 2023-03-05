@@ -1,3 +1,5 @@
+import { test } from 'vitest';
+import { expect } from 'chai';
 import { getGeneralApiProblem } from './ApiProblem';
 import { ApiErrorResponse } from 'apisauce';
 
@@ -6,7 +8,7 @@ test('handles connection errors', () => {
     getGeneralApiProblem({
       problem: 'CONNECTION_ERROR',
     } as ApiErrorResponse<null>),
-  ).toEqual({
+  ).to.deep.equals({
     kind: 'cannot-connect',
     temporary: true,
   });
@@ -17,7 +19,7 @@ test('handles network errors', () => {
     getGeneralApiProblem({
       problem: 'NETWORK_ERROR',
     } as ApiErrorResponse<null>),
-  ).toEqual({
+  ).to.deep.equals({
     kind: 'cannot-connect',
     temporary: true,
   });
@@ -28,7 +30,7 @@ test('handles timeouts', () => {
     getGeneralApiProblem({
       problem: 'TIMEOUT_ERROR',
     } as ApiErrorResponse<null>),
-  ).toEqual({
+  ).to.deep.equals({
     kind: 'timeout',
     temporary: true,
   });
@@ -37,7 +39,7 @@ test('handles timeouts', () => {
 test('handles server errors', () => {
   expect(
     getGeneralApiProblem({ problem: 'SERVER_ERROR' } as ApiErrorResponse<null>),
-  ).toEqual({
+  ).to.deep.equals({
     kind: 'server',
   });
 });
@@ -47,7 +49,7 @@ test('handles unknown errors', () => {
     getGeneralApiProblem({
       problem: 'UNKNOWN_ERROR',
     } as ApiErrorResponse<null>),
-  ).toEqual({
+  ).to.deep.equals({
     kind: 'unknown',
     temporary: true,
   });
@@ -59,7 +61,7 @@ test('handles unauthorized errors', () => {
       problem: 'CLIENT_ERROR',
       status: 401,
     } as ApiErrorResponse<null>),
-  ).toEqual({
+  ).to.deep.equals({
     kind: 'unauthorized',
   });
 });
@@ -70,7 +72,7 @@ test('handles forbidden errors', () => {
       problem: 'CLIENT_ERROR',
       status: 403,
     } as ApiErrorResponse<null>),
-  ).toEqual({
+  ).to.deep.equals({
     kind: 'forbidden',
   });
 });
@@ -81,7 +83,7 @@ test('handles not-found errors', () => {
       problem: 'CLIENT_ERROR',
       status: 404,
     } as ApiErrorResponse<null>),
-  ).toEqual({
+  ).to.deep.equals({
     kind: 'not-found',
   });
 });
@@ -92,7 +94,7 @@ test('handles other client errors', () => {
       problem: 'CLIENT_ERROR',
       status: 418,
     } as ApiErrorResponse<null>),
-  ).toEqual({
+  ).to.deep.equals({
     kind: 'rejected',
   });
 });
@@ -100,5 +102,5 @@ test('handles other client errors', () => {
 test('handles cancellation errors', () => {
   expect(
     getGeneralApiProblem({ problem: 'CANCEL_ERROR' } as ApiErrorResponse<null>),
-  ).toBeNull();
+  ).to.be.undefined;
 });
