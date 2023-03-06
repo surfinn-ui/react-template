@@ -1,17 +1,16 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 import { withSetPropAction } from '../withSetPropAction';
-
-const ApiResponseProps = {
-  code: types.maybeNull(types.number), // undefined
-  type: types.maybeNull(types.string), // undefined
-  message: types.maybeNull(types.string), // undefined
-};
+import { ApiResponseModelProps } from './ApiResponseModelProps';
 
 /**
- * Model description here for TypeScript hints.
+ * ApiResponseModel
+ *
  */
 export const ApiResponseModel = types
-  .model('ApiResponse', ApiResponseProps)
+  .model('ApiResponse', {
+    ...ApiResponseModelProps,
+    // add your own properties here
+  })
   .actions(withSetPropAction);
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

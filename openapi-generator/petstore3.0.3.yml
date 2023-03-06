@@ -8,7 +8,7 @@ info:
     That way, with time, we can improve the API in general, and expose some of the new features in OAS3.
 
     _If you're looking for the Swagger 2.0/OAS 2.0 version of Petstore, then click [here](https://editor.swagger.io/?url=https://petstore.swagger.io/v2/swagger.yaml). Alternatively, you can load via the `Edit > Load Petstore OAS 2.0` menu option!_
-    
+
     Some useful links:
     - [The Pet Store repository](https://github.com/swagger-api/swagger-petstore)
     - [The source API definition for the Pet Store](https://github.com/swagger-api/swagger-petstore/blob/master/src/main/resources/openapi.yaml)
@@ -64,7 +64,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'          
+                $ref: '#/components/schemas/Pet'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Pet'
@@ -103,7 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'          
+                $ref: '#/components/schemas/Pet'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Pet'
@@ -141,7 +141,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'          
+                  $ref: '#/components/schemas/Pet'
             application/xml:
               schema:
                 type: array
@@ -178,7 +178,7 @@ paths:
               schema:
                 type: array
                 items:
-                  $ref: '#/components/schemas/Pet'          
+                  $ref: '#/components/schemas/Pet'
             application/xml:
               schema:
                 type: array
@@ -211,7 +211,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Pet'          
+                $ref: '#/components/schemas/Pet'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Pet'
@@ -224,7 +224,7 @@ paths:
         - petstore_auth:
             - write:pets
             - read:pets
-    post:
+    put:
       tags:
         - pet
       summary: Updates a pet in the store with form data
@@ -387,7 +387,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Order'          
+                $ref: '#/components/schemas/Order'
             application/xml:
               schema:
                 $ref: '#/components/schemas/Order'
@@ -463,7 +463,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'          
+                $ref: '#/components/schemas/User'
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
@@ -543,7 +543,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/User'          
+                $ref: '#/components/schemas/User'
             application/xml:
               schema:
                 $ref: '#/components/schemas/User'
@@ -601,6 +601,10 @@ components:
   schemas:
     Order:
       type: object
+      required:
+        - 'id'
+        - 'petId'
+        - 'quantity'
       properties:
         id:
           type: integer
@@ -667,6 +671,7 @@ components:
         name: address
     Category:
       type: object
+      required: [id, name]
       properties:
         id:
           type: integer
@@ -679,6 +684,7 @@ components:
         name: category
     User:
       type: object
+      required: [id, username, userStatus]
       properties:
         id:
           type: integer
@@ -711,6 +717,9 @@ components:
         name: user
     Tag:
       type: object
+      required:
+        - id
+        - name
       properties:
         id:
           type: integer
@@ -729,10 +738,13 @@ components:
           type: integer
           format: int64
           example: 10
+          description: Unique identifier for the pet
         name:
           type: string
           example: doggie
+          description: Name of the pet
         category:
+          description: Category of the pet
           $ref: '#/components/schemas/Category'
         photoUrls:
           type: array

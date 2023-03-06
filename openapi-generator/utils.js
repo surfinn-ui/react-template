@@ -42,7 +42,6 @@ function isResponseTypeArray(node, method) {
   );
 }
 
-
 function returnType(node, method) {
   let refs;
   if (isResponseTypeArray(node, method)) {
@@ -52,7 +51,9 @@ function returnType(node, method) {
     refs = jsonpath.query(node[method], '$.responses..schema["$ref"]')[0];
     if (refs === undefined) {
       refs = jsonpath.query(node[method], '$.responses..schema.type')[0];
-      return convertDataType(refs?.substring(refs.lastIndexOf('/') + 1) || 'any');
+      return convertDataType(
+        refs?.substring(refs.lastIndexOf('/') + 1) || 'any',
+      );
     }
     return `I${refs.substring(refs.lastIndexOf('/') + 1)}Model`;
   }
@@ -64,9 +65,11 @@ function returnType(node, method) {
  * @returns
  */
 function toCamelCase(string) {
-  return string.replace(/([-_][a-z])/gi, ($1) => {
-    return $1.toUpperCase().replace('-', '').replace('_', '');
-  });
+  return string
+    .replace(/([-_][a-z])/gi, ($1) => {
+      return $1.toUpperCase().replace('-', '').replace('_', '');
+    })
+    .replace(/^[A-Z]/, (val) => val.toLowerCase());
 }
 
 /**
@@ -79,47 +82,47 @@ function toPascalCase(string) {
 }
 
 function toSnakeCase(string) {
-  return string.replace(/([A-Z])/g, ($1) => `_${$1.toLowerCase()}`);
+  return string
+    .replace(/([A-Z])/g, ($1) => `_${$1.toLowerCase()}`)
+    .replace(/^[_]/, ($1) => $1.toLowerCase().replace('_', ''));
+}
+function toKebabCase(string) {
+  return toSnakeCase(string).replace(/_/g, '');
 }
 
 function toConstantCase(string) {
-  return string.replace(/([A-Z])/g, ($1) => `_${$1.toUpperCase()}`);
+  return string.replace(/([A-Z])/g, ($1) => `_${$1}`).toUpperCase();
 }
 
-function toKebabCase(string) {
-  return string.replace(/([A-Z])/g, ($1) => `-${$1.toLowerCase()}`);
-}
-
-
-function format(cb) {
-  exec(`cd ../ && npm run format && cd openapi-generator`, cb);
+function format(callback) {
+  exec(`cd ../ && npm run format && cd openapi-generator`, callback);
 }
 
 /**
  *
- * @param {*} api
+ * @param {*} document
  * @returns
  */
-function getTagNames(api) {
-  return jsonpath.query(api, '$.tags[*].name');
+function getTagNames(document) {
+  return jsonpath.query(document, '$.tags[*].name');
 }
 
 /**
  *
- * @param {*} api
+ * @param {*} document
  * @returns
  */
-function getPaths(api) {
-  return jsonpath.nodes(api, '$.paths[*]');
+function getPaths(document) {
+  return jsonpath.nodes(document, '$.paths[*]');
 }
 
 /**
  *
- * @param {*} api
+ * @param {*} document
  * @returns
  */
-function getSchemasFromComponents(api) {
-  return jsonpath.nodes(api, '$.components.schemas.*');
+function getSchemasFromComponents(document) {
+  return jsonpath.nodes(document, '$.components.schemas.*');
 }
 
 module.exports = {

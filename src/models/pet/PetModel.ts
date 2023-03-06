@@ -1,20 +1,17 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 import { withSetPropAction } from '../withSetPropAction';
-import { TagModel } from './TagModel';
-
-const PetProps = {
-  id: types.maybeNull(types.identifierNumber), // undefined
-  name: types.maybeNull(types.string), // undefined
-  category: types.maybeNull(types.string), // undefined
-  photoUrls: types.maybeNull(types.array(types.string)), // undefined
-  tags: types.maybeNull(types.array(TagModel)), // undefined
-  status: types.maybeNull(types.string), // undefined
-};
+import { PetModelProps } from './PetModelProps';
 
 /**
- * Model description here for TypeScript hints.
+ * PetModel
+ *
  */
-export const PetModel = types.model('Pet', PetProps).actions(withSetPropAction);
+export const PetModel = types
+  .model('Pet', {
+    ...PetModelProps,
+    // add your own properties here
+  })
+  .actions(withSetPropAction);
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 

@@ -2,21 +2,23 @@
 destinationDir: src/models/<%= props.camelCaseName %>
 patches:
   - path: "src/models/index.ts"
-    before: "// export generated models here"
+    before: "// $ export generated models here"
     insert: "export * from \"./<%= props.camelCaseName %>/<%= props.pascalCaseName %>Model\"\n" 
     skip: <%= props.skipIndexFile %>
 ---
 import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
 import { withSetPropAction } from "../withSetPropAction"
-
-const <%= props.pascalCaseName %>Props = {
-};
+import { <%= props.pascalCaseName %>ModelProps } from "./<%= props.pascalCaseName %>ModelProps"
 
 /**
- * Model description here for TypeScript hints.
+ * <%= props.pascalCaseName %>Model 
+ * 
  */
 export const <%= props.pascalCaseName %>Model = types
-  .model("<%= props.pascalCaseName %>", <%= props.pascalCaseName %>Props)
+  .model("<%= props.pascalCaseName %>", {
+    ...<%= props.pascalCaseName %>ModelProps,
+    // add your own properties here
+  })
   .actions(withSetPropAction)
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

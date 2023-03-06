@@ -1,16 +1,16 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 import { withSetPropAction } from '../withSetPropAction';
-
-const CategoryProps = {
-  id: types.maybeNull(types.identifierNumber), // undefined
-  name: types.maybeNull(types.string), // undefined
-};
+import { CategoryModelProps } from './CategoryModelProps';
 
 /**
- * Model description here for TypeScript hints.
+ * CategoryModel
+ *
  */
 export const CategoryModel = types
-  .model('Category', CategoryProps)
+  .model('Category', {
+    ...CategoryModelProps,
+    // add your own properties here
+  })
   .actions(withSetPropAction);
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

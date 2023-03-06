@@ -1,20 +1,16 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 import { withSetPropAction } from '../withSetPropAction';
-
-const OrderProps = {
-  id: types.maybeNull(types.identifierNumber), // undefined
-  petId: types.maybeNull(types.number), // undefined
-  quantity: types.maybeNull(types.number), // undefined
-  shipDate: types.maybeNull(types.string), // undefined
-  status: types.maybeNull(types.string), // undefined
-  complete: types.maybeNull(types.boolean), // undefined
-};
+import { OrderModelProps } from './OrderModelProps';
 
 /**
- * Model description here for TypeScript hints.
+ * OrderModel
+ *
  */
 export const OrderModel = types
-  .model('Order', OrderProps)
+  .model('Order', {
+    ...OrderModelProps,
+    // add your own properties here
+  })
   .actions(withSetPropAction);
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

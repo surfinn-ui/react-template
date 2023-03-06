@@ -1,18 +1,16 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 import { withSetPropAction } from '../withSetPropAction';
-
-const AddressProps = {
-  street: types.maybeNull(types.string), // undefined
-  city: types.maybeNull(types.string), // undefined
-  state: types.maybeNull(types.string), // undefined
-  zip: types.maybeNull(types.string), // undefined
-};
+import { AddressModelProps } from './AddressModelProps';
 
 /**
- * Model description here for TypeScript hints.
+ * AddressModel
+ *
  */
 export const AddressModel = types
-  .model('Address', AddressProps)
+  .model('Address', {
+    ...AddressModelProps,
+    // add your own properties here
+  })
   .actions(withSetPropAction);
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars

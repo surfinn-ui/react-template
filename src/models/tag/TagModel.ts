@@ -1,15 +1,17 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 import { withSetPropAction } from '../withSetPropAction';
-
-const TagProps = {
-  id: types.maybeNull(types.identifierNumber), // undefined
-  name: types.maybeNull(types.string), // undefined
-};
+import { TagModelProps } from './TagModelProps';
 
 /**
- * Model description here for TypeScript hints.
+ * TagModel
+ *
  */
-export const TagModel = types.model('Tag', TagProps).actions(withSetPropAction);
+export const TagModel = types
+  .model('Tag', {
+    ...TagModelProps,
+    // add your own properties here
+  })
+  .actions(withSetPropAction);
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 

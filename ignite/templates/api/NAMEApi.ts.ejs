@@ -7,18 +7,13 @@ patch:
   skip: <%= props.skipIndexFile %>
 ---
 import { ApiBase } from '../ApiBase';
-import { IPagination } from '../../models/withPagination';
-import { <%= props.pascalCase %>Model, I<%= props.pascalCaseName %>Model, I<%= props.pascalCaseName %>ModelSnapshotIn } from '../../models/<%= props.camelCaseName %>/<%= props.pascalCaseName %>Model';
-
-export interface I<%= props.pascalCaseName %>ApiSearchParams extends I<%= props.pascalCaseName %>Model, IPagination {
-} 
+import { <%= props.pascalCaseName %>ApiGenerated } from './<%= props.pascalCaseName %>ApiGenerated';
 
 /**
  * <%= props.pascalCaseName %>Api
  */
-class <%= props.pascalCaseName %>Api extends ApiBase {
-  private BASE_URL = `/<%= props.camelCaseName %>`;
-
+class <%= props.pascalCaseName %>Api extends <%= props.pascalCaseName %>ApiGenerated {
+  // add your own methods here
 }
 
 export const <%= props.camelCaseName %>Api = new <%= props.pascalCaseName %>Api();

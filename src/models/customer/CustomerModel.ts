@@ -1,18 +1,16 @@
 import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 import { withSetPropAction } from '../withSetPropAction';
-import { AddressModel } from './AddressModel';
-
-const CustomerProps = {
-  id: types.maybeNull(types.identifierNumber), // undefined
-  username: types.maybeNull(types.string), // undefined
-  address: types.maybeNull(types.array(AddressModel)), // undefined
-};
+import { CustomerModelProps } from './CustomerModelProps';
 
 /**
- * Model description here for TypeScript hints.
+ * CustomerModel
+ *
  */
 export const CustomerModel = types
-  .model('Customer', CustomerProps)
+  .model('Customer', {
+    ...CustomerModelProps,
+    // add your own properties here
+  })
   .actions(withSetPropAction);
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
