@@ -10,6 +10,7 @@ export class StoreApiGenerated extends ApiBase {
   /**
    * ## Find purchase order by ID
    * For valid response try integer IDs with value <= 5 or > 10. Other values will generate exceptions.
+   *
    * @param {number} orderId **(REQUIRED)** {int64} ID of order that needs to be fetched
    * @returns
    */
@@ -20,6 +21,7 @@ export class StoreApiGenerated extends ApiBase {
   /**
    * ## Delete purchase order by ID
    * For valid response try integer IDs with value < 1000. Anything above 1000 or nonintegers will generate API errors
+   *
    * @param {number} orderId **(REQUIRED)** {int64} ID of the order that needs to be deleted
    * @returns
    */
@@ -30,16 +32,18 @@ export class StoreApiGenerated extends ApiBase {
   /**
    * ## Place an order for a pet
    * Place a new order in the store
-   * @param {any} payload **(REQUIRED)**
+   *
+   * @param {IOrderModel} payload **(REQUIRED)**
    * @returns
    */
-  public async placeOrder(payload: any) {
+  public async placeOrder(payload: IOrderModel) {
     return this.create<IOrderModel>(`/store/order`, payload);
   }
 
   /**
    * ## Returns pet inventories by status
    * Returns a map of status codes to quantities
+   *
    *
    * @returns
    */

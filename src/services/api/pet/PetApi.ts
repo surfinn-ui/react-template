@@ -6,7 +6,6 @@ import { PetApiGenerated } from './PetApiGenerated';
  */
 class PetApi extends PetApiGenerated {
   // add your own methods here
-  // --------------------
 }
 
 export const petApi = new PetApi();

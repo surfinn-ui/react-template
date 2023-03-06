@@ -10,6 +10,7 @@ export class UserApiGenerated extends ApiBase {
   /**
    * ## Get user by user name
    *
+   *
    * @param {string} username **(REQUIRED)** The name that needs to be fetched. Use user1 for testing.
    * @returns
    */
@@ -20,17 +21,19 @@ export class UserApiGenerated extends ApiBase {
   /**
    * ## Update user
    * This can only be done by the logged in user.
+   *
    * @param {string} username **(REQUIRED)** name that need to be deleted
-   * @param {any} payload **(REQUIRED)**
+   * @param {IUserModel} payload **(REQUIRED)**   Update an existent user in the store
    * @returns
    */
-  public async updateUser(username: string, payload: any) {
+  public async updateUser(username: string, payload: IUserModel) {
     return this.update<any>(`/user/${username}`, payload);
   }
 
   /**
    * ## Delete user
    * This can only be done by the logged in user.
+   *
    * @param {string} username **(REQUIRED)** The name that needs to be deleted
    * @returns
    */
@@ -42,6 +45,7 @@ export class UserApiGenerated extends ApiBase {
    * ## Logs out current logged in user session
    *
    *
+   *
    * @returns
    */
   public async logoutUser() {
@@ -50,6 +54,7 @@ export class UserApiGenerated extends ApiBase {
 
   /**
    * ## Logs user into the system
+   *
    *
    * @param {string} [username]  The user name for login
    * @param {string} [password]  The password for login in clear text
@@ -66,6 +71,7 @@ export class UserApiGenerated extends ApiBase {
   /**
    * ## Creates list of users with given input array
    * Creates list of users with given input array
+   *
    * @param {IUserModel[]} payload **(REQUIRED)**
    * @returns
    */
@@ -76,10 +82,11 @@ export class UserApiGenerated extends ApiBase {
   /**
    * ## Create user
    * This can only be done by the logged in user.
-   * @param {any} payload **(REQUIRED)**
+   *
+   * @param {IUserModel} payload **(REQUIRED)**   Created user object
    * @returns
    */
-  public async createUser(payload: any) {
+  public async createUser(payload: IUserModel) {
     return this.create<IUserModel>(`/user`, payload);
   }
 }

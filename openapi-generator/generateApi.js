@@ -196,7 +196,7 @@ function getApiCode(tag, path, node) {
       requestBody,
       requestConfig,
     } = translateRequestBody(node, method);
-
+    requestBodyDocs && console.log('API requestBodyDocs', node[method].operationId, requestBodyDocs)
     const apiBaseMethodName = getApiBaseMethodName(node, method);
 
     let resultType = returnType(node, method);
@@ -204,6 +204,7 @@ function getApiCode(tag, path, node) {
   /**
    * ## ${node[method].summary}
    * ${node[method].description}
+   * 
 ${
   docs || requestBodyDocs
     ? `${docs}${docs && requestBodyDocs && '\n'}${requestBodyDocs}`
@@ -396,11 +397,11 @@ function translateRequestBody(node, method) {
     ? convertDataType(requestBody[contentType].schema)
     : 'any';
   const format = contentType ? requestBody[contentType].schema.format : '';
-
+  const description = node[method].requestBody?.description || '';
   const docs = hasRequestBody
     ? `   * @param {${type || '*'}} payload **(REQUIRED)** ${
         format ? `{${format}}` : ''
-      }`
+      }  ${description ? description : '' }`
     : '';
   const params = hasRequestBody
     ? [

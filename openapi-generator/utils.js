@@ -31,6 +31,9 @@ function convertDataType(schema) {
       return 'object';
 
     default:
+      if (schema.$ref) {
+        return `I${schema.$ref.substring(schema.$ref.lastIndexOf('/') + 1)}Model`;
+      }
       return 'any';
   }
 }

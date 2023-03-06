@@ -6,3 +6,6 @@ OpenApi Client Generator for MobX-State-Tree
 
 - [x] `reference` type is not supported yet
 - [ ] add support for `allOf` and `oneOf`
+- [ ] add support for `security` and `securitySchemes` for api key and oauth2
+- [ ] add support for `requestBodies`
+- [ ] add support for ``
