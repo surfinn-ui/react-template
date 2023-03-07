@@ -5,15 +5,15 @@ import { types } from 'mobx-state-tree';
  *
  */
 export const CategoryModelProps = {
-/**
- * @format int64
- * @example 1
- * @required 
- */
-    id: types.identifierNumber, 
-/**
- * @example Dogs
- * @required 
- */
-    name: types.string, 
+  /**
+   * @format int64
+   * @example 1
+   * @required
+   */
+  id: types.identifierNumber,
+  /**
+   * @example Dogs
+   * @required
+   */
+  name: types.string,
 };

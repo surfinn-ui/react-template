@@ -1,5 +1,6 @@
 const series = require('async').series;
 const SwaggerParser = require('@apidevtools/swagger-parser');
+const { exec } = require('child_process');
 
 const { generateModels } = require('./generateModel');
 const { generateApis } = require('./generateApi');
@@ -30,15 +31,17 @@ async function generate(doc) {
       generateStores(document, (err, result) => {
         err && console.log(err);
         console.log('✅ Generate Stores Done.');
-        // console.log('-----------------------------------------------------');
-        // console.log(result);
-        // console.log('-----------------------------------------------------');
         callback();
       }),
     (callback) =>
       format(() => {
-        console.log('✅ Format Source Done.');
-        callback();
+        exec(`yarn format`, (err, stdout, stderr) => {
+          err && console.log(err);
+          stdout && console.log(stdout);
+          stderr && console.log(stderr);
+          console.log('✅ Format Source Done.');
+          callback();
+        });
       }),
   ]);
 }

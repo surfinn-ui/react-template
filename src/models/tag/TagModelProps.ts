@@ -5,13 +5,13 @@ import { types } from 'mobx-state-tree';
  *
  */
 export const TagModelProps = {
-/**
- * @format int64
- * @required 
- */
-    id: types.identifierNumber, 
-/**
- * @required 
- */
-    name: types.string, 
+  /**
+   * @format int64
+   * @required
+   */
+  id: types.identifierNumber,
+  /**
+   * @required
+   */
+  name: types.string,
 };

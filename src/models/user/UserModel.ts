@@ -1,17 +1,17 @@
-import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
-import { withSetPropAction } from "../withSetPropAction"
-import { UserModelProps } from "./UserModelProps"
+import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
+import { withSetPropAction } from '../withSetPropAction';
+import { UserModelProps } from './UserModelProps';
 
 /**
- * UserModel 
- * 
+ * UserModel
+ *
  */
 export const UserModel = types
-  .model("User", {
+  .model('User', {
     ...UserModelProps,
     // add your own properties here
   })
-  .actions(withSetPropAction)
+  .actions(withSetPropAction);
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 
