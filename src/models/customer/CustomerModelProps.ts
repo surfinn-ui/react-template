@@ -6,19 +6,19 @@ import { AddressModel } from '../address/AddressModel';
  *
  */
 export const CustomerModelProps = {
-  /**
-   * @format int64
-   * @example 100000
-   * @required
-   */
-  id: types.identifierNumber,
-  /**
-   * @example fehguy
-   * @nullable
-   */
-  username: types.maybeNull(types.string),
-  /**
-   * @nullable
-   */
-  address: types.maybeNull(types.array(AddressModel)),
+/**
+ * @format int64
+ * @example 100000
+ * @required 
+ */
+    id: types.identifierNumber, 
+/**
+ * @example fehguy
+ * @nullable
+ */
+    username: types.maybeNull(types.string), 
+/**
+ * @nullable
+ */
+    address: types.maybeNull(types.array(AddressModel)), 
 };

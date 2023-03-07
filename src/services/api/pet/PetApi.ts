@@ -1,10 +1,10 @@
 import { ApiBase } from '../ApiBase';
-import { PetApiGenerated } from './PetApiGenerated';
+import { PetApiCore } from './PetApiCore';
 
 /**
  * PetApi
  */
-class PetApi extends PetApiGenerated {
+class PetApi extends PetApiCore {
   // add your own methods here
 }
 

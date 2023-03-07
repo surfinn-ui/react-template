@@ -27,13 +27,15 @@ async function generateApis(document, callback) {
   // Create API documents with each tag
   getTagNames(document).forEach((tag) => {
     if (
-      !fs.existsSync(`../src/services/api/${toCamelCase(tag)}/${tag}Api.ts`)
+      !fs.existsSync(`./src/services/api/${toCamelCase(tag)}/${tag}Api.ts`)
     ) {
       generators.push((callback) => {
+        console.log('Since the api does not exist, we create a api named :', tag)
         try {
-          exec(`cd ../ && yarn gen "api" "${tag}"`, callback);
+          exec(`yarn gen "api" "${tag}"`, callback);
         } catch (e) {
           console.log('ERROR', e);
+          callback();
         }
       });
     }
@@ -42,7 +44,7 @@ async function generateApis(document, callback) {
   // Clear the generated api files
   getTagNames(document).forEach((tagName) => {
     generators.push((callback) => {
-      clearFile(tagName, callback);
+      clearApiFile(tagName, callback);
     });
   });
 
@@ -76,6 +78,7 @@ async function generateApis(document, callback) {
         addMethodToApi(tag, path, object, callback);
       } catch (e) {
         console.log('ERROR', e);
+        callback();
       }
     });
   });
@@ -83,13 +86,19 @@ async function generateApis(document, callback) {
   series(generators, callback);
 }
 
-function clearFile(name, callback) {
-  const filepath = `../src/services/api/${toCamelCase(name)}/${toPascalCase(
-    name,
-  )}ApiGenerated.ts`;
+function getApiFilePath(name) {
+  return `./src/services/api/${toCamelCase(name)}/${toPascalCase(name)}ApiCore.ts`;
+}
+
+function clearApiFile(name, callback) {
+  const filepath = getApiFilePath(name);
+  //`../src/services/api/${toCamelCase(name)}/${toPascalCase(
+  //   name,
+  // )}ApiCore.ts`;
   fs.readFile(filepath, 'utf8', (err, file) => {
     if (err) {
       console.log(err);
+      callback();
     } else {
       let codeLines = [];
       codeLines = file.toString().split('\n');
@@ -113,12 +122,14 @@ function clearFile(name, callback) {
  * @param {*} callback
  */
 function addImportsToApi(name, imports, callback) {
-  const filepath = `../src/services/api/${toCamelCase(name)}/${toPascalCase(
-    name,
-  )}ApiGenerated.ts`;
+  const filepath = getApiFilePath(name)
+  // `../src/services/api/${toCamelCase(name)}/${toPascalCase(
+  //   name,
+  // )}ApiCore.ts`;
   fs.readFile(filepath, 'utf8', (err, file) => {
     if (err) {
       console.log(err);
+      callback();
     } else {
       let codeLines = [];
       codeLines = file.toString().split('\n');
@@ -144,15 +155,17 @@ function addImportsToApi(name, imports, callback) {
  * @param {*} callback
  */
 function addMethodToApi(tag, path, node, callback) {
-  const filepath = `../src/services/api/${toCamelCase(tag)}/${toPascalCase(
-    tag,
-  )}ApiGenerated.ts`;
+  const filepath = getApiFilePath(tag)
+  // `../src/services/api/${toCamelCase(tag)}/${toPascalCase(
+  //   tag,
+  // )}ApiCore.ts`;
 
   let codeLines = [];
 
   fs.readFile(filepath, 'utf8', (err, file) => {
     if (err) {
       console.log(err);
+      callback();
     } else {
       codeLines = file.toString().split('\n');
       const startIndex = codeLines.findIndex((line) =>
@@ -196,7 +209,7 @@ function getApiCode(tag, path, node) {
       requestBody,
       requestConfig,
     } = translateRequestBody(node, method);
-    requestBodyDocs && console.log('API requestBodyDocs', node[method].operationId, requestBodyDocs)
+    // requestBodyDocs && console.log('API requestBodyDocs', node[method].operationId, requestBodyDocs)
     const apiBaseMethodName = getApiBaseMethodName(node, method);
 
     let resultType = returnType(node, method);

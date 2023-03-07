@@ -1,17 +1,17 @@
-import { Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
-import { withSetPropAction } from '../withSetPropAction';
-import { AddressModelProps } from './AddressModelProps';
+import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
+import { withSetPropAction } from "../withSetPropAction"
+import { AddressModelProps } from "./AddressModelProps"
 
 /**
- * AddressModel
- *
+ * AddressModel 
+ * 
  */
 export const AddressModel = types
-  .model('Address', {
+  .model("Address", {
     ...AddressModelProps,
     // add your own properties here
   })
-  .actions(withSetPropAction);
+  .actions(withSetPropAction)
 //  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 //  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
 

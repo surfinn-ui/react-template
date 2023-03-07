@@ -1,10 +1,10 @@
 import { ApiBase } from '../ApiBase';
-import { StoreApiGenerated } from './StoreApiGenerated';
+import { StoreApiCore } from './StoreApiCore';
 
 /**
  * StoreApi
  */
-class StoreApi extends StoreApiGenerated {
+class StoreApi extends StoreApiCore {
   // add your own methods here
 }
 

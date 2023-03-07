@@ -7,12 +7,12 @@ patch:
   skip: <%= props.skipIndexFile %>
 ---
 import { ApiBase } from '../ApiBase';
-import { <%= props.pascalCaseName %>ApiGenerated } from './<%= props.pascalCaseName %>ApiGenerated';
+import { <%= props.pascalCaseName %>ApiCore } from './<%= props.pascalCaseName %>ApiCore';
 
 /**
  * <%= props.pascalCaseName %>Api
  */
-class <%= props.pascalCaseName %>Api extends <%= props.pascalCaseName %>ApiGenerated {
+class <%= props.pascalCaseName %>Api extends <%= props.pascalCaseName %>ApiCore {
   // add your own methods here
 }
 

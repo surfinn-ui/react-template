@@ -6,7 +6,7 @@ const { generateApis } = require('./generateApi');
 const { generateStores } = require('./generateStore');
 const { format } = require('./utils');
 
-async function run(doc) {
+async function generate(doc) {
   console.log('-----------------------------------------------------');
   console.log('OPEN API CLIENT GENERATE FOR SURFINN UI');
   console.log('=====================================================');
@@ -43,6 +43,8 @@ async function run(doc) {
   ]);
 }
 
-// run('petstore3.0.3.json');
-run('petstore3.0.3.yml');
-
+// generate('petstore3.0.3.json');
+// generate('/petstore3.0.3.yml');
+// generate();
+const args = process.argv
+generate(args[2]);

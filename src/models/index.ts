@@ -14,5 +14,15 @@ export * from './user/UserModel';
 export * from './tag/TagModel';
 export * from './pet/PetModel';
 export * from './apiResponse/ApiResponseModel';
+export * from './order/OrderModel';
+export * from './customer/CustomerModel';
+export * from './address/AddressModel';
+export * from './category/CategoryModel';
+export * from './user/UserModel';
+export * from './tag/TagModel';
+export * from './pet/PetModel';
+export * from './apiResponse/ApiResponseModel';
+export * from "./address/AddressModel"
+export * from "./user/UserModel"
 // $ export generated models here
 // ------------------------------------

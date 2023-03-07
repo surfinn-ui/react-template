@@ -1,6 +1,7 @@
-import { StoreStore } from '../StoreStore';
+import { StoreStore } from "../StoreStore"
 
 describe('StoreStore', () => {
+  
   it('should be created', () => {
     const instance = StoreStore.create({});
     expect(instance).toBeTruthy();
@@ -40,4 +41,5 @@ describe('StoreStore', () => {
       expect(instance).toBeTruthy();
     });
   });
+
 });

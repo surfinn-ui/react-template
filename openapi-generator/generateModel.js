@@ -32,12 +32,16 @@ function generateModels(api, cb) {
   schemas.forEach((schema) => {
     if (
       !fs.existsSync(
-        `../src/models/${toCamelCase(schema.name)}/${schema.name}ModelProps.ts`,
+        `./src/models/${toCamelCase(schema.name)}/${schema.name}Model.ts`,
       )
     ) {
       generators.push((cb) => {
+        console.log(
+          'Since the model does not exist, we create a model named: ',
+          schema.name,
+        );
         try {
-          exec(`cd ../ && yarn gen  "model" "${schema.name}"`, cb);
+          exec(`yarn gen "model" "${schema.name}"`, cb);
         } catch (e) {
           console.log('ERROR', e);
         }
@@ -69,6 +73,10 @@ function generateModels(api, cb) {
   series(generators, cb);
 }
 
+function getModelPropsFilePath(name) {
+  return `./src/models/${toCamelCase(name)}/${toPascalCase(name)}ModelProps.ts`;
+}
+
 /**
  *
  * @param {*} name
@@ -76,7 +84,7 @@ function generateModels(api, cb) {
  * @param {*} cb
  */
 function addImportsToModel(name, imports, cb) {
-  const filepath = `../src/models/${toCamelCase(name)}/${name}ModelProps.ts`;
+  const filepath = getModelPropsFilePath(name);
   fs.readFile(filepath, 'utf8', (err, file) => {
     if (err) {
       console.log(err);
@@ -102,9 +110,7 @@ function addImportsToModel(name, imports, cb) {
  * @param {*} cb
  */
 function addPropsToModel(schema, cb) {
-  const filepath = `../src/models/${toCamelCase(schema.name)}/${toPascalCase(
-    schema.name,
-  )}ModelProps.ts`;
+  const filepath = getModelPropsFilePath(schema.name);
 
   fs.readFile(filepath, 'utf8', (err, file) => {
     if (err) {

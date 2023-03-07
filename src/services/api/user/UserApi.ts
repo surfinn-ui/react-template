@@ -1,10 +1,10 @@
 import { ApiBase } from '../ApiBase';
-import { UserApiGenerated } from './UserApiGenerated';
+import { UserApiCore } from './UserApiCore';
 
 /**
  * UserApi
  */
-class UserApi extends UserApiGenerated {
+class UserApi extends UserApiCore {
   // add your own methods here
 }
 
