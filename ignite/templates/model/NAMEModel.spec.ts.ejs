@@ -1,6 +1,7 @@
 ---
 destinationDir: src/models/<%= props.camelCaseName %>/specs
 ---
+import { describe, expect, it } from 'vitest';
 import { <%= props.pascalCaseName %>Model } from "../<%= props.pascalCaseName %>Model"
 
 describe("<%= props.pascalCaseName %>Model", () => {

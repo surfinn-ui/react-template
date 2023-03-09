@@ -2,7 +2,7 @@
 destinationDir: src/services/api/<%= props.camelCaseName %>
 patch:
   path: "src/services/api/index.ts"
-  before: "// export generated api goes hear\n"
+  before: "// $ export generated apis\n"
   insert: "export * from './<%= props.camelCaseName %>/<%= props.pascalCaseName %>Api';\n"
   skip: <%= props.skipIndexFile %>
 ---

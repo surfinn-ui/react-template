@@ -1,5 +1,17 @@
 const jsonpath = require('jsonpath');
 const { exec } = require('child_process');
+const fs = require('fs');
+const { json } = require('stream/consumers');
+
+function typeDetect(type) {
+  if (!type) return null;
+  if (['boolean'].includes(type)) return 'string';
+  if (['number', 'integer'].includes(type)) return 'string';
+  if (['string'].includes(type)) return 'number';
+  if (['array'].includes(type)) return 'array';
+  if (['object'].includes(type)) return 'object';
+  return 'any';
+}
 
 /**
  *
@@ -7,35 +19,32 @@ const { exec } = require('child_process');
  * @returns
  */
 function convertDataType(schema) {
-  switch (schema.type) {
-    case 'integer':
-    case 'number':
-      return 'number';
-
-    case 'string':
-      return 'string';
-
-    case 'boolean':
-      return 'boolean';
-
-    case 'array':
+  const type = typeDetect(schema?.type);
+  if (type) {
+    if (type === 'array') {
       if (schema.items.$ref) {
-        return `I${schema.items.$ref.substring(
-          schema.items.$ref.lastIndexOf('/') + 1,
+        return `I${toPascalCase(
+          schema.items.$ref.substring(schema.items.$ref.lastIndexOf('/') + 1),
         )}Model[]`;
       } else {
-        return `${schema.items.type}[]`;
+        const type = typeDetect(schema.items.type);
+        return `${type}[]`;
       }
+    }
 
-    case 'object':
+    if (type === 'object') {
       return 'object';
-
-    default:
-      if (schema.$ref) {
-        return `I${schema.$ref.substring(schema.$ref.lastIndexOf('/') + 1)}Model`;
-      }
-      return 'any';
+    }
   }
+
+  // 참조인 경우
+  if (schema?.$ref) {
+    return `I${toPascalCase(
+      schema.$ref.substring(schema.$ref.lastIndexOf('/') + 1),
+    )}Model`;
+  }
+
+  return 'any';
 }
 
 function isResponseTypeArray(node, method) {
@@ -49,17 +58,41 @@ function returnType(node, method) {
   let refs;
   if (isResponseTypeArray(node, method)) {
     refs = jsonpath.query(node[method], '$.responses..items["$ref"]')[0];
-    return `I${refs.substring(refs.lastIndexOf('/') + 1)}Model`;
+    if (refs) {
+      return `I${toPascalCase(refs.substring(refs.lastIndexOf('/') + 1))}Model`;
+    } else {
+      return `${jsonpath.query(node[method], '$.responses..items.type')[0]}[]`;
+    }
   } else {
     refs = jsonpath.query(node[method], '$.responses..schema["$ref"]')[0];
-    if (refs === undefined) {
+    if (refs) {
+      return `I${toPascalCase(refs.substring(refs.lastIndexOf('/') + 1))}Model`;
+    } else {
       refs = jsonpath.query(node[method], '$.responses..schema.type')[0];
       return convertDataType(
         refs?.substring(refs.lastIndexOf('/') + 1) || 'any',
       );
     }
-    return `I${refs.substring(refs.lastIndexOf('/') + 1)}Model`;
   }
+}
+
+function addImports(filepath, imports, callback) {
+  fs.readFile(filepath, 'utf8', (err, file) => {
+    if (err) {
+      console.log(err);
+    } else {
+      let codeLines = [];
+      codeLines = file.toString().split('\n');
+      const _imports = imports.filter((i) => !codeLines.includes(i));
+      const index = codeLines.findLastIndex((line) =>
+        line.startsWith(`import `),
+      );
+      codeLines.splice(index + 1, 0, ..._imports);
+      fs.writeFile(filepath, codeLines.join('\n'), () => {
+        callback();
+      });
+    }
+  });
 }
 
 /**
@@ -68,9 +101,15 @@ function returnType(node, method) {
  * @returns
  */
 function toCamelCase(string) {
+  // console.log(`toCamelCase:"${string}"`);
   return string
-    .replace(/([-_][a-z])/gi, ($1) => {
-      return $1.toUpperCase().replace('-', '').replace('_', '');
+    .replace(/([-_ \/][a-z0-9])/gi, ($1) => {
+      return $1
+        .toUpperCase()
+        .replace('-', '')
+        .replace('_', '')
+        .replace('/', '')
+        .replace(' ', '');
     })
     .replace(/^[A-Z]/, (val) => val.toLowerCase());
 }
@@ -103,43 +142,109 @@ function format(callback) {
 
 /**
  *
- * @param {*} document
  * @returns
  */
-function getTagNames(document) {
+function getSchemasFromComponents() {
+  // console.log('getSchemasFromComponents', document);
+  return jsonpath.nodes(document, '$.components.schemas.*');
+}
+// ------------------------------------------------------------------
+
+// ------------------------------------------------------------------
+function getServers() {
+  return jsonpath.query(document, '$.servers[*]');
+}
+function getTags() {
+  return jsonpath.query(document, '$.tags[*]');
+}
+function getTagNames() {
   return jsonpath.query(document, '$.tags[*].name');
 }
-
-/**
- *
- * @param {*} document
- * @returns
- */
-function getPaths(document) {
+function getPaths() {
   return jsonpath.nodes(document, '$.paths[*]');
 }
+function getOperationIds() {
+  return jsonpath.query(document, '$.paths[*].operationId');
+}
+function collectTagsFromPaths() {
+  return jsonpath.query(document, '$.paths[*]..tags[*]');
+}
 
-/**
- *
- * @param {*} document
- * @returns
- */
-function getSchemasFromComponents(document) {
-  return jsonpath.nodes(document, '$.components.schemas.*');
+function getComponentBy$ref($ref) {
+  const ref = $ref
+    .replace(/^#/, '$')
+    .split('/')
+    .join('.')
+    .replace(/(\.[^\.]+)$/, ($1) => {
+      return `["${$1.replace('.', '')}"]`;
+    });
+  return jsonpath.query(document, `${ref}`)[0];
+}
+
+// paths ----------------------------------------------------------------
+function getParametersByPathAndMethod(path, method) {
+  return jsonpath
+    .query(document, `$.paths.${path}[*].parameters[${method}]`)
+    .map((p) => {
+      if (p.$ref) {
+        return getComponentBy$ref(p.$ref);
+      } else {
+        return p;
+      }
+    });
+}
+function getResponsesByPathAndMethod(path, method) {
+  return jsonpath
+    .query(document, `$.paths.${path}[*].responses[${method}]`)
+    .map((p) => {
+      if (p.$ref) {
+        return getComponentBy$ref(p.$ref);
+      } else {
+        return p;
+      }
+    });
+}
+function getRequestBodyByPathAndMethod(path, method) {
+  return jsonpath
+    .query(document, `$.paths.${path}[*].requestBody[${method}]`)
+    .map((p) => {
+      if (p.$ref) {
+        return getComponentBy$ref(p.$ref);
+      } else {
+        return p;
+      }
+    });
 }
 
 module.exports = {
+  getServers,
+  getTags,
+  getPaths,
+  getOperationIds,
+  getTagNames,
+
+  getComponentBy$ref,
+
+  getParametersByPathAndMethod,
+  getResponsesByPathAndMethod,
+  getRequestBodyByPathAndMethod,
+
+  collectTagsFromPaths,
+
+  // ----------------------------------
+
   convertDataType,
   isResponseTypeArray,
   returnType,
+
+  format,
+  getSchemasFromComponents,
+
+  addImports,
+
   toCamelCase,
   toPascalCase,
   toSnakeCase,
   toConstantCase,
   toKebabCase,
-
-  format,
-  getTagNames,
-  getPaths,
-  getSchemasFromComponents,
 };

@@ -3,29 +3,48 @@ const { exec } = require('child_process');
 const jsonpath = require('jsonpath');
 const fs = require('fs');
 const {
+  getServers,
+  getTags,
+  getPaths,
+  getOperationIds,
+  getTagNames,
+
+  getComponentBy$ref,
+  
+  getParametersByPathAndMethod,
+  getResponsesByPathAndMethod,
+  getRequestBodyByPathAndMethod,
+
+  // ----------------------------------
+  
   convertDataType,
   isResponseTypeArray,
   returnType,
+  
+  format,
+  getSchemasFromComponents,
+  
+  addImports,
+  
   toCamelCase,
   toPascalCase,
-  format,
-  getTagNames,
-  getPaths,
-  getSchemasFromComponents,
+  toSnakeCase,
+  toConstantCase,
+  toKebabCase,
 } = require('./utils');
 
+
 /**
- * generate store
+ * Generate Stores
  *
- * @param {*} document
  * @param {*} callback
  */
-function generateStores(document, callback) {
-  const tagNames = getTagNames(document);
+function generateStores(callback) {
+  const tagNames = getTagNames();
   const generators = [];
   tagNames.forEach((tagName) => {
     if (fs.existsSync(getStoreFilePath(tagName))) {
-      console.log('Store already exists', tagName);
+      // console.log('Store already exists', tagName);
     } else {
       generators.push((callback) => {
         console.log(
@@ -45,10 +64,34 @@ function generateStores(document, callback) {
   // Clear generated actions
   tagNames.forEach((tagName) => {
     generators.push((callback) => {
-      console.log('CLEAR Store ', tagName);
+      // console.log('CLEAR Store ', tagName);
       clearStoreFile(tagName, callback);
     });
   });
+
+  // Add imports to the store
+  tagNames.forEach((tagName) => {
+    const imports = new Set();
+
+    getPathsByTag(document, tagName).forEach((node) => {
+      const object = node.value;
+      jsonpath
+        .query(object, '$..responses..schema..["$ref"]')
+        .map((ref) => ref.substring(ref.lastIndexOf('/') + 1))
+        .forEach((ref) => {
+          imports.add(
+            `import { I${toPascalCase(ref)}Model } from '../${toCamelCase(
+              ref,
+            )}/${toPascalCase(ref)}Model';`,
+          );
+        });
+      generators.push((callback) =>
+        addImportsToStore(tagName, [...imports], callback),
+      );
+    });
+  });
+
+  // TODO - Add props to the store
 
   // Add generated actions
   tagNames.forEach((tagName) => {
@@ -89,12 +132,22 @@ module.exports = {
   generateStores,
 };
 
+/**
+ *
+ * @param {*} tagName
+ * @returns
+ */
 function getStoreFilePath(tagName) {
   return `./src/models/${toCamelCase(tagName)}/${toPascalCase(
     tagName,
   )}Store.ts`;
 }
 
+/**
+ *
+ * @param {*} tagName
+ * @param {*} callback
+ */
 function clearStoreFile(tagName, callback) {
   const filepath = getStoreFilePath(tagName);
   fs.readFile(filepath, 'utf8', (err, file) => {
@@ -123,13 +176,19 @@ function clearStoreFile(tagName, callback) {
       codeLines.splice(startIndex + 1, endIndex - startIndex - 1);
 
       fs.writeFile(filepath, codeLines.join('\n'), () => {
-        console.log('write', filepath);
+        // console.log('write', filepath);
         callback();
       });
     }
   });
 }
 
+/**
+ *
+ * @param {*} api
+ * @param {*} tag
+ * @returns
+ */
 function getPathsByTag(api, tag) {
   return getPaths(api).filter((node) => {
     const object = node.value;
@@ -137,6 +196,25 @@ function getPathsByTag(api, tag) {
   });
 }
 
+/**
+ *
+ * @param {*} tag
+ * @param {*} imports
+ * @param {*} callback
+ */
+function addImportsToStore(tag, imports, callback) {
+  const filepath = getStoreFilePath(tag);
+  // console.log('addImportsToStore', filepath, imports);
+  addImports(filepath, imports, callback);
+}
+
+/**
+ *
+ * @param {*} tagName
+ * @param {*} path
+ * @param {*} object
+ * @param {*} callback
+ */
 function addActionsToStore(tagName, path, object, callback) {
   const filepath = getStoreFilePath(tagName);
 
@@ -156,23 +234,31 @@ function addActionsToStore(tagName, path, object, callback) {
     codeLines.splice(startIndex + 1, 0, getActionCodes(path, object));
 
     fs.writeFile(filepath, codeLines.join('\n'), () => {
-      console.log('write', filepath);
+      // console.log('write', filepath);
       callback();
     });
   });
 }
 
+/**
+ *
+ * @param {*} path
+ * @param {*} object
+ * @returns
+ */
 function getActionCodes(path, object) {
   return Object.keys(object)
     .map((method) => {
-      // console.log('getActionCodes', path, method);
+      // console.log('getActionCodes', path, method, object);
       const pathInfo = object[method];
-      const operationId = toCamelCase(pathInfo.operationId);
+      const operationId = toCamelCase(object[method].operationId);
 
       const parameters = parseParameters(pathInfo.parameters);
       // const options = parseOptions(pathInfo);
       const requestBody = parseRequestBody(pathInfo.requestBody);
       const responses = parseResponses(pathInfo.responses);
+
+      const resultType = returnType(object, method);
 
       return `
     /**
@@ -195,8 +281,12 @@ function getActionCodes(path, object) {
         .map((i) => i[0])
         .join(', ')});
       if (response.kind === 'ok') {
+        // TODO - TRANSLATE RESPONSE TO STORE
+        const data = response.data.data as ${resultType};
+        const pagination = response.data.pagination as IPagination;
+
         self.done();
-        return response.data.data as ${'any'};
+        return data;
       } else {
         self.error(response);
         console.error(response.kind);
@@ -206,17 +296,22 @@ function getActionCodes(path, object) {
     .join('\n\n');
 }
 
+/**
+ *
+ * @param {*} params
+ * @returns
+ */
 function parseParameters(params) {
   const paramDocs = [];
   const paramArgs = [];
-  console.log(params);
+  // console.log('parseParameters()', params);
   params &&
     params
       .filter((p) => p.in === 'path' || p.in === 'query')
       .forEach((p) => {
         const name = toCamelCase(p.name);
         const type = convertDataType(p.schema);
-        const format = p.schema.format ? `(${p.schema.format})` : '';
+        const format = p.schema?.format ? `(${p.schema.format})` : '';
         const required = p.required ? '**REQUIRED**' : '';
         const description = p.description || '';
         paramDocs.push(
@@ -233,12 +328,12 @@ function parseParameters(params) {
   };
 }
 
-// TODO: implement
-// TODO: implement
-// TODO: implement
-// TODO: implement
-// TODO: implement
-// TODO: implement
+/**
+ *
+ *
+ * @param {*} requestBody
+ * @returns
+ */
 // TODO: implement
 function parseRequestBody(requestBody) {
   const docs = [];
@@ -271,14 +366,30 @@ function parseRequestBody(requestBody) {
   };
 }
 
-function parseResponses(params) {
+/**
+ *
+ *
+ * @param {*} responses
+ * @returns
+ */
+function parseResponses(responses) {
   const dataDocs = [];
-  const data = [];
-  const responses = params && params.responses?.content;
+  // const dataTypes = new Set();
+
+  if (responses['200']) {
+    jsonpath.query(responses['200'], '$..schema').forEach((schema) => {
+      if (schema['$ref']) {
+        const type = schema['$ref'].split('/').pop();
+        dataDocs.push(`@returns {${type}}`);
+        // dataTypes.add(type);
+      }
+    });
+    // console.log('parseResponse()', JSON.stringify(responses, null, 2), Array.from(dataTypes), dataDocs);
+  }
 
   return {
     dataDocs,
-    data,
+    // dataTypes: Array.from(dataTypes),
   };
 }
 
@@ -313,7 +424,7 @@ function exposeActionsToStore(tagName, path, object, callback) {
     );
 
     fs.writeFile(filepath, codeLines.join('\n'), () => {
-      console.log('write', filepath);
+      // console.log('write', filepath);
       callback();
     });
   });
