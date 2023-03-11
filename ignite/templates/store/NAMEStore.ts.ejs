@@ -2,7 +2,7 @@
 destinationDir: src/models/<%= props.camelCaseName %>
 patches:
   - path: "src/models/RootStore.ts"
-    after: "from 'mobx-state-tree';\n"
+    after: "// ^ generated store imports\n"
     insert: "import { <%= props.pascalCaseName %>Store } from './<%= props.camelCaseName %>/<%= props.pascalCaseName %>Store';\n"
   - path: "src/models/RootStore.ts"
     after: "types.model('RootStore').props({\n"

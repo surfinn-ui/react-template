@@ -18,9 +18,9 @@ async function generate(documentURI) {
   // set to global variable
   document = await SwaggerParser.bundle(documentURI);
 
-  findTags((result) => {
-    document = result;
-  })
+  // findTags((result) => {
+  //   document = result;
+  // })
 
   series([
     (callback) =>

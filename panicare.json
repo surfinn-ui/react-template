@@ -1,0 +1,3865 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "Panicare API Restful Web Service Endpoints",
+    "version": "1.0",
+    "title": "Panicare API"
+  },
+  "host": "localhost:8080",
+  "tags": [
+    {
+      "name": "admin",
+      "description": "Admin Controller"
+    },
+    {
+      "name": "badge-info",
+      "description": "Badge Info Controller"
+    },
+    {
+      "name": "common-code",
+      "description": "Common Code Controller"
+    },
+    {
+      "name": "daily-word",
+      "description": "Daily Word Controller"
+    },
+    {
+      "name": "drug-info",
+      "description": "Drug Info Controller"
+    },
+    {
+      "name": "item",
+      "description": "Item Controller"
+    },
+    {
+      "name": "mem-atdn",
+      "description": "Mem Atdn Controller"
+    },
+    {
+      "name": "mem-atdn-item",
+      "description": "Mem Atdn Item Controller"
+    },
+    {
+      "name": "mem-badge",
+      "description": "Mem Badge Controller"
+    },
+    {
+      "name": "mem-calendar",
+      "description": "Mem Calendar Controller"
+    },
+    {
+      "name": "mem-drug-record",
+      "description": "Mem Drug Record Controller"
+    },
+    {
+      "name": "mem-drug-setting",
+      "description": "Mem Drug Setting Controller"
+    },
+    {
+      "name": "mem-my-day",
+      "description": "Mem My Day Controller"
+    },
+    {
+      "name": "mem-unrst",
+      "description": "Mem Unrst Controller"
+    },
+    {
+      "name": "member",
+      "description": "Member Controller"
+    },
+    {
+      "name": "panic-attack-record",
+      "description": "Panic Attack Record Controller"
+    },
+    {
+      "name": "panic-scale",
+      "description": "Panic Scale Controller"
+    },
+    {
+      "name": "panic-scale-record",
+      "description": "Panic Scale Record Controller"
+    },
+    {
+      "name": "study-detail",
+      "description": "Study Detail Controller"
+    },
+    {
+      "name": "unrst-actn-record",
+      "description": "Unrst Actn Record Controller"
+    },
+    {
+      "name": "unrst",
+      "description": "Unrst Controller"
+    }
+  ],
+  "paths": {
+    "/api/admin": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "search",
+        "operationId": "searchUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "loginId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "loginPw",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memEmail",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memIndstry",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memName",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memSid",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "memTel",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "paged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "regDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "sort.sorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "sort.unsorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "unpaged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "insert",
+        "operationId": "insertUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "admin",
+            "description": "admin",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Admin"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/admin/{memSid}": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "get",
+        "operationId": "getUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "memSid",
+            "in": "path",
+            "description": "memSid",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "update",
+        "operationId": "updateUsingPUT",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "admin",
+            "description": "admin",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Admin"
+            }
+          },
+          {
+            "name": "memSid",
+            "in": "path",
+            "description": "memSid",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "admin"
+        ],
+        "summary": "delete",
+        "operationId": "deleteUsingDELETE",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "memSid",
+            "in": "path",
+            "description": "memSid",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/badgeInfo": {
+      "get": {
+        "tags": [
+          "badge-info"
+        ],
+        "summary": "badgeInfo",
+        "operationId": "badgeInfoUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/calendar": {
+      "get": {
+        "tags": [
+          "mem-calendar"
+        ],
+        "summary": "search",
+        "operationId": "searchUsingGET_3",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "mem-calendar"
+        ],
+        "summary": "save",
+        "operationId": "saveUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "drugYn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memSid",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "myDayYn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "pnicAtkYn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "rcrdDt",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/commonCode": {
+      "get": {
+        "tags": [
+          "common-code"
+        ],
+        "summary": "search",
+        "operationId": "searchUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "codeId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "codeNm",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "gubnCd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "paged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "parntsCodeId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "sort.sorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "sort.unsorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "typeCd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "unpaged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "common-code"
+        ],
+        "summary": "insert",
+        "operationId": "insertUsingPOST_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "commonCode",
+            "description": "commonCode",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommonCode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/commonCode/{codeId}": {
+      "get": {
+        "tags": [
+          "common-code"
+        ],
+        "summary": "get",
+        "operationId": "getUsingGET_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "codeId",
+            "in": "path",
+            "description": "codeId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "common-code"
+        ],
+        "summary": "update",
+        "operationId": "updateUsingPUT_1",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "codeId",
+            "in": "path",
+            "description": "codeId",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "commonCode",
+            "description": "commonCode",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/CommonCode"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "common-code"
+        ],
+        "summary": "delete",
+        "operationId": "deleteUsingDELETE_1",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "codeId",
+            "in": "path",
+            "description": "codeId",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/dailyWord": {
+      "get": {
+        "tags": [
+          "daily-word"
+        ],
+        "summary": "getMemberInfo",
+        "operationId": "getMemberInfoUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/drugInfo": {
+      "get": {
+        "tags": [
+          "drug-info"
+        ],
+        "summary": "drugSearch",
+        "operationId": "drugSearchUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "drugParam",
+            "in": "query",
+            "description": "drugParam",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/item": {
+      "post": {
+        "tags": [
+          "item"
+        ],
+        "summary": "todakUpdateYn",
+        "operationId": "todakUpdateYnUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/memAtdn": {
+      "get": {
+        "tags": [
+          "mem-atdn"
+        ],
+        "summary": "memAttendeance",
+        "operationId": "memAttendeanceUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/memAtdnItem": {
+      "get": {
+        "tags": [
+          "mem-atdn-item"
+        ],
+        "summary": "search",
+        "operationId": "searchUsingGET_2",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "getDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "itemId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "memSid",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "paged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sort.sorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "sort.unsorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "unpaged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "mem-atdn-item"
+        ],
+        "summary": "insert",
+        "operationId": "insertUsingPOST_2",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "memAtdnItem",
+            "description": "memAtdnItem",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemAtdnItem"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/memAtdnItem/{memSid}/{itemId}": {
+      "get": {
+        "tags": [
+          "mem-atdn-item"
+        ],
+        "summary": "get",
+        "operationId": "getUsingGET_2",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "description": "itemId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "memSid",
+            "in": "path",
+            "description": "memSid",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "mem-atdn-item"
+        ],
+        "summary": "update",
+        "operationId": "updateUsingPUT_2",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "description": "itemId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "in": "body",
+            "name": "memAtdnItem",
+            "description": "memAtdnItem",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemAtdnItem"
+            }
+          },
+          {
+            "name": "memSid",
+            "in": "path",
+            "description": "memSid",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "mem-atdn-item"
+        ],
+        "summary": "delete",
+        "operationId": "deleteUsingDELETE_2",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "itemId",
+            "in": "path",
+            "description": "itemId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "memSid",
+            "in": "path",
+            "description": "memSid",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/memBadge": {
+      "get": {
+        "tags": [
+          "mem-badge"
+        ],
+        "summary": "badgeList",
+        "operationId": "badgeListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "mem-badge"
+        ],
+        "summary": "badgeUpdateYn",
+        "operationId": "badgeUpdateYnUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/memDrugRecord": {
+      "post": {
+        "tags": [
+          "mem-drug-record"
+        ],
+        "summary": "memDrugRecord",
+        "operationId": "memDrugRecordUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "daysInfo",
+            "in": "query",
+            "description": "daysInfo",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "in": "body",
+            "name": "memDrugRecord",
+            "description": "memDrugRecord",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MemDrugRecord"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "게시글 조회 성공",
+            "schema": {
+              "$ref": "#/definitions/MemDrugRecord"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/memDrugSetting": {
+      "get": {
+        "tags": [
+          "mem-drug-setting"
+        ],
+        "summary": "drugSetting",
+        "operationId": "drugSettingUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "daysInfo",
+            "in": "query",
+            "description": "daysInfo",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "mem-drug-setting"
+        ],
+        "summary": "memDrugSetting",
+        "operationId": "memDrugSettingUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "memDrugSetting",
+            "description": "memDrugSetting",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/MemDrugSetting"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/memDrugSetting/getWeekList": {
+      "get": {
+        "tags": [
+          "mem-drug-setting"
+        ],
+        "summary": "memDrugWeekList",
+        "operationId": "memDrugWeekListUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "weekInfo",
+            "in": "query",
+            "description": "weekInfo",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/memMyDay": {
+      "get": {
+        "tags": [
+          "mem-my-day"
+        ],
+        "summary": "dailyRecord",
+        "operationId": "dailyRecordUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "mem-my-day"
+        ],
+        "summary": "dailyRecordSet",
+        "operationId": "dailyRecordSetUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "content",
+            "in": "query",
+            "description": "content",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "daysInfo",
+            "in": "query",
+            "description": "daysInfo",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/memMyDay/getDetail": {
+      "get": {
+        "tags": [
+          "mem-my-day"
+        ],
+        "summary": "dailyRecordDetail",
+        "operationId": "dailyRecordDetailUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "daysInfo",
+            "in": "query",
+            "description": "daysInfo",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/memUnrst": {
+      "get": {
+        "tags": [
+          "mem-unrst"
+        ],
+        "summary": "search",
+        "operationId": "searchUsingGET_4",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "mem-unrst"
+        ],
+        "summary": "insert",
+        "operationId": "insertUsingPOST_3",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "memUnrst",
+            "description": "memUnrst",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/MemUnrst"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/member": {
+      "get": {
+        "tags": [
+          "member"
+        ],
+        "summary": "isDuplicate",
+        "operationId": "isDuplicateUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "ci",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "hsptlCd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "lastLoginDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "loginId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "loginPwd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memBirth",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memEmail",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memName",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memSid",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "memSsn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memTel",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "recipeYn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "regDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "tokenVal",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "member"
+        ],
+        "summary": "joinCheck",
+        "operationId": "joinCheckUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "ci",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "hsptlCd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "lastLoginDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "loginId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "loginPwd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memBirth",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memEmail",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memName",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memSid",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "memSsn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memTel",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "recipeYn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "regDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "tokenVal",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/member/changePwd": {
+      "post": {
+        "tags": [
+          "member"
+        ],
+        "summary": "changePwd",
+        "operationId": "changePwdUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "newPwd",
+            "in": "query",
+            "description": "newPwd",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/member/findPwd": {
+      "post": {
+        "tags": [
+          "member"
+        ],
+        "summary": "findPwd",
+        "operationId": "findPwdUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "ci",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "hsptlCd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "lastLoginDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "loginId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "loginPwd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memBirth",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memEmail",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memName",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memSid",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "memSsn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memTel",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "recipeYn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "regDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "tokenVal",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/member/join": {
+      "post": {
+        "tags": [
+          "member"
+        ],
+        "summary": "join",
+        "operationId": "joinUsingPOST",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "ci",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "hsptlCd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "lastLoginDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "loginId",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "loginPwd",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memBirth",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memEmail",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memName",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memSid",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "memSsn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "memTel",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "recipeYn",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "regDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "tokenVal",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/panicAttackRecord": {
+      "get": {
+        "tags": [
+          "panic-attack-record"
+        ],
+        "summary": "search",
+        "operationId": "searchUsingGET_5",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "memSid",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "pnicAtkCnt",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pnicSmlyCnt",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "rcrdDt",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "regDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "weekInfo",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "panic-attack-record"
+        ],
+        "summary": "insert",
+        "operationId": "insertUsingPOST_4",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authrization",
+            "in": "header",
+            "description": "Authrization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "panicAttackRecord",
+            "description": "panicAttackRecord",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PanicAttackRecord"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/panicAttackRecord/getResult": {
+      "get": {
+        "tags": [
+          "panic-attack-record"
+        ],
+        "summary": "getPanicAttackChart",
+        "operationId": "getPanicAttackChartUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/panicScale": {
+      "get": {
+        "tags": [
+          "panic-scale"
+        ],
+        "summary": "search",
+        "operationId": "searchUsingGET_6",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "paged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "qstContent",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "qstId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "sort.sorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "sort.unsorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "unpaged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "panic-scale"
+        ],
+        "summary": "insert",
+        "operationId": "insertUsingPOST_5",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "panicScale",
+            "description": "panicScale",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PanicScale"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/panicScale/{qstId}": {
+      "get": {
+        "tags": [
+          "panic-scale"
+        ],
+        "summary": "get",
+        "operationId": "getUsingGET_3",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "qstId",
+            "in": "path",
+            "description": "qstId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "put": {
+        "tags": [
+          "panic-scale"
+        ],
+        "summary": "update",
+        "operationId": "updateUsingPUT_3",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "panicScale",
+            "description": "panicScale",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PanicScale"
+            }
+          },
+          {
+            "name": "qstId",
+            "in": "path",
+            "description": "qstId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "delete": {
+        "tags": [
+          "panic-scale"
+        ],
+        "summary": "delete",
+        "operationId": "deleteUsingDELETE_3",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "qstId",
+            "in": "path",
+            "description": "qstId",
+            "required": true,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "204": {
+            "description": "No Content"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/panicScaleRecord": {
+      "get": {
+        "tags": [
+          "panic-scale-record"
+        ],
+        "summary": "search",
+        "operationId": "searchUsingGET_7",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "answerNo",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "memSid",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "paged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "qstId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "regDt",
+            "in": "query",
+            "required": false,
+            "type": "string",
+            "format": "date-time"
+          },
+          {
+            "name": "score",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sort.sorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "sort.unsorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "unpaged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "weekInfo",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "panic-scale-record"
+        ],
+        "summary": "insert",
+        "operationId": "insertUsingPOST_6",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "panicScaleRecord",
+            "description": "panicScaleRecord",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/PanicScaleRecord"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/studyDetail": {
+      "get": {
+        "tags": [
+          "study-detail"
+        ],
+        "summary": "learnDetail",
+        "operationId": "learnDetailUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/studyDetail/studyDetailList": {
+      "get": {
+        "tags": [
+          "study-detail"
+        ],
+        "summary": "learnVrDetail",
+        "operationId": "learnVrDetailUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "learnWeek",
+            "in": "query",
+            "description": "learnWeek",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/unrst": {
+      "get": {
+        "tags": [
+          "unrst"
+        ],
+        "summary": "search",
+        "operationId": "searchUsingGET_8",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "actnNm",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "offset",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          },
+          {
+            "name": "paged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "sort.sorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "sort.unsorted",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "unpaged",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "unrstId",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int64"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    },
+    "/api/unrstActnRecord": {
+      "get": {
+        "tags": [
+          "unrst-actn-record"
+        ],
+        "summary": "searchResult",
+        "operationId": "searchResultUsingGET",
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      },
+      "post": {
+        "tags": [
+          "unrst-actn-record"
+        ],
+        "summary": "insert",
+        "operationId": "insertUsingPOST_7",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "*/*"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Authorization",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "unrstActnRecord",
+            "description": "unrstActnRecord",
+            "required": true,
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/UnrstActnRecord"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$ref": "#/definitions/ResponseEntity"
+            }
+          },
+          "201": {
+            "description": "Created"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "403": {
+            "description": "Forbidden"
+          },
+          "404": {
+            "description": "Not Found"
+          }
+        },
+        "security": [
+          {
+            "Authorization": [
+              "global"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "Admin": {
+      "type": "object",
+      "properties": {
+        "loginId": {
+          "type": "string"
+        },
+        "loginPw": {
+          "type": "string"
+        },
+        "memEmail": {
+          "type": "string"
+        },
+        "memIndstry": {
+          "type": "string"
+        },
+        "memName": {
+          "type": "string"
+        },
+        "memSid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "memTel": {
+          "type": "string"
+        },
+        "regDt": {
+          "type": "string",
+          "example": "yyyy-MM-dd HH:mm:ss"
+        }
+      },
+      "title": "Admin"
+    },
+    "CommonCode": {
+      "type": "object",
+      "properties": {
+        "codeId": {
+          "type": "string"
+        },
+        "codeNm": {
+          "type": "string"
+        },
+        "gubnCd": {
+          "type": "string"
+        },
+        "parntsCodeId": {
+          "type": "string"
+        },
+        "typeCd": {
+          "type": "string"
+        }
+      },
+      "title": "CommonCode"
+    },
+    "MemAtdnItem": {
+      "type": "object",
+      "properties": {
+        "getDt": {
+          "type": "string",
+          "example": "yyyy-MM-dd HH:mm:ss"
+        },
+        "itemId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "memSid": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "MemAtdnItem"
+    },
+    "MemDrugRecord": {
+      "type": "object",
+      "properties": {
+        "daysInfo": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "drugId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "drugNm": {
+          "type": "string"
+        },
+        "emgBfreSleep": {
+          "type": "string"
+        },
+        "emgDnnr": {
+          "type": "string"
+        },
+        "emgLnch": {
+          "type": "string"
+        },
+        "emgMrng": {
+          "type": "string"
+        },
+        "memSid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rcrdDt": {
+          "type": "string"
+        },
+        "regDt": {
+          "type": "string",
+          "example": "yyyy-MM-dd HH:mm:ss"
+        },
+        "takeTime": {
+          "type": "string"
+        },
+        "takeTimeNm": {
+          "type": "string"
+        },
+        "takeYn": {
+          "type": "string"
+        }
+      },
+      "title": "MemDrugRecord"
+    },
+    "MemDrugSetting": {
+      "type": "object",
+      "properties": {
+        "beforeSleep": {
+          "type": "string"
+        },
+        "bslpTime": {
+          "type": "string"
+        },
+        "dinTime": {
+          "type": "string"
+        },
+        "dinner": {
+          "type": "string"
+        },
+        "drugId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "drugList": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/MemDrugSettingSub"
+          }
+        },
+        "drugSetId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "emergency": {
+          "type": "string"
+        },
+        "emgTime": {
+          "type": "string"
+        },
+        "lnchTime": {
+          "type": "string"
+        },
+        "lunch": {
+          "type": "string"
+        },
+        "memSid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mngTime": {
+          "type": "string"
+        },
+        "morning": {
+          "type": "string"
+        }
+      },
+      "title": "MemDrugSetting"
+    },
+    "MemDrugSettingSub": {
+      "type": "object",
+      "properties": {
+        "beforeSleep": {
+          "type": "string"
+        },
+        "bslpTime": {
+          "type": "string"
+        },
+        "dinTime": {
+          "type": "string"
+        },
+        "dinner": {
+          "type": "string"
+        },
+        "drugId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "drugSetId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "emergency": {
+          "type": "string"
+        },
+        "emgTime": {
+          "type": "string"
+        },
+        "lnchTime": {
+          "type": "string"
+        },
+        "lunch": {
+          "type": "string"
+        },
+        "memSid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "mngTime": {
+          "type": "string"
+        },
+        "morning": {
+          "type": "string"
+        }
+      },
+      "title": "MemDrugSettingSub"
+    },
+    "MemUnrst": {
+      "type": "object",
+      "properties": {
+        "actnNm": {
+          "type": "string"
+        },
+        "gubn": {
+          "type": "string"
+        },
+        "memSid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "memUnrstSid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "unrstId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "MemUnrst"
+    },
+    "PanicAttackRecord": {
+      "type": "object",
+      "properties": {
+        "memSid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "pnicAtkCnt": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "pnicSmlyCnt": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "rcrdDt": {
+          "type": "string"
+        },
+        "regDt": {
+          "type": "string",
+          "example": "yyyy-MM-dd HH:mm:ss"
+        },
+        "weekInfo": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "PanicAttackRecord"
+    },
+    "PanicScale": {
+      "type": "object",
+      "properties": {
+        "qstContent": {
+          "type": "string"
+        },
+        "qstId": {
+          "type": "integer",
+          "format": "int64"
+        }
+      },
+      "title": "PanicScale"
+    },
+    "PanicScaleRecord": {
+      "type": "object",
+      "properties": {
+        "answerNo": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "memSid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "qstId": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "regDt": {
+          "type": "string",
+          "example": "yyyy-MM-dd HH:mm:ss"
+        },
+        "score": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "weekInfo": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "PanicScaleRecord"
+    },
+    "ResponseEntity": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object"
+        },
+        "statusCode": {
+          "type": "string",
+          "enum": [
+            "ACCEPTED",
+            "ALREADY_REPORTED",
+            "BAD_GATEWAY",
+            "BAD_REQUEST",
+            "BANDWIDTH_LIMIT_EXCEEDED",
+            "CHECKPOINT",
+            "CONFLICT",
+            "CONTINUE",
+            "CREATED",
+            "DESTINATION_LOCKED",
+            "EXPECTATION_FAILED",
+            "FAILED_DEPENDENCY",
+            "FORBIDDEN",
+            "FOUND",
+            "GATEWAY_TIMEOUT",
+            "GONE",
+            "HTTP_VERSION_NOT_SUPPORTED",
+            "IM_USED",
+            "INSUFFICIENT_SPACE_ON_RESOURCE",
+            "INSUFFICIENT_STORAGE",
+            "INTERNAL_SERVER_ERROR",
+            "I_AM_A_TEAPOT",
+            "LENGTH_REQUIRED",
+            "LOCKED",
+            "LOOP_DETECTED",
+            "METHOD_FAILURE",
+            "METHOD_NOT_ALLOWED",
+            "MOVED_PERMANENTLY",
+            "MOVED_TEMPORARILY",
+            "MULTIPLE_CHOICES",
+            "MULTI_STATUS",
+            "NETWORK_AUTHENTICATION_REQUIRED",
+            "NON_AUTHORITATIVE_INFORMATION",
+            "NOT_ACCEPTABLE",
+            "NOT_EXTENDED",
+            "NOT_FOUND",
+            "NOT_IMPLEMENTED",
+            "NOT_MODIFIED",
+            "NO_CONTENT",
+            "OK",
+            "PARTIAL_CONTENT",
+            "PAYLOAD_TOO_LARGE",
+            "PAYMENT_REQUIRED",
+            "PERMANENT_REDIRECT",
+            "PRECONDITION_FAILED",
+            "PRECONDITION_REQUIRED",
+            "PROCESSING",
+            "PROXY_AUTHENTICATION_REQUIRED",
+            "REQUESTED_RANGE_NOT_SATISFIABLE",
+            "REQUEST_ENTITY_TOO_LARGE",
+            "REQUEST_HEADER_FIELDS_TOO_LARGE",
+            "REQUEST_TIMEOUT",
+            "REQUEST_URI_TOO_LONG",
+            "RESET_CONTENT",
+            "SEE_OTHER",
+            "SERVICE_UNAVAILABLE",
+            "SWITCHING_PROTOCOLS",
+            "TEMPORARY_REDIRECT",
+            "TOO_EARLY",
+            "TOO_MANY_REQUESTS",
+            "UNAUTHORIZED",
+            "UNAVAILABLE_FOR_LEGAL_REASONS",
+            "UNPROCESSABLE_ENTITY",
+            "UNSUPPORTED_MEDIA_TYPE",
+            "UPGRADE_REQUIRED",
+            "URI_TOO_LONG",
+            "USE_PROXY",
+            "VARIANT_ALSO_NEGOTIATES"
+          ]
+        },
+        "statusCodeValue": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "ResponseEntity"
+    },
+    "UnrstActnRecord": {
+      "type": "object",
+      "properties": {
+        "dgeScore": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "memSid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "memUnrstSid": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "rcrdDt": {
+          "type": "string"
+        },
+        "regDt": {
+          "type": "string",
+          "example": "yyyy-MM-dd HH:mm:ss"
+        },
+        "unrstScore": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "weekInfo": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "UnrstActnRecord"
+    }
+  }
+}

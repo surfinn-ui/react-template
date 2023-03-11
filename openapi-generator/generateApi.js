@@ -224,7 +224,7 @@ function getApiCode(tag, path, node) {
       params: requestBodyParams,
       requestBody,
       requestConfig,
-    } = translateRequestBody(node, method);
+    } = translateRequestBody(path, method);
     // requestBodyDocs && console.log('API requestBodyDocs', node[method].operationId, requestBodyDocs)
     const apiBaseMethodName = getApiBaseMethodName(node, method);
 
@@ -255,9 +255,9 @@ ${
       ${params.query
         .map(
           (p) =>
-            `if(${p.name}) queries.append('${p.name}', ${p.type !== 'string' ? String(p.name) : p.name}${
-              p.type.endsWith('[]') ? `.join(','))` : ')'
-            };`,
+            `if(${p.name}) queries.append('${p.name}', ${
+              p.type !== 'string' ? String(p.name) : p.name
+            }${p.type.endsWith('[]') ? `.join(','))` : ')'};`,
         )
         .join('\n')} `}
 
@@ -355,13 +355,13 @@ function translateParam(param, placement) {
   // placement === 'header' && console.log('header.param', param);
   // placement === 'path' &&  console.log('path.param', param)
   // placement === 'query' &&  console.log('query.param', param)
-  if (param.schema.$ref) {
+  if (param.schema?.$ref) {
     // console.log('param', param);
     // console.log('param.schema.$ref', param.schema.$ref);
-    
+
     const ref = getComponentBy$ref(param.schema.$ref);
     // console.log('param.schema.$ref', ref);
-    
+
     const name = param.name;
     const type = convertDataType(ref.schema);
     const format = null;
@@ -373,9 +373,9 @@ function translateParam(param, placement) {
     const info = `   * @param {${type}} ${
       param.required ? name : `[${name}]`
     } ${required} ${format ? `{${format}} ` : ''}${description}`;
-    
+
     const paramInfo = { name, type, nullable, format, default: defaultValue };
-    
+
     return {
       info: info,
       param: paramInfo,
@@ -457,17 +457,29 @@ function translateQueryParameters(parameters) {
 
 /**
  *
- * @param {*} node
+ * @param {*} path
  * @param {*} method
  * @returns
  */
-function translateRequestBody(node, method) {
-  const hasRequestBody =
-    ['post', 'put', 'patch'].includes(method) && node[method].requestBody;
-
+function translateRequestBody(path, method) {
+  const hasRequestBody = ['post', 'put', 'patch'].includes(method);
+  //  && node[method].requestBody;
+  // const requestBody = hasRequestBody
+  //   ? jsonpath.query(node[method], '$..requestBody.content')[0]
+  //   : '';
   const requestBody = hasRequestBody
-    ? jsonpath.query(node[method], '$..requestBody.content')[0]
-    : '';
+    ? getRequestBodyByPathAndMethod(path, method)
+    : [];
+  console.log('requestBody --- ', JSON.stringify(requestBody, null, 2));
+
+  if (requestBody === undefined) {
+    return {
+      docs: '',
+      params: [],
+      requestBody: '',
+      requestConfig: '',
+    };
+  }
 
   const contentType = requestBody
     ? Object.keys(requestBody).includes('application/json')
@@ -494,7 +506,9 @@ function translateRequestBody(node, method) {
     ? convertDataType(requestBody[contentType].schema)
     : 'any';
   const format = contentType ? requestBody[contentType].schema.format : '';
-  const description = node[method].requestBody?.description || '';
+  const description = hasRequestBody
+    ? node[method].requestBody?.description
+    : '';
   const docs = hasRequestBody
     ? `   * @param {${type || '*'}} payload **(REQUIRED)** ${
         format ? `{${format}}` : ''

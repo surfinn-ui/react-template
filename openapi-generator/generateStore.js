@@ -10,29 +10,28 @@ const {
   getTagNames,
 
   getComponentBy$ref,
-  
+
   getParametersByPathAndMethod,
   getResponsesByPathAndMethod,
   getRequestBodyByPathAndMethod,
 
   // ----------------------------------
-  
+
   convertDataType,
   isResponseTypeArray,
   returnType,
-  
+
   format,
   getSchemasFromComponents,
-  
+
   addImports,
-  
+
   toCamelCase,
   toPascalCase,
   toSnakeCase,
   toConstantCase,
   toKebabCase,
 } = require('./utils');
-
 
 /**
  * Generate Stores
@@ -76,7 +75,7 @@ function generateStores(callback) {
     getPathsByTag(document, tagName).forEach((node) => {
       const object = node.value;
       jsonpath
-        .query(object, '$..responses..schema..["$ref"]')
+        .query(object, '$..responses..["$ref"]')
         .map((ref) => ref.substring(ref.lastIndexOf('/') + 1))
         .forEach((ref) => {
           imports.add(

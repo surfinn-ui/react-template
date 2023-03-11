@@ -146,8 +146,16 @@ function format(callback) {
  */
 function getSchemasFromComponents() {
   // console.log('getSchemasFromComponents', document);
-  return jsonpath.nodes(document, '$.components.schemas.*');
+  if (document.openapi?.startsWith('3')) {
+    return jsonpath.nodes(document, '$.components.schemas.*');
+  }
+  if (document.swagger?.startsWith('2')) {
+    return jsonpath.nodes(document, '$.definitions.*');
+  }
 }
+
+
+
 // ------------------------------------------------------------------
 
 // ------------------------------------------------------------------
@@ -193,20 +201,34 @@ function getParametersByPathAndMethod(path, method) {
       }
     });
 }
+
+function getRequestBodyByPathAndMethod(path, method) {
+  let contentType, contents;
+  if (document.openapi?.startsWith('3')) {
+    const v =  jsonpath.query(document, `$.paths['${path}'].${method}.requestBody.content`);
+    contentType =
+    console.log(contentType);
+    contents = jsonpath.query(document, `$.paths['${path}'].${method}.requestBody.content[*]`);
+  }
+  if (document.swagger?.startsWith('2')) {
+    contentType = jsonpath.query(document, `$.paths['${path}'].${method}.consumes`);
+    contents = jsonpath.query(document, `$.paths['${path}'].${method}.parameters[?(@.in == 'body')]`);
+  }
+  console.log('path:method', path, method)
+  console.log('contentType', contentType)
+  console.log('bodies', JSON.stringify(contents, null, 2))
+  if (contents.length > 0) {
+    return {
+      type: contentType.includes('application/json') ? 'application/json' : contentType[0],
+      content : contents
+    };
+  }
+  return;
+}
+
 function getResponsesByPathAndMethod(path, method) {
   return jsonpath
     .query(document, `$.paths.${path}[*].responses[${method}]`)
-    .map((p) => {
-      if (p.$ref) {
-        return getComponentBy$ref(p.$ref);
-      } else {
-        return p;
-      }
-    });
-}
-function getRequestBodyByPathAndMethod(path, method) {
-  return jsonpath
-    .query(document, `$.paths.${path}[*].requestBody[${method}]`)
     .map((p) => {
       if (p.$ref) {
         return getComponentBy$ref(p.$ref);

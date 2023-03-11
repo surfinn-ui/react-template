@@ -49,6 +49,8 @@ function generateModels(callback) {
       return { name, value: object };
     });
 
+    // console.log(getSchemasFromComponents());
+
   // Generate model
   schemas.forEach((schema) => {
     if (
