@@ -524,7 +524,7 @@ function translateRequestBody(path, method) {
         },
       ]
     : [];
-  // console.log('*** *** *** ***', method, node[method].operationId, params);
+
   return {
     docs,
     params,

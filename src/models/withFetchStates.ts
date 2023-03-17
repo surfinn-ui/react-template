@@ -77,7 +77,7 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
       done() {
         error.set(null);
         state.set(FetchStates.DONE);
-        requestAnimationFrame(() => loadingStore.setLoading(false));
+        setTimeout(() => loadingStore.setLoading(false), 600);
       },
 
       /**
@@ -88,7 +88,7 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
       error(err: TApiErrorResponse) {
         error.set(err);
         state.set(FetchStates.ERROR);
-        requestAnimationFrame(() => loadingStore.setLoading(false));
+        setTimeout(() => loadingStore.setLoading(false), 600);
       },
 
       /**
@@ -101,7 +101,7 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
         if (newState === FetchStates.PENDING) {
           requestAnimationFrame(() => loadingStore.setLoading(true));
         } else {
-          requestAnimationFrame(() => loadingStore.setLoading(false));
+          setTimeout(() => loadingStore.setLoading(false), 600);
         }
       },
 
@@ -111,7 +111,7 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
        */
       setError(fetchError: TApiErrorResponse) {
         error.set(fetchError);
-        requestAnimationFrame(() => loadingStore.setLoading(false));
+        setTimeout(() => loadingStore.setLoading(false), 600);
       },
 
       /**
