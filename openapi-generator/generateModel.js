@@ -49,7 +49,7 @@ function generateModels(callback) {
       return { name, value: object };
     });
 
-    // console.log(getSchemasFromComponents());
+  // console.log(getSchemasFromComponents());
 
   // Generate model
   schemas.forEach((schema) => {
@@ -77,18 +77,21 @@ function generateModels(callback) {
   // Add imports to the model
   schemas.forEach((schema) => {
     const imports = new Set();
-    // if (schema.value.properties) {
     jsonpath.query(schema, '$..["$ref"]').forEach((ref) => {
       const $ref = getComponentBy$ref(ref);
+      // console.log('schema', schema.name, ref, $ref);
       if ($ref.type === 'object') {
+        const refName = toPascalCase(ref.split('/').pop());
+        if (refName === schema.name) {
+          imports.add(`import { IAnyModelType } from 'mobx-state-tree';`);
+        }
         imports.add(
-          `import { ${toPascalCase(schema.name)}Model } from '../${toCamelCase(
-            schema.name,
-          )}/${toPascalCase(schema.name)}Model';`,
+          `import { ${refName}Model } from '../${toCamelCase(
+            refName,
+          )}/${refName}Model';`,
         );
       }
     });
-    // }
 
     generators.push((callback) =>
       addImportsToModel(schema.name, [...imports], callback),
@@ -169,47 +172,59 @@ function getModelPropsCode(schema) {
     let propValue = properties[propName];
     let type = 'types.string';
 
+    if (propValue.writeOnly) {
+      return;
+    }
+
+    let $ref = null;
+    let $refName = '';
     if (propValue.$ref) {
-      const $ref = getComponentBy$ref(propValue.$ref);
+      // console.log('propValue.$ref', schemaName, propValue.$ref);
+      $ref = getComponentBy$ref(propValue.$ref);
+      $refName = propValue.$ref.split('/').pop();
       type = $ref.type;
       propValue = $ref;
     }
 
     // prettier-ignore
     switch (propValue.type) {
-        case 'integer': type = 'types.number';  break;
-        case 'number' : type = 'types.number';  break;
-        case 'string' : type = 'types.string';  break;
-        case 'boolean': type = 'types.boolean'; break;
-        case 'array':
-          if (propValue.items.type) {
-            type = `types.array(types.${propValue.items.type})`;
-          } else if (propValue.items.$ref) {
-            const $ref = getComponentBy$ref(propValue.items.$ref);
-            // console.log('array', $ref)
-            if ($ref.type === 'object') {
-              type = `types.array(${toPascalCase(propValue.items.$ref.split('/').pop())}Model)`;
-            } else {
-              type = `types.array(types.${$ref.type})`;
-            }
-          }
-          break;
-      case 'object':
-        if (propValue.$ref) {
-          const $ref = getComponentBy$ref(propValue.$ref);
+      case 'integer': type = 'types.number';  break;
+      case 'number' : type = 'types.number';  break;
+      case 'string' : type = 'types.string';  break;
+      case 'boolean': type = 'types.boolean'; break;
+      case 'array':
+        if (propValue.items.type) {
+          type = `types.array(types.${propValue.items.type})`;
+        } else if (propValue.items.$ref) {
+          $ref = getComponentBy$ref(propValue.items.$ref);
           if ($ref.type === 'object') {
-            type = `${toPascalCase(propValue.$ref.split('/').pop())}Model`;
+            type = `types.array(${toPascalCase(propValue.items.$ref.split('/').pop())}Model)`;
+          } else {
+            type = `types.array(types.${$ref.type})`;
+          }
+        }
+        break;
+      case 'object':
+        if ($ref) {
+          if ($ref.type === 'object') {
+            if (toPascalCase($refName) === toPascalCase(schemaName)) {
+              type = `types.late((): IAnyModelType => ${toPascalCase($refName)}Model)`
+            } else {
+              type = `${toPascalCase($refName)}Model`;
+            }
           } else {
             type = `types.frozen({})`;
           }
         } else {
           type = `types.frozen({})`;
         }
-      }
+        break;
+    }
+
     if (propValue.enum) {
-      type = `types.enumeration("${
-        schemaName + ':' + propName
-      }", ${JSON.stringify(propValue.enum)})`;
+      type = `types.enumeration("${toConstantCase(propName)}", ${JSON.stringify(
+        propValue.enum,
+      )})`;
     }
 
     if (
@@ -265,10 +280,25 @@ function getModelPropsCode(schema) {
         `    '${toCamelCase(propName)}': ${type}, `,
       );
     } else {
+      // console.log(propName, propValue.type);
       codeLines.push(
         ' * @nullable',
         ' */',
-        `    '${toCamelCase(propName)}': types.maybeNull(${type}), `,
+        `    '${toCamelCase(
+          propName,
+        )}': types.optional(types.maybeNull(${type}), ${
+          propValue.type === 'boolean'
+            ? 'false'
+            : propValue.type === 'number' || propValue.type === 'integer'
+            ? '0'
+            : propValue.type === 'array'
+            ? '[]'
+            : propValue.type === 'object'
+            ? '{}'
+            : propValue.enum
+            ? `"${propValue.enum[0]}"`
+            : "''"
+        }), `,
       );
     }
   });

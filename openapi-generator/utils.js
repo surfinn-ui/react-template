@@ -5,9 +5,9 @@ const { json } = require('stream/consumers');
 
 function typeDetect(type) {
   if (!type) return null;
-  if (['boolean'].includes(type)) return 'string';
-  if (['number', 'integer'].includes(type)) return 'string';
-  if (['string'].includes(type)) return 'number';
+  if (['boolean'].includes(type)) return 'boolean';
+  if (['number', 'integer'].includes(type)) return 'number';
+  if (['string'].includes(type)) return 'string';
   if (['array'].includes(type)) return 'array';
   if (['object'].includes(type)) return 'object';
   return 'any';
@@ -20,31 +20,31 @@ function typeDetect(type) {
  */
 function convertDataType(schema) {
   const type = typeDetect(schema?.type);
-  if (type) {
-    if (type === 'array') {
-      if (schema.items.$ref) {
-        return `I${toPascalCase(
-          schema.items.$ref.substring(schema.items.$ref.lastIndexOf('/') + 1),
-        )}Model[]`;
-      } else {
-        const type = typeDetect(schema.items.type);
-        return `${type}[]`;
-      }
+  // console.log('convertDataType', type, schema);
+  // if (type) {
+  if (type === 'array') {
+    if (schema.items.$ref) {
+      return `I${toPascalCase(
+        schema.items.$ref.substring(schema.items.$ref.lastIndexOf('/') + 1),
+      )}Model[]`;
+    } else {
+      const type = typeDetect(schema.items.type);
+      return `${type}[]`;
     }
-
-    if (type === 'object') {
-      return 'object';
-    }
+  } else if (type === 'object') {
+    return 'object';
   }
+  // }
 
   // 참조인 경우
   if (schema?.$ref) {
+    // console.log('convertDataType', type, schema);
     return `I${toPascalCase(
       schema.$ref.substring(schema.$ref.lastIndexOf('/') + 1),
     )}Model`;
   }
 
-  return 'any';
+  return type;
 }
 
 function isResponseTypeArray(node, method) {
@@ -154,8 +154,6 @@ function getSchemasFromComponents() {
   }
 }
 
-
-
 // ------------------------------------------------------------------
 
 // ------------------------------------------------------------------
@@ -203,24 +201,65 @@ function getParametersByPathAndMethod(path, method) {
 }
 
 function getRequestBodyByPathAndMethod(path, method) {
-  let contentType, contents;
+  let description, contentTypes, contents;
   if (document.openapi?.startsWith('3')) {
-    const v =  jsonpath.query(document, `$.paths['${path}'].${method}.requestBody.content`);
-    contentType =
-    console.log(contentType);
-    contents = jsonpath.query(document, `$.paths['${path}'].${method}.requestBody.content[*]`);
+    description = jsonpath.query(
+      document,
+      `$.paths['${path}']['${method}'].requestBody.description`,
+    )[0];
+
+    const v = jsonpath.query(
+      document,
+      `$.paths['${path}']['${method}'].requestBody.content`,
+    );
+    contentTypes = v.length > 0 ? Object.keys(v[0]) : [];
+
+    contents = jsonpath.query(
+      document,
+      `$.paths['${path}']['${method}'].requestBody.content[*]`,
+    );
   }
+
   if (document.swagger?.startsWith('2')) {
-    contentType = jsonpath.query(document, `$.paths['${path}'].${method}.consumes`);
-    contents = jsonpath.query(document, `$.paths['${path}'].${method}.parameters[?(@.in == 'body')]`);
+    contentTypes = jsonpath.query(
+      document,
+      `$.paths['${path}']['${method}'].consumes`,
+    );
+    contents = jsonpath.query(
+      document,
+      `$.paths['${path}']['${method}'].parameters[?(@.in == 'body')]`,
+    );
   }
-  console.log('path:method', path, method)
-  console.log('contentType', contentType)
-  console.log('bodies', JSON.stringify(contents, null, 2))
+
+  // console.log('RequestBody', path, method);
+  // console.log('contentType', contentTypes);
+  // console.log('bodies', JSON.stringify(contents, null, 2));
+
   if (contents.length > 0) {
     return {
-      type: contentType.includes('application/json') ? 'application/json' : contentType[0],
-      content : contents
+      type:
+        contentTypes.length > 0
+          ? contentTypes.includes('application/json')
+            ? 'application/json'
+            : contentTypes[0]
+          : undefined,
+      content: contents[0]
+        ? contents[0].schema
+          ? contents[0].schema.$ref
+            ? getComponentBy$ref(contents[0].schema.$ref)
+            : contents[0].schema
+          : contents[0]
+        : undefined,
+      schema: contents[0].schema
+        ? contents[0].schema.$ref
+          ? toPascalCase(contents[0]?.schema?.$ref?.split('/')?.pop() || '')
+          : contents[0].schema.type === 'object' 
+          ? contents[0].schema.additionalProperties
+            ? contents[0].schema.additionalProperties.type 
+            : contents[0].schema.type
+          : contents[0].schema.type
+        : null,
+      description: description,
     };
   }
   return;

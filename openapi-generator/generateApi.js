@@ -255,9 +255,26 @@ ${
       ${params.query
         .map(
           (p) =>
-            `if(${p.name}) queries.append('${p.name}', ${
-              p.type !== 'string' ? String(p.name) : p.name
-            }${p.type.endsWith('[]') ? `.join(','))` : ')'};`,
+            `if (${p.name}) {${
+              p.props
+                ? Object.keys(p.props)
+                    .filter((k) => p.props[k].writeOnly !== true)
+                    .map(
+                      (k) =>
+                        `if (${p.name}.${k}) { queries.append('${k}', String(${p.name}.${k})); }`,
+                    )
+                    .join('\n')
+                : `
+                  queries.append('${p.name}', ${`
+                    ${
+                      p.type.endsWith('[]')
+                        ? `${p.name}.join(',')`
+                        : `String(${p.name})`
+                    } 
+                  )`};
+                  `
+            }
+            }`,
         )
         .join('\n')} `}
 
@@ -353,28 +370,37 @@ function translateParameters(node) {
  */
 function translateParam(param, placement) {
   // placement === 'header' && console.log('header.param', param);
-  // placement === 'path' &&  console.log('path.param', param)
+  placement === 'path' && console.log('path.param', param);
   // placement === 'query' &&  console.log('query.param', param)
   if (param.schema?.$ref) {
     // console.log('param', param);
     // console.log('param.schema.$ref', param.schema.$ref);
 
-    const ref = getComponentBy$ref(param.schema.$ref);
-    // console.log('param.schema.$ref', ref);
-
     const name = param.name;
-    const type = convertDataType(ref.schema);
+    const type = convertDataType(param.schema);
+
+    const ref = getComponentBy$ref(param.schema.$ref);
+    // console.log('param.schema.$ref', ref, param.schema);
+
     const format = null;
     const nullable = param.required ? '' : '?';
     const required = param.required ? '**(REQUIRED)**' : '';
     const defaultValue = param?.default || ref.default || '';
     const description = param.description || '';
+    const props = ref.type === 'object' ? ref.properties : null;
 
     const info = `   * @param {${type}} ${
       param.required ? name : `[${name}]`
     } ${required} ${format ? `{${format}} ` : ''}${description}`;
 
-    const paramInfo = { name, type, nullable, format, default: defaultValue };
+    const paramInfo = {
+      name,
+      type,
+      nullable,
+      format,
+      default: defaultValue,
+      props,
+    };
 
     return {
       info: info,
@@ -391,7 +417,15 @@ function translateParam(param, placement) {
     const info = `   * @param {${type}} ${
       param.required ? name : `[${name}]`
     } ${required} ${format ? `{${format}} ` : ''}${description}`;
-    const paramInfo = { name, type, nullable, format, default: defaultValue };
+    const props = null;
+    const paramInfo = {
+      name,
+      type,
+      nullable,
+      format,
+      default: defaultValue,
+      props,
+    };
 
     return {
       info: info,
@@ -463,14 +497,10 @@ function translateQueryParameters(parameters) {
  */
 function translateRequestBody(path, method) {
   const hasRequestBody = ['post', 'put', 'patch'].includes(method);
-  //  && node[method].requestBody;
-  // const requestBody = hasRequestBody
-  //   ? jsonpath.query(node[method], '$..requestBody.content')[0]
-  //   : '';
+
   const requestBody = hasRequestBody
     ? getRequestBodyByPathAndMethod(path, method)
-    : [];
-  console.log('requestBody --- ', JSON.stringify(requestBody, null, 2));
+    : undefined;
 
   if (requestBody === undefined) {
     return {
@@ -481,20 +511,14 @@ function translateRequestBody(path, method) {
     };
   }
 
-  const contentType = requestBody
-    ? Object.keys(requestBody).includes('application/json')
-      ? 'application/json'
-      : Object.keys(requestBody)[0]
-    : null;
+  // console.log('requestBody', path, method, requestBody);
+  const contentType = requestBody.type;
 
-  const content = contentType
-    ? requestBody[contentType].schema.type === 'string'
-      ? 'JSON.stringify(payload)'
-      : 'payload'
-    : undefined;
+  const content =
+    requestBody.schema === 'string' ? 'JSON.stringify(payload)' : 'payload';
 
   const requestConfig =
-    contentType && contentType !== 'application/json' && content !== ''
+    contentType && contentType !== 'application/json' // && content !== ''
       ? {
           headers: {
             'Content-Type': contentType,
@@ -502,13 +526,16 @@ function translateRequestBody(path, method) {
         }
       : '';
 
-  const type = contentType
-    ? convertDataType(requestBody[contentType].schema)
-    : 'any';
-  const format = contentType ? requestBody[contentType].schema.format : '';
-  const description = hasRequestBody
-    ? node[method].requestBody?.description
-    : '';
+  const type =
+    requestBody.schema === 'string'
+      ? 'string'
+      : requestBody.schema === 'integer'
+      ? 'number'
+      : requestBody.schema === 'number'
+      ? 'number'
+      : `I${requestBody.schema}Model`;
+  const format = contentType ? requestBody.content.schema?.format : '';
+  const description = hasRequestBody ? requestBody?.description : '';
   const docs = hasRequestBody
     ? `   * @param {${type || '*'}} payload **(REQUIRED)** ${
         format ? `{${format}}` : ''

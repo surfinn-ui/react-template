@@ -27,14 +27,13 @@
 
 ## Credits
 
-- [React]()
-- [Vite]()
-- [React Router]()
-- [MobX-State-Tree]()
-- [MobX]()
-- [TypeScript]()
+- [React](https://reactjs.org/)
+- [Vite](https://vitejs.dev/)
+- [React Router](https://reactrouter.com/en/main)
+- [MobX-State-Tree](https://mobx-state-tree.js.org/intro/welcome)
+- [TypeScript](https://www.typescriptlang.org/)
 - [InfiniteRed Ignite](https://github.com/infinitered/ignite)
-- [OpenAPI Specification]()
+- [OpenAPI Specification 3](https://swagger.io/specification/)
 
 ## Changelog
 

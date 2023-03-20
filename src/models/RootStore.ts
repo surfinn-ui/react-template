@@ -2,6 +2,8 @@ import { Instance, SnapshotOut, types } from 'mobx-state-tree';
 import { LoadingStore } from './LoadingStore';
 
 // ^ generated store imports
+// $ generated store imports
+
 // ----------------------------------------------------------------------------
 
 /**

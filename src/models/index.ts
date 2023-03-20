@@ -13,7 +13,7 @@ export * from './withSetPropAction';
 //   GENERATED MODEL AND STORE EXPORTS
 // ------------------------------------
 // MODELS
-
+// ^ export generated models
 // $ export generated models
 // ------------------------------------
 

@@ -75,7 +75,7 @@ function generateStores(callback) {
     getPathsByTag(document, tagName).forEach((node) => {
       const object = node.value;
       jsonpath
-        .query(object, '$..responses..["$ref"]')
+        .query(object, '$..["$ref"]')
         .map((ref) => ref.substring(ref.lastIndexOf('/') + 1))
         .forEach((ref) => {
           imports.add(
@@ -203,7 +203,6 @@ function getPathsByTag(api, tag) {
  */
 function addImportsToStore(tag, imports, callback) {
   const filepath = getStoreFilePath(tag);
-  // console.log('addImportsToStore', filepath, imports);
   addImports(filepath, imports, callback);
 }
 
@@ -256,7 +255,7 @@ function getActionCodes(path, object) {
       // const options = parseOptions(pathInfo);
       const requestBody = parseRequestBody(pathInfo.requestBody);
       const responses = parseResponses(pathInfo.responses);
-
+console.log('responses', responses)
       const resultType = returnType(object, method);
 
       return `
@@ -264,12 +263,12 @@ function getActionCodes(path, object) {
      * ## ${pathInfo.summary}
      * ${pathInfo.description}
      * @tags ${pathInfo.tags ? `\`${pathInfo.tags.join(', ')}\`` : ''}
-     * ${[].concat(parameters.paramDocs, requestBody.docs).join('\n     * ')}
+     * ${[].concat(parameters.paramDocs, requestBody.docs, responses.docs).join('\n     * ')}
      */
     const ${operationId} = flow(function* (${parameters.paramArgs
         .concat(requestBody.payload)
         .map((i) => i.join(': '))
-        .join(', ')} 
+        .join(', ')}
     ) {
       if(self.isPending) return;
       self.pending();
@@ -280,15 +279,20 @@ function getActionCodes(path, object) {
         .map((i) => i[0])
         .join(', ')});
       if (response.kind === 'ok') {
-        // TODO - TRANSLATE RESPONSE TO STORE
+        
+        // TODO - TRANSLATE RESPONSE TO STORE 
         const data = response.data.data as ${resultType};
-        const pagination = response.data.pagination as IPagination;
+        ${ resultType?.pagination ? `const pagination = response.data.pagination as IPagination;` : '' }
+
+        // --------------------------------------------------------------------
+        console.log('${operationId}()', JSON.stringify(data, null, 2));
+        throw new Error('TODO - TRANSLATE RESPONSE TO STORE ${operationId}()');
+        // --------------------------------------------------------------------
 
         self.done();
-        return data;
       } else {
         self.error(response);
-        console.error(response.kind);
+        console.error(JSON.stringify(response, null, 2));
       }
     });`;
     })
@@ -372,14 +376,14 @@ function parseRequestBody(requestBody) {
  * @returns
  */
 function parseResponses(responses) {
-  const dataDocs = [];
+  const docs = [];
   // const dataTypes = new Set();
 
   if (responses['200']) {
     jsonpath.query(responses['200'], '$..schema').forEach((schema) => {
       if (schema['$ref']) {
         const type = schema['$ref'].split('/').pop();
-        dataDocs.push(`@returns {${type}}`);
+        // docs.push(`@returns {I${toPascalCase(type)}Model}`);
         // dataTypes.add(type);
       }
     });
@@ -387,7 +391,7 @@ function parseResponses(responses) {
   }
 
   return {
-    dataDocs,
+    docs,
     // dataTypes: Array.from(dataTypes),
   };
 }

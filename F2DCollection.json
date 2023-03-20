@@ -1,0 +1,6135 @@
+{
+	"info": {
+		"_postman_id": "852944c3-893b-4d30-934f-1def1ac57b96",
+		"name": "마크로젠 F2D",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "9931456"
+	},
+	"item": [
+		{
+			"name": "공통",
+			"item": [
+				{
+					"name": "전체 코드 목록 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/code",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "그룹 코드 코드 목록 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/global/group/code?globalGroupTypeCd=900503",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"global",
+								"group",
+								"code"
+							],
+							"query": [
+								{
+									"key": "globalGroupTypeCd",
+									"value": "900503"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "메인 화면 데이터 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/main",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"main"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "휴대폰 앞자리 목록 조회",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/phone/prefix",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"phone",
+								"prefix"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "문자 전송 테스트",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/aligo/sms/test",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"aligo",
+								"sms",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "로그인/회원정보",
+			"item": [
+				{
+					"name": "일반로그인",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"pm.environment.set(\"access_token\", data.data.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"loginId\": \"yjkim\",\r\n    \"pwd\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/login",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "로그인 갱신",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var data = JSON.parse(responseBody);",
+									"pm.environment.set(\"access_token\", data.data.access_token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/login/refresh?refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxYTc0YTVmYy04ZmEzLTRmOGEtYTczNS02NTdhNjFhN2U3ZjEifQ.eyJleHAiOjE2ODEzNTkwOTIsImlhdCI6MTY3ODc2NzA5MywianRpIjoiNGI1YjJmNTgtNmIxYS00N2ZmLWE5YjItOWE5ZDM2OGZjNjZjIiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwic3ViIjoiZjo2MjliMDk3MC1iZmRmLTRmNjYtOTFjNi0yZmVhMTEwY2ZhMDY6MjAxMiIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI3MTU3NGY0ZS05YmFhLTQzNjgtOTI5Ny1hYTdiMTQ5NjE2YzgiLCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjcxNTc0ZjRlLTliYWEtNDM2OC05Mjk3LWFhN2IxNDk2MTZjOCJ9.3Gs1TmOVAqWUEDBtGKSDswHEqrXP9z-Hwc4IJF3Kd1Q",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"login",
+								"refresh"
+							],
+							"query": [
+								{
+									"key": "refreshToken",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxYTc0YTVmYy04ZmEzLTRmOGEtYTczNS02NTdhNjFhN2U3ZjEifQ.eyJleHAiOjE2ODEzNTkwOTIsImlhdCI6MTY3ODc2NzA5MywianRpIjoiNGI1YjJmNTgtNmIxYS00N2ZmLWE5YjItOWE5ZDM2OGZjNjZjIiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwic3ViIjoiZjo2MjliMDk3MC1iZmRmLTRmNjYtOTFjNi0yZmVhMTEwY2ZhMDY6MjAxMiIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI3MTU3NGY0ZS05YmFhLTQzNjgtOTI5Ny1hYTdiMTQ5NjE2YzgiLCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjcxNTc0ZjRlLTliYWEtNDM2OC05Mjk3LWFhN2IxNDk2MTZjOCJ9.3Gs1TmOVAqWUEDBtGKSDswHEqrXP9z-Hwc4IJF3Kd1Q"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "로그인ID 중복 확인",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/exist/loginid?loginId=test12312333",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"exist",
+								"loginid"
+							],
+							"query": [
+								{
+									"key": "loginId",
+									"value": "test12312333"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "sns 로그인 네이버",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/login/naver",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"login",
+								"naver"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SNS 로그인 (APP에서 호출시)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"snsTypeCd\": {\r\n        \"code\": 900002,\r\n        \"value\": \"Kakao\",\r\n        \"pcode\": 9000\r\n    },\r\n    \"snsId\": \"mIwrkq6swyunaMm5YW_WpHVBEOIGTOsvHZdz9L_y7xU\",\r\n    \"nm\": null,\r\n    \"email\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/login/app/sns",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"login",
+								"app",
+								"sns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SNS 로그인 (APP에서 호출시) Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"snsTypeCd\": {\r\n        \"code\": 900001,\r\n        \"value\": \"Kakao\",\r\n        \"pcode\": 9000\r\n    },\r\n    \"snsId\": \"1\",\r\n    \"nm\": null,\r\n    \"email\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/login/app/sns",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"login",
+								"app",
+								"sns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SNS 로그인 (APP에서 호출시) Copy 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"snsTypeCd\": {\r\n        \"code\": 900001,\r\n        \"value\": \"Kakao\",\r\n        \"pcode\": 9000\r\n    },\r\n    \"snsId\": \"2710074924\",\r\n    \"nm\": null,\r\n    \"email\": null\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/login/app/sns",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"login",
+								"app",
+								"sns"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "로그아웃",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2Nzg3Njg0MTUsImlhdCI6MTY3ODc2NzgxNSwianRpIjoiMmQ0MTc4M2UtN2E4NS00MTQ1LWFiNjQtNmQyNmNmYjdkYmU5IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJmYmZmNmNhMi02NzZhLTQxNDctYWZhYy1hM2Y5NGVmMDNhOTAiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImZiZmY2Y2EyLTY3NmEtNDE0Ny1hZmFjLWEzZjk0ZWYwM2E5MCIsInVzZXJObSI6Iuq5gOy2qeunjCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDEyLCJuaWNrTm0iOiLquYDstqnrp4wiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.aVEG4qfZeubQJRhwtQZapY2pdv1L5VCaWTCZ7WvU9-IJrc5g35JS1kGlRXdy4vd2F4rRnk8CwXpDVLFVvYbUrMC92Kne2tvtZp356Rkrde2tMkhCgCsFKwZQbRekGfZ_BdKa8ynmXEzYBkwxfVjySpHdJlf7XdHgduxjGROsMXm6yXZwL89ie5Xoac_bi9_9qKW487_0_4Nq6XAaNYmbD1HSbrbOPxBdR5Vq-L8Lu2UcXwJU3wi0Fi-wIG8tckBvChE1wLyxJOdvP1XJGYX7PKWr6HzAC8kL7pnYMYdwhft_X8euRkY5HslATU9XqwXfGilcOIWjMXIAgEIAgZW4dA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/logout?refreshToken=eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxYTc0YTVmYy04ZmEzLTRmOGEtYTczNS02NTdhNjFhN2U3ZjEifQ.eyJleHAiOjE2ODEzNTkwOTIsImlhdCI6MTY3ODc2NzA5MywianRpIjoiNGI1YjJmNTgtNmIxYS00N2ZmLWE5YjItOWE5ZDM2OGZjNjZjIiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwic3ViIjoiZjo2MjliMDk3MC1iZmRmLTRmNjYtOTFjNi0yZmVhMTEwY2ZhMDY6MjAxMiIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI3MTU3NGY0ZS05YmFhLTQzNjgtOTI5Ny1hYTdiMTQ5NjE2YzgiLCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjcxNTc0ZjRlLTliYWEtNDM2OC05Mjk3LWFhN2IxNDk2MTZjOCJ9.3Gs1TmOVAqWUEDBtGKSDswHEqrXP9z-Hwc4IJF3Kd1Q",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"logout"
+							],
+							"query": [
+								{
+									"key": "refreshToken",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxYTc0YTVmYy04ZmEzLTRmOGEtYTczNS02NTdhNjFhN2U3ZjEifQ.eyJleHAiOjE2ODEzNTkwOTIsImlhdCI6MTY3ODc2NzA5MywianRpIjoiNGI1YjJmNTgtNmIxYS00N2ZmLWE5YjItOWE5ZDM2OGZjNjZjIiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwic3ViIjoiZjo2MjliMDk3MC1iZmRmLTRmNjYtOTFjNi0yZmVhMTEwY2ZhMDY6MjAxMiIsInR5cCI6IlJlZnJlc2giLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI3MTU3NGY0ZS05YmFhLTQzNjgtOTI5Ny1hYTdiMTQ5NjE2YzgiLCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjcxNTc0ZjRlLTliYWEtNDM2OC05Mjk3LWFhN2IxNDk2MTZjOCJ9.3Gs1TmOVAqWUEDBtGKSDswHEqrXP9z-Hwc4IJF3Kd1Q"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "프로필정보 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_tocken}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/profile",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "프로필정보 수정",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "nickNm",
+									"value": "김충만",
+									"type": "text"
+								},
+								{
+									"key": "profileImgPath",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "uploadFile",
+									"type": "file",
+									"src": []
+								}
+							]
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/profile",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "비밀번호변경 (로그인후)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"oldPwd\":\"qhdks@00\",\r\n    \"pwd\":\"qhdks@00\",\r\n    \"confirmPwd\":\"qhdks@00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/find/change/pwd",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"find",
+								"change",
+								"pwd"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "회원탈퇴",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2Nzc5NTU5NTUsImlhdCI6MTY3NzkxOTk1NSwianRpIjoiYjk0ZmJjYjUtMWE4MC00NjRiLWEzNzctOGRiOGQ0YjhkYWE0IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMzciLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiIxYmY5NjUzYy05YWU2LTRmOTEtOTM0Mi04OTExMjFlZGQ0MjgiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjFiZjk2NTNjLTlhZTYtNGY5MS05MzQyLTg5MTEyMWVkZDQyOCIsInVzZXJObSI6Iuq2jOyCsCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDM3LCJuaWNrTm0iOiLqtozsgrAiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.Orbj66lcl30njNZ55krZCAxOf3AjDPZeN5IA95sKrXNNKivUX57We1izb3kZ3ItPBbpqZdil3y_aKoanzsCDa1yT_jy6QQ6MDhHFj6_DyS99Yci4S6wwW1F6RX0aCHNilh0r1fn6wP2hJBdk8YJ1YOtui1ao6s2PxCBQV-e_WANTBexi30ztQKt3soXMEn3IYgRJC_lzc-7Kj2QRk9fUsrdHI5EmNcKDDiNa-t0DAjUWQDUXOBQFQ3a_znZMQN1OahBnGvJHyxIZX6TB84eO0klJKcR9fGokWQsLXJ01QkHYAN_1rwK5027MUP4CWgIR-7sueAq78eUQhM-OT9iCCg",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/withdrawal?groupCdSid=1",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"withdrawal"
+							],
+							"query": [
+								{
+									"key": "refreshToken",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxYTc0YTVmYy04ZmEzLTRmOGEtYTczNS02NTdhNjFhN2U3ZjEifQ.eyJleHAiOjE2Nzc1MDg4NjUsImlhdCI6MTY3NzUwNzA2NSwianRpIjoiNzljYzZkMjUtYjE4NS00MTliLTg4MTgtZmJjZWI3MTY5YzU4IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwic3ViIjoiZjo2MjliMDk3MC1iZmRmLTRmNjYtOTFjNi0yZmVhMTEwY2ZhMDY6MTA5IiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImNvbW1vbi1zZXJ2aWNlIiwic2Vzc2lvbl9zdGF0ZSI6IjM3M2UxNWExLTgxNjQtNGM2Mi04OTI2LTUzNDhkZDc4OTEzZCIsInNjb3BlIjoiZW1haWwgbWFjcm9nZW5fdXNlciBwcm9maWxlIiwic2lkIjoiMzczZTE1YTEtODE2NC00YzYyLTg5MjYtNTM0OGRkNzg5MTNkIn0.kvtfmK7RBOubLJZ0HEqCtBaA6YvtIIiJm6IJYHXg9uQ",
+									"disabled": true
+								},
+								{
+									"key": "groupCdSid",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "SNS 계정 비활성화",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2Nzg3Njg0MTUsImlhdCI6MTY3ODc2NzgxNSwianRpIjoiMmQ0MTc4M2UtN2E4NS00MTQ1LWFiNjQtNmQyNmNmYjdkYmU5IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJmYmZmNmNhMi02NzZhLTQxNDctYWZhYy1hM2Y5NGVmMDNhOTAiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImZiZmY2Y2EyLTY3NmEtNDE0Ny1hZmFjLWEzZjk0ZWYwM2E5MCIsInVzZXJObSI6Iuq5gOy2qeunjCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDEyLCJuaWNrTm0iOiLquYDstqnrp4wiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.aVEG4qfZeubQJRhwtQZapY2pdv1L5VCaWTCZ7WvU9-IJrc5g35JS1kGlRXdy4vd2F4rRnk8CwXpDVLFVvYbUrMC92Kne2tvtZp356Rkrde2tMkhCgCsFKwZQbRekGfZ_BdKa8ynmXEzYBkwxfVjySpHdJlf7XdHgduxjGROsMXm6yXZwL89ie5Xoac_bi9_9qKW487_0_4Nq6XAaNYmbD1HSbrbOPxBdR5Vq-L8Lu2UcXwJU3wi0Fi-wIG8tckBvChE1wLyxJOdvP1XJGYX7PKWr6HzAC8kL7pnYMYdwhft_X8euRkY5HslATU9XqwXfGilcOIWjMXIAgEIAgZW4dA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/unlink/sns?snsTypeCd=apple",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"unlink",
+								"sns"
+							],
+							"query": [
+								{
+									"key": "snsTypeCd",
+									"value": "apple"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "keycloak 테스트",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "common-service",
+									"type": "text"
+								},
+								{
+									"key": "username",
+									"value": "cndaks9205",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "1234",
+									"type": "text"
+								},
+								{
+									"key": "grant_type",
+									"value": "password",
+									"type": "text"
+								},
+								{
+									"key": "scope",
+									"value": "macrogen_user",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "31a75383-bf04-41aa-88ef-f2c11ed482ff",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "192.168.10.203:18080/auth/realms/macrogen/protocol/openid-connect/token",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"203"
+							],
+							"port": "18080",
+							"path": [
+								"auth",
+								"realms",
+								"macrogen",
+								"protocol",
+								"openid-connect",
+								"token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "keycloak 테스트 Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzYyOTg5MDEsImlhdCI6MTY3NjI5ODYwMSwianRpIjoiZGE2OTc0NDQtNzE2MS00Mjg1LWFlMjgtYjVmNTU1NjVjZDNiIiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjEwOSIsInR5cCI6IkJlYXJlciIsImF6cCI6ImNvbW1vbi1zZXJ2aWNlIiwic2Vzc2lvbl9zdGF0ZSI6ImM5NjY4OWEwLTkyYWUtNDU1Ni1iZDA2LTk4OGViN2EyYTJhZSIsImFjciI6IjEiLCJyZWFsbV9hY2Nlc3MiOnsicm9sZXMiOlsib2ZmbGluZV9hY2Nlc3MiLCJ1bWFfYXV0aG9yaXphdGlvbiJdfSwicmVzb3VyY2VfYWNjZXNzIjp7ImFjY291bnQiOnsicm9sZXMiOlsibWFuYWdlLWFjY291bnQiLCJtYW5hZ2UtYWNjb3VudC1saW5rcyIsInZpZXctcHJvZmlsZSJdfX0sInNjb3BlIjoiZW1haWwgbWFjcm9nZW5fdXNlciBwcm9maWxlIiwic2lkIjoiYzk2Njg5YTAtOTJhZS00NTU2LWJkMDYtOTg4ZWI3YTJhMmFlIiwidXNlck5tIjoi6rmA7Lap66eMIiwibmF0aW9uQ2QiOiJrciIsImFjbnRTdHRzQ2QiOiIxMDEwMiIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwibG9naW5JZCI6ImNuZGFrczkyMDUiLCJ1c2VyU2lkIjoxMDksIm5pY2tObSI6Iuq5gOy2qeunjCIsImxhbmdDZCI6ImtvIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiY25kYWtzOTIwNSJ9.TlYnhbetBWvtvs7g2JBW9ckBLNK_14_fE0l6rPXNf0jREr6btB3x4cdTjMuiiLwtq-UDfwc0sP7FMoqAaTRZp16ptbGotpQaEMGNC4Idlfexo5YXGgb80xzbmEYqLfibyEtaQFk3C5I2Zxl_6HGty6xySJAgQ89HaEt8Z14XIJFiuaDVsWRSCRSoFYrbpbxoy6-0qp1MbILisCLdQhIMbPjCdqjGc1aJmBduWpqI2LFL2mTDVvJRFqVftLTWmEjTW6QIKhy9fyIN0th9uQcwi2rlg8GCDiiWrfW4YV31GnlXlChf5dpmYbLVROJvO87xr-kOZvZ6talTH_1d1PjR6w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "client_id",
+									"value": "common-service",
+									"type": "text"
+								},
+								{
+									"key": "refresh_token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICIxYTc0YTVmYy04ZmEzLTRmOGEtYTczNS02NTdhNjFhN2U3ZjEifQ.eyJleHAiOjE2NzYzMDA0MDEsImlhdCI6MTY3NjI5ODYwMSwianRpIjoiZTVlM2JlZTYtNGVkNi00NmMyLThmOGYtOWQwMWU1MmY5NGI5IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwic3ViIjoiZjo2MjliMDk3MC1iZmRmLTRmNjYtOTFjNi0yZmVhMTEwY2ZhMDY6MTA5IiwidHlwIjoiUmVmcmVzaCIsImF6cCI6ImNvbW1vbi1zZXJ2aWNlIiwic2Vzc2lvbl9zdGF0ZSI6ImM5NjY4OWEwLTkyYWUtNDU1Ni1iZDA2LTk4OGViN2EyYTJhZSIsInNjb3BlIjoiZW1haWwgbWFjcm9nZW5fdXNlciBwcm9maWxlIiwic2lkIjoiYzk2Njg5YTAtOTJhZS00NTU2LWJkMDYtOTg4ZWI3YTJhMmFlIn0.-WQyULPnMVNHoZfLjkL7aB_HoVg2ppwv87QIqvJ0fcg",
+									"type": "text"
+								},
+								{
+									"key": "client_secret",
+									"value": "31a75383-bf04-41aa-88ef-f2c11ed482ff",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "192.168.10.203:18080/auth/realms/macrogen/protocol/openid-connect/logout?redirect_uri=localhost:8080",
+							"host": [
+								"192",
+								"168",
+								"10",
+								"203"
+							],
+							"port": "18080",
+							"path": [
+								"auth",
+								"realms",
+								"macrogen",
+								"protocol",
+								"openid-connect",
+								"logout"
+							],
+							"query": [
+								{
+									"key": "redirect_uri",
+									"value": "localhost:8080"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "아이디찾기/비밀번호변경",
+			"item": [
+				{
+					"name": "아이디찾기 (휴대폰본인인증)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"verifyKey\": \"abcd\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/find/loginid/verification",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"find",
+								"loginid",
+								"verification"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "아이디찾기 (회원정보)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userNm\":\"김충만\",\r\n    \"phoneNo\":\"01087179205\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/find/loginid/info",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"find",
+								"loginid",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "휴대폰번호로 인증번호 전송",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userNm\":\"김충만\",\r\n    \"loginId\":\"cndaks9205@gmail.com\",\r\n    \"phoneNo\":\"01087179205\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/certify/phone",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"certify",
+								"phone"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "이메일로 인증번호 전송",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userNm\":\"김충만\",\r\n    \"loginId\":\"cndaks9205@gmail.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/certify/email",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"certify",
+								"email"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "인증번호체크 (휴대폰번호인증 파라미터)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userNm\":\"김충만\",\r\n    \"loginId\":\"cndaks9205\",\r\n    \"phoneNo\":\"01087179205\",\r\n    \"certifyKey\":\"8480842d-c184-46a4-8afd-1304dc03b5f5\",\r\n    \"certifyNo\":\"361846\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/certify/check",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"certify",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "인증번호체크 (이메일인증 파라미터)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userNm\":\"김충만\",\r\n    \"loginId\":\"cndaks9205@gmail.com\",\r\n    \"certifyKey\":\"695adb23-8e09-4d9d-9835-0f7121e705bf\",\r\n    \"certifyNo\":\"370286\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/certify/check",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"certify",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "비밀번호변경 (비밀번호 찾기 후)",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"certifyKey\":\"695adb23-8e09-4d9d-9835-0f7121e705bf\",\r\n    \"pwd\":\"qhdks@00\",\r\n    \"confirmPwd\":\"qhdks@00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/find/change/pwd",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"find",
+								"change",
+								"pwd"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "회원가입",
+			"item": [
+				{
+					"name": "회원가입",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"verifyKey\": \"916231d1-d8c3-4d4f-be07-87a8e8560954\",\r\n    \"loginId\": \"yjkim\",\r\n    \"pwd\": \"1234\",\r\n    \"confirmPwd\": \"1234\",\r\n    \"termsAgreementList\": [\r\n        {\r\n            \"termsSid\": 1,\r\n            \"ver\": \"0.2\",\r\n            \"agrmntYn\":true\r\n        },\r\n        {\r\n            \"termsSid\": 2,\r\n            \"ver\": \"0.2\",\r\n            \"agrmntYn\":true\r\n        },\r\n        {\r\n            \"termsSid\": 3,\r\n            \"ver\": \"0.2\",\r\n            \"agrmntYn\":true\r\n        },\r\n        {\r\n            \"termsSid\": 4,\r\n            \"ver\": \"0.2\",\r\n            \"agrmntYn\":true\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/signup",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "회원가입 SNS",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"snsKey\":\"bd36728b-6828-4af7-9c3a-819e8897ecca\",\r\n    \"verifyKey\":\"89caff5a-c599-4e27-bf2c-a8ae6628e03e\",\r\n    \"termsAgreementList\": [\r\n        {\r\n            \"termsSid\": 1,\r\n            \"ver\": \"0.3\",\r\n            \"agrmntYn\":true\r\n        },\r\n        {\r\n            \"termsSid\": 2,\r\n            \"ver\": \"0.3\",\r\n            \"agrmntYn\":true\r\n        },\r\n        {\r\n            \"termsSid\": 3,\r\n            \"ver\": \"0.3\",\r\n            \"agrmntYn\":true\r\n        },\r\n        {\r\n            \"termsSid\": 4,\r\n            \"ver\": \"0.3\",\r\n            \"agrmntYn\":true\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/signup",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"signup"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "본인인증",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"snsKey\":\"\",\r\n    \"loginId\":\"1233312312344\",\r\n    \"pwd\":\"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/verification?callback=test",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"verification"
+							],
+							"query": [
+								{
+									"key": "callback",
+									"value": "test"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "본인인증 (ID/PW 회원가입)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/verification/signup?callback=test",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"verification",
+								"signup"
+							],
+							"query": [
+								{
+									"key": "callback",
+									"value": "test"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "본인인증 (SNS 회원가입)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/verification/signup/sns?callback=test",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"verification",
+								"signup",
+								"sns"
+							],
+							"query": [
+								{
+									"key": "callback",
+									"value": "test"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "주문",
+			"item": [
+				{
+					"name": "배송지관리",
+					"item": [
+						{
+							"name": "배송지목록조회",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzkwOTkwNzgsImlhdCI6MTY3OTA2MzA3OCwianRpIjoiM2JhZDk4OGUtZjU4NC00NTE4LTkxNzItN2FmNTZmNGQzZmE3IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjA2OjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwNTYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI4YTI0MmM0Yi0zYWEyLTRmMDYtOGE4OS00NTIyZTliNWRjNjgiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjhhMjQyYzRiLTNhYTItNGYwNi04YTg5LTQ1MjJlOWI1ZGM2OCIsInVzZXJObSI6Iuyepe2YgeykgCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDU2LCJuaWNrTm0iOiLsnqXtmIHspIAiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.WDsOFCchHOE0qyUhsOzLmaqg-URlm4MIigjSLvJqp-2-J0w5wqBI8LVUteairHTdgxlXF5knbUKAQupldp27iVYXxi3CRDjhRq7nzZzWXXjk2NCZLPMyIn9iY77QwGLYGJ0GprS09LCqfeSl8sg1oLtL1Vm3AdHPdIwRmmbsXrmLhAdBAVPJL6mTN7URA7tocZqmHeLqTttyLJpEbDJ-2aASOjhvnz4MiUNuFrjeNTOBrnrWnIhU2KjG3XKicFXDrYblrimAo_HtgKNfHEZJEYCXyGvg-ItcK5eN4b_PY5XBEHuLEHuna3sKq0uMsnc-S67epOMKnSwBMWxedvPjOA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/dlivry/addr",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"dlivry",
+										"addr"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "기본배송지조회",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2Nzg2OTAxMzYsImlhdCI6MTY3ODY4OTUzNiwianRpIjoiMTVmOGNjYzktZWI3ZC00ZjYzLWI0N2EtMWM3OTEwZGE5YjIyIiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI1MTQzM2M3Yi0wMDNlLTRmNjEtOGJjZS0wMTFjOTk5Y2I0NWQiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjUxNDMzYzdiLTAwM2UtNGY2MS04YmNlLTAxMWM5OTljYjQ1ZCIsInVzZXJObSI6Iuq5gOy2qeunjCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDEyLCJuaWNrTm0iOiLquYDstqnrp4wiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.tjLbHmvRzvxmwA3blz1Gl_h9WMdlrDIRyY7q2CWqmvGYRAnZMQrFUlwNKJ5x4Aqek0iG2z5_AXJv71oDFmN8gV1ynzY3Q-jCjjSKkJxMIbRU7E69UhcctPx99lHD7j7xPvkgyNPz0grivPfEmUfxeMaPuIBa8oaJxXFDmxWk-PtulGPMK9_l_d26NmI3F6Imm4Byk4wnvo9u7SeI43mFLI_ZNNIn-YCjp0_Ey6QQm552TWmohW-stqgeFF4W5e8smGy0a4xRpuQFQtlt0ztzbSX9DzB4pL--_fYWRvpJFFEzu-zLoLbpt5HFcEwq6ctsNv9gMQNfTSJq1t4dgZkXtQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/dlivry/addr/default",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"dlivry",
+										"addr",
+										"default"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "배송지상세조회",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/dlivry/addr/5313",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"dlivry",
+										"addr",
+										"5313"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "배송지 등록",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzgzNjYxNTYsImlhdCI6MTY3ODM2NTU1NiwianRpIjoiYTY2MTUyOTctOGUzZS00ODVkLWI5NjktYmM0MDkwM2JjYTM3IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJjM2UwMjlmZS01MzU3LTQ2NzUtYmRmYS1lZWIzYmQ2OWI2ZmMiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImMzZTAyOWZlLTUzNTctNDY3NS1iZGZhLWVlYjNiZDY5YjZmYyIsInVzZXJObSI6Iuq5gOy2qeunjCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDEyLCJuaWNrTm0iOiLquYDstqnrp4wiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.jvghTQm2iQ-b0rQrzzIXs5vuhIqVa2Pyk4qg7SrCJDsdZG3ZYJlOoJIo-rm9CbKTqT_ldmE-Yzdi7jCUDPc7XjwIZXdo6IWNo1ddNVvKvAHW2kJD_oZEtOHmHXxoYm88V0kXiqzhsA1LaWUdjBwLJMItbLyLcXjK46SQMgEHm3rwW8MAzQw_ARrj9bIuXcMY-QPP5n32nXuK9TSmYIOAWumPvrgv916oxZRq5KbYvWxe43Ca7yCqNkbEZAKQU_Tl1SUVA1hDXt-OYpXLHMgjoMqtY2DL6Hfbwz1u4JGAdj-1EWTBFKdIpslPnEMSimDWzKJDTn-9LwteC2T9Nix2bA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"rcipntNm\": \"홍길동\",\r\n        \"phonePrefix\": \"010\",\r\n    \"phoneNo\": \"1234567\",\r\n    \"dlivryAddrNm\":\"배송지테스트5\",\r\n    \"zone\":\"15555\",\r\n    \"addr\":\"주소 테스트5 주소 테스트5 주소 테스트5\",\r\n    \"addrDetl\":\"주소상세 테스트5 주소상세 테스트5 주소상세 테스트5\",\r\n    \"defaultYn\": true\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/dlivry/addr",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"dlivry",
+										"addr"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "배송지수정",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"appId\": null,\r\n    \"nationCd\": null,\r\n    \"langCd\": null,\r\n    \"regDt\": 1677049162957,\r\n    \"updDt\": 1677049162957,\r\n    \"dlivryAddrSid\": 2,\r\n    \"userSid\": 1,\r\n    \"dlivryAddrNm\": \"배송지테스트\",\r\n    \"defaultYn\": true,\r\n    \"zone\": \"12345\",\r\n    \"addr\": \"기본주소 기본주소 기본주소\",\r\n    \"addrDetl\": \"상세주소상세주소상세주소\",\r\n    \"rcipntNm\": \"홍길동\",\r\n    \"phoneNo\": \"01012345678\",\r\n    \"totAddr\": \"주소 테스트 주소 테스트 주소 테스트\",\r\n    \"regUser\": null,\r\n    \"updUser\": null\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/dlivry/addr/2",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"dlivry",
+										"addr",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "배송지삭제",
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/dlivry/addr/84",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"dlivry",
+										"addr",
+										"84"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "배송지상세조회 Copy",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/order/dlivry/amt",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"order",
+										"dlivry",
+										"amt"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "임시",
+					"item": [
+						{
+							"name": "주문 - 샘플 반환 요청 Copy",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2Nzc3Nzc0NDUsImlhdCI6MTY3Nzc0MTQ0NSwianRpIjoiOWIxNzY5YjMtMzliNy00ZDQ0LThjMzQtOTAwYTk3MWNiOWY2IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJkMWZjY2MwNy1mMzI2LTQ0MmEtYjY3YS04MjU5NDM2NGM4MWQiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImQxZmNjYzA3LWYzMjYtNDQyYS1iNjdhLTgyNTk0MzY0YzgxZCIsInVzZXJObSI6InRlc3QiLCJuYXRpb25DZCI6ImtyIiwiYWNudFN0dHNDZCI6eyJjb2RlIjoxMDEwMCwidmFsdWUiOiLsoJXsg4EiLCJwY29kZSI6MTAxfSwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJsb2dpbklkIjoidHQiLCJ1c2VyU2lkIjoxLCJuaWNrTm0iOiLqtozsgrAiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6InR0In0.RDLbFY0n9_Wipa5mZtFFHfdQnL1QulKAnW7I3m62c-NAsn-g0kQenE6RHrK7KHp4omkmrBkLiTUcq-uR-lEBQp3cmTb2LwYbYwhfk-IjEsVUKCSzJu6_NHNwpc6I7RR-r-XJTqoWsVT48-5IVysScDg-6iOYgicEGFAL5iEDi3aM9LbhtnuHB9EyVYNrB58jhzymyqW4ElTQDGVopLlOjCKm1TJmmFw_ZtVxPwZgyy72OveV5TlP0lgZ-wGPY5HJX8k-IIJTGR3oCLr3m-Ds_sVPs8MJ2wFDxSCouVrMYsgBrHvrlkPltkGDJcu5Fbd4KzyOjdVxrsNW1j0NIJx7fQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"paymentStateCd\": 210202,\r\n    \"payer\": \"TEST\",\r\n    \"paymentDt\": \"2023-03-02 20:26:00\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/order/2023030220240710020/payment/2023030220240710020P/callback",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"order",
+										"2023030220240710020",
+										"payment",
+										"2023030220240710020P",
+										"callback"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "주문 - 샘플 반환 요청 Copy 2",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2Nzc3Nzc0NDUsImlhdCI6MTY3Nzc0MTQ0NSwianRpIjoiOWIxNzY5YjMtMzliNy00ZDQ0LThjMzQtOTAwYTk3MWNiOWY2IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJkMWZjY2MwNy1mMzI2LTQ0MmEtYjY3YS04MjU5NDM2NGM4MWQiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImQxZmNjYzA3LWYzMjYtNDQyYS1iNjdhLTgyNTk0MzY0YzgxZCIsInVzZXJObSI6InRlc3QiLCJuYXRpb25DZCI6ImtyIiwiYWNudFN0dHNDZCI6eyJjb2RlIjoxMDEwMCwidmFsdWUiOiLsoJXsg4EiLCJwY29kZSI6MTAxfSwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJsb2dpbklkIjoidHQiLCJ1c2VyU2lkIjoxLCJuaWNrTm0iOiLqtozsgrAiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6InR0In0.RDLbFY0n9_Wipa5mZtFFHfdQnL1QulKAnW7I3m62c-NAsn-g0kQenE6RHrK7KHp4omkmrBkLiTUcq-uR-lEBQp3cmTb2LwYbYwhfk-IjEsVUKCSzJu6_NHNwpc6I7RR-r-XJTqoWsVT48-5IVysScDg-6iOYgicEGFAL5iEDi3aM9LbhtnuHB9EyVYNrB58jhzymyqW4ElTQDGVopLlOjCKm1TJmmFw_ZtVxPwZgyy72OveV5TlP0lgZ-wGPY5HJX8k-IIJTGR3oCLr3m-Ds_sVPs8MJ2wFDxSCouVrMYsgBrHvrlkPltkGDJcu5Fbd4KzyOjdVxrsNW1j0NIJx7fQ",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"termsAgreementList\": [\r\n        {\r\n            \"termsSid\": 100,\r\n            \"agrmntYn\": true\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/order/2023022010102410003/sample/return",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"order",
+										"2023022010102410003",
+										"sample",
+										"return"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "주문 목록 조회",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/order",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문상세조회",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/2023030716361210022",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"2023030716361210022"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문상세조회 Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzgzNjYxNTYsImlhdCI6MTY3ODM2NTU1NiwianRpIjoiYTY2MTUyOTctOGUzZS00ODVkLWI5NjktYmM0MDkwM2JjYTM3IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJjM2UwMjlmZS01MzU3LTQ2NzUtYmRmYS1lZWIzYmQ2OWI2ZmMiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImMzZTAyOWZlLTUzNTctNDY3NS1iZGZhLWVlYjNiZDY5YjZmYyIsInVzZXJObSI6Iuq5gOy2qeunjCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDEyLCJuaWNrTm0iOiLquYDstqnrp4wiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.jvghTQm2iQ-b0rQrzzIXs5vuhIqVa2Pyk4qg7SrCJDsdZG3ZYJlOoJIo-rm9CbKTqT_ldmE-Yzdi7jCUDPc7XjwIZXdo6IWNo1ddNVvKvAHW2kJD_oZEtOHmHXxoYm88V0kXiqzhsA1LaWUdjBwLJMItbLyLcXjK46SQMgEHm3rwW8MAzQw_ARrj9bIuXcMY-QPP5n32nXuK9TSmYIOAWumPvrgv916oxZRq5KbYvWxe43Ca7yCqNkbEZAKQU_Tl1SUVA1hDXt-OYpXLHMgjoMqtY2DL6Hfbwz1u4JGAdj-1EWTBFKdIpslPnEMSimDWzKJDTn-9LwteC2T9Nix2bA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/2023031318354710033",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"2023031318354710033"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문 배송현황 조회 (CJ)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzgwOTk2OTksImlhdCI6MTY3ODA2MzY5OSwianRpIjoiZGI3YjVkODMtYjE2OC00NGJhLTllY2EtZjI0ZDExODg3OTk0IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJmZWUyMzdkMi1hN2FlLTQ1ZWYtOGY5Mi1mNDIzNmE3YjBjMzAiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImZlZTIzN2QyLWE3YWUtNDVlZi04ZjkyLWY0MjM2YTdiMGMzMCIsInVzZXJObSI6InRlc3QiLCJuYXRpb25DZCI6ImtyIiwiYWNudFN0dHNDZCI6eyJjb2RlIjoxMDEwMCwidmFsdWUiOiLsoJXsg4EiLCJwY29kZSI6MTAxfSwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJsb2dpbklkIjoidHQiLCJ1c2VyU2lkIjoxLCJuaWNrTm0iOiLqtozsgrAiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6InR0In0.q16BzC3ocrA0nkRvbMWs4Gz8XabVAgEvEc7YSWe52fgBNj2RXDakUR648i64dzKSaXTo8rEklYmiHQDh6GpY4JEQMtxMj1SwRrNitrxoVhuaGlzsOcDBXFn-EzJd3gM9Vbk_RPMe3bZ5HuAB9d9UZbTp3QypcTgOjB0M6F6Jc4HwaJ7xv6glT7IxNsi0zdw_06QjgTICUmcWGBsRraJabOjIXISpdzRNLf92xTcchoyvObf3MmUdgy23enxw2L8VhZ_i-4_6F_kBPcZmolOzPaIq502AAXVGPhqL-t63pOvbGqhUBPyoEn6KAZe740IY75qz8X4SAQK-8i_0HsL20A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/2023022400020310009/delivery",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"2023022400020310009",
+								"delivery"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문 배송현황 조회 (우체국)",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzgwOTk2OTksImlhdCI6MTY3ODA2MzY5OSwianRpIjoiZGI3YjVkODMtYjE2OC00NGJhLTllY2EtZjI0ZDExODg3OTk0IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJmZWUyMzdkMi1hN2FlLTQ1ZWYtOGY5Mi1mNDIzNmE3YjBjMzAiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImZlZTIzN2QyLWE3YWUtNDVlZi04ZjkyLWY0MjM2YTdiMGMzMCIsInVzZXJObSI6InRlc3QiLCJuYXRpb25DZCI6ImtyIiwiYWNudFN0dHNDZCI6eyJjb2RlIjoxMDEwMCwidmFsdWUiOiLsoJXsg4EiLCJwY29kZSI6MTAxfSwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJsb2dpbklkIjoidHQiLCJ1c2VyU2lkIjoxLCJuaWNrTm0iOiLqtozsgrAiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6InR0In0.q16BzC3ocrA0nkRvbMWs4Gz8XabVAgEvEc7YSWe52fgBNj2RXDakUR648i64dzKSaXTo8rEklYmiHQDh6GpY4JEQMtxMj1SwRrNitrxoVhuaGlzsOcDBXFn-EzJd3gM9Vbk_RPMe3bZ5HuAB9d9UZbTp3QypcTgOjB0M6F6Jc4HwaJ7xv6glT7IxNsi0zdw_06QjgTICUmcWGBsRraJabOjIXISpdzRNLf92xTcchoyvObf3MmUdgy23enxw2L8VhZ_i-4_6F_kBPcZmolOzPaIq502AAXVGPhqL-t63pOvbGqhUBPyoEn6KAZe740IY75qz8X4SAQK-8i_0HsL20A",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/2023030216175610019/delivery",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"2023030216175610019",
+								"delivery"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문 전 체크",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzkxMTA1NzQsImlhdCI6MTY3OTA3NDU3NCwianRpIjoiMmE0NjU5NTMtYWYxZC00YTg0LTk3OGItMThhOTk0ZmUwMGJhIiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjA2OjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwNTYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI3YjIwMGE1NC02YzBkLTRkOTktOWI3NS00NzVjNDk3ZWJiMTEiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjdiMjAwYTU0LTZjMGQtNGQ5OS05Yjc1LTQ3NWM0OTdlYmIxMSIsInVzZXJObSI6Iuyepe2YgeykgCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDU2LCJuaWNrTm0iOiLsnqXtmIHspIAiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.nXWrjWFQ7OalkxO6kabyokJr3QCsJXgxPYOAAmfurf-QweyqwJ77tENpLzSrcD5_v_hJs8mKbGHcEjSsc1G7Mbwa2idmrmo8TN_vre9r8-m3GHeVHfq3qQCY08fNZrcWrWlac4AEpxeJfeFwYsCQlyE5ybwclUkgLpR9Tq8oBjEURT6Mv9dw38I2uQHnxFxNCSPIcAaVUrWQ2nDRTD5CoKfu6ry7RzpyFuUeR3WyvAO9AEaWUlcvVDp-5gpRvCjwTJAJrzG8j-cY8pdZaC3kR2S2SID2ZroFg8WAUK8EjI5bgv37Uyzf9tWQsiMa1niCdcNW8xKEX1CiwEiSLmA4dA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/goods/check?goodsSidList=20&goodsSidList=21&goodsSidList=22&goodsSidList=6",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"goods",
+								"check"
+							],
+							"query": [
+								{
+									"key": "goodsSidList",
+									"value": "20"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "21"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "22"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "74",
+									"disabled": true
+								},
+								{
+									"key": "goodsSidList",
+									"value": "6"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문 가격 정보 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzgzNjQwOTYsImlhdCI6MTY3ODM2MzQ5NiwianRpIjoiMmIyNmJiYjEtOWNjMi00YTA2LWJkNGUtNDc0NGJhZDQzNTkxIiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMDYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJhMWE3YWUwMC1jMzMxLTQ2OTctYjhjMS1jMzkwYzJlNDZiMzQiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImExYTdhZTAwLWMzMzEtNDY5Ny1iOGMxLWMzOTBjMmU0NmIzNCIsInVzZXJObSI6Iuq5gOyYiOyngCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJ5amtpbSIsInVzZXJTaWQiOjIwMDYsIm5pY2tObSI6IuuniOuLueydtOuPhOuLpCIsImxhbmdDZCI6ImtvIiwicHJlZmVycmVkX3VzZXJuYW1lIjoieWpraW0ifQ.i8Q6YcvIq4uCFxJPPDVZijcbE2PEc7V8G6DAsh8EV6IdIcET5lxINgpCN_YyyVVN17_5o-Ou5XUW--S_iESCdtEEVE7eygRg_Y6rkzVJ_g6-JoEMcVnGIuyLy1qtBa9jMUpu-Z78_BUB4YP-n5tC8z-RNz64olwTI960ilU0R6-dh1dVdqVhsqob_yXqT3YuoiahYBBrrZOGWjSPlberNZcQ7353QtR6SQJbg4SMg781Rzto6_j-UfpYms5YDMO7TsrCF2L-Pd045w2ZadjnZPorimbZ8uKQbw9vWWojntBR5TmE77m7_r8-KIgPjuPtyjEr93W_YDHbzXe5Po8dQw",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/amt/info?goodsSidList=1&goodsSidList=2&goodsSidList=3&goodsSidList=20&goodsSidList=21&goodsSidList=22&goodsSidList=74",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"amt",
+								"info"
+							],
+							"query": [
+								{
+									"key": "goodsSidList",
+									"value": "1"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "2"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "3"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "20"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "21"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "22"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "74"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문 가격 정보 조회 Copy",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzgzNjYxNTYsImlhdCI6MTY3ODM2NTU1NiwianRpIjoiYTY2MTUyOTctOGUzZS00ODVkLWI5NjktYmM0MDkwM2JjYTM3IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJjM2UwMjlmZS01MzU3LTQ2NzUtYmRmYS1lZWIzYmQ2OWI2ZmMiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImMzZTAyOWZlLTUzNTctNDY3NS1iZGZhLWVlYjNiZDY5YjZmYyIsInVzZXJObSI6Iuq5gOy2qeunjCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDEyLCJuaWNrTm0iOiLquYDstqnrp4wiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.jvghTQm2iQ-b0rQrzzIXs5vuhIqVa2Pyk4qg7SrCJDsdZG3ZYJlOoJIo-rm9CbKTqT_ldmE-Yzdi7jCUDPc7XjwIZXdo6IWNo1ddNVvKvAHW2kJD_oZEtOHmHXxoYm88V0kXiqzhsA1LaWUdjBwLJMItbLyLcXjK46SQMgEHm3rwW8MAzQw_ARrj9bIuXcMY-QPP5n32nXuK9TSmYIOAWumPvrgv916oxZRq5KbYvWxe43Ca7yCqNkbEZAKQU_Tl1SUVA1hDXt-OYpXLHMgjoMqtY2DL6Hfbwz1u4JGAdj-1EWTBFKdIpslPnEMSimDWzKJDTn-9LwteC2T9Nix2bA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/amt/info?goodsSidList=1&goodsSidList=2&goodsSidList=3&goodsSidList=20&goodsSidList=21&goodsSidList=22&goodsSidList=74",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"amt",
+								"info"
+							],
+							"query": [
+								{
+									"key": "goodsSidList",
+									"value": "1"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "2"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "3"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "20"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "21"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "22"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "74"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문 가격 정보 조회 (패키지 포함)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzgzNjYxNTYsImlhdCI6MTY3ODM2NTU1NiwianRpIjoiYTY2MTUyOTctOGUzZS00ODVkLWI5NjktYmM0MDkwM2JjYTM3IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJjM2UwMjlmZS01MzU3LTQ2NzUtYmRmYS1lZWIzYmQ2OWI2ZmMiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImMzZTAyOWZlLTUzNTctNDY3NS1iZGZhLWVlYjNiZDY5YjZmYyIsInVzZXJObSI6Iuq5gOy2qeunjCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDEyLCJuaWNrTm0iOiLquYDstqnrp4wiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.jvghTQm2iQ-b0rQrzzIXs5vuhIqVa2Pyk4qg7SrCJDsdZG3ZYJlOoJIo-rm9CbKTqT_ldmE-Yzdi7jCUDPc7XjwIZXdo6IWNo1ddNVvKvAHW2kJD_oZEtOHmHXxoYm88V0kXiqzhsA1LaWUdjBwLJMItbLyLcXjK46SQMgEHm3rwW8MAzQw_ARrj9bIuXcMY-QPP5n32nXuK9TSmYIOAWumPvrgv916oxZRq5KbYvWxe43Ca7yCqNkbEZAKQU_Tl1SUVA1hDXt-OYpXLHMgjoMqtY2DL6Hfbwz1u4JGAdj-1EWTBFKdIpslPnEMSimDWzKJDTn-9LwteC2T9Nix2bA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/amt/info?goodsSidList=1&goodsSidList=75",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"amt",
+								"info"
+							],
+							"query": [
+								{
+									"key": "goodsSidList",
+									"value": "1"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "75"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문 상품 체크",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzgzNjYxNTYsImlhdCI6MTY3ODM2NTU1NiwianRpIjoiYTY2MTUyOTctOGUzZS00ODVkLWI5NjktYmM0MDkwM2JjYTM3IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJjM2UwMjlmZS01MzU3LTQ2NzUtYmRmYS1lZWIzYmQ2OWI2ZmMiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImMzZTAyOWZlLTUzNTctNDY3NS1iZGZhLWVlYjNiZDY5YjZmYyIsInVzZXJObSI6Iuq5gOy2qeunjCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDEyLCJuaWNrTm0iOiLquYDstqnrp4wiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.jvghTQm2iQ-b0rQrzzIXs5vuhIqVa2Pyk4qg7SrCJDsdZG3ZYJlOoJIo-rm9CbKTqT_ldmE-Yzdi7jCUDPc7XjwIZXdo6IWNo1ddNVvKvAHW2kJD_oZEtOHmHXxoYm88V0kXiqzhsA1LaWUdjBwLJMItbLyLcXjK46SQMgEHm3rwW8MAzQw_ARrj9bIuXcMY-QPP5n32nXuK9TSmYIOAWumPvrgv916oxZRq5KbYvWxe43Ca7yCqNkbEZAKQU_Tl1SUVA1hDXt-OYpXLHMgjoMqtY2DL6Hfbwz1u4JGAdj-1EWTBFKdIpslPnEMSimDWzKJDTn-9LwteC2T9Nix2bA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/goods/check?goodsSidList=1&goodsSidList=2&goodsSidList=3&goodsSidList=20&goodsSidList=21&goodsSidList=22&goodsSidList=74",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"goods",
+								"check"
+							],
+							"query": [
+								{
+									"key": "goodsSidList",
+									"value": "1"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "2"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "3"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "20"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "21"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "22"
+								},
+								{
+									"key": "goodsSidList",
+									"value": "74"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문등록",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzgzNjYxNTYsImlhdCI6MTY3ODM2NTU1NiwianRpIjoiYTY2MTUyOTctOGUzZS00ODVkLWI5NjktYmM0MDkwM2JjYTM3IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJjM2UwMjlmZS01MzU3LTQ2NzUtYmRmYS1lZWIzYmQ2OWI2ZmMiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImMzZTAyOWZlLTUzNTctNDY3NS1iZGZhLWVlYjNiZDY5YjZmYyIsInVzZXJObSI6Iuq5gOy2qeunjCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJOL0EiLCJ1c2VyU2lkIjoyMDEyLCJuaWNrTm0iOiLquYDstqnrp4wiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6Ik4vQSJ9.jvghTQm2iQ-b0rQrzzIXs5vuhIqVa2Pyk4qg7SrCJDsdZG3ZYJlOoJIo-rm9CbKTqT_ldmE-Yzdi7jCUDPc7XjwIZXdo6IWNo1ddNVvKvAHW2kJD_oZEtOHmHXxoYm88V0kXiqzhsA1LaWUdjBwLJMItbLyLcXjK46SQMgEHm3rwW8MAzQw_ARrj9bIuXcMY-QPP5n32nXuK9TSmYIOAWumPvrgv916oxZRq5KbYvWxe43Ca7yCqNkbEZAKQU_Tl1SUVA1hDXt-OYpXLHMgjoMqtY2DL6Hfbwz1u4JGAdj-1EWTBFKdIpslPnEMSimDWzKJDTn-9LwteC2T9Nix2bA",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"goodsAmt\": 2400,\r\n    \"dscntAmt\": 0,\r\n    \"point\": 0,\r\n    \"paymentAmt\": 2400,\r\n    \"dlivryAmt\": 0,\r\n    \"rcipntNm\": \"test\",\r\n    \"phoneNo\": \"010-1234-5678\",\r\n    \"zoneCd\": \"12345\",\r\n    \"addr\": \"주소\",\r\n    \"goodsList\": [\r\n        {\r\n            \"goodsSid\": 34\r\n        }\r\n    ],\r\n    \"cpnIdList\": [],\r\n    \"paymentTypeCd\": 211001,\r\n    \"termsAgreementList\": [\r\n        {\r\n            \"termsSid\": 100,\r\n            \"agrmntYn\": true\r\n        }\r\n    ],\r\n    \"dlivryReqCd\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/order",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문취소",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2Nzc3Nzc0NDUsImlhdCI6MTY3Nzc0MTQ0NSwianRpIjoiOWIxNzY5YjMtMzliNy00ZDQ0LThjMzQtOTAwYTk3MWNiOWY2IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJkMWZjY2MwNy1mMzI2LTQ0MmEtYjY3YS04MjU5NDM2NGM4MWQiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImQxZmNjYzA3LWYzMjYtNDQyYS1iNjdhLTgyNTk0MzY0YzgxZCIsInVzZXJObSI6InRlc3QiLCJuYXRpb25DZCI6ImtyIiwiYWNudFN0dHNDZCI6eyJjb2RlIjoxMDEwMCwidmFsdWUiOiLsoJXsg4EiLCJwY29kZSI6MTAxfSwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJsb2dpbklkIjoidHQiLCJ1c2VyU2lkIjoxLCJuaWNrTm0iOiLqtozsgrAiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6InR0In0.RDLbFY0n9_Wipa5mZtFFHfdQnL1QulKAnW7I3m62c-NAsn-g0kQenE6RHrK7KHp4omkmrBkLiTUcq-uR-lEBQp3cmTb2LwYbYwhfk-IjEsVUKCSzJu6_NHNwpc6I7RR-r-XJTqoWsVT48-5IVysScDg-6iOYgicEGFAL5iEDi3aM9LbhtnuHB9EyVYNrB58jhzymyqW4ElTQDGVopLlOjCKm1TJmmFw_ZtVxPwZgyy72OveV5TlP0lgZ-wGPY5HJX8k-IIJTGR3oCLr3m-Ds_sVPs8MJ2wFDxSCouVrMYsgBrHvrlkPltkGDJcu5Fbd4KzyOjdVxrsNW1j0NIJx7fQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"cancelReason\":\"그냥\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/2023030216175610019/cancel",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"2023030216175610019",
+								"cancel"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문 - 교환요청",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/2023022010102410003/exchange",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"2023022010102410003",
+								"exchange"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문 - 샘플 반환 요청",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2Nzc3Nzc0NDUsImlhdCI6MTY3Nzc0MTQ0NSwianRpIjoiOWIxNzY5YjMtMzliNy00ZDQ0LThjMzQtOTAwYTk3MWNiOWY2IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiJkMWZjY2MwNy1mMzI2LTQ0MmEtYjY3YS04MjU5NDM2NGM4MWQiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6ImQxZmNjYzA3LWYzMjYtNDQyYS1iNjdhLTgyNTk0MzY0YzgxZCIsInVzZXJObSI6InRlc3QiLCJuYXRpb25DZCI6ImtyIiwiYWNudFN0dHNDZCI6eyJjb2RlIjoxMDEwMCwidmFsdWUiOiLsoJXsg4EiLCJwY29kZSI6MTAxfSwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJsb2dpbklkIjoidHQiLCJ1c2VyU2lkIjoxLCJuaWNrTm0iOiLqtozsgrAiLCJsYW5nQ2QiOiJrbyIsInByZWZlcnJlZF91c2VybmFtZSI6InR0In0.RDLbFY0n9_Wipa5mZtFFHfdQnL1QulKAnW7I3m62c-NAsn-g0kQenE6RHrK7KHp4omkmrBkLiTUcq-uR-lEBQp3cmTb2LwYbYwhfk-IjEsVUKCSzJu6_NHNwpc6I7RR-r-XJTqoWsVT48-5IVysScDg-6iOYgicEGFAL5iEDi3aM9LbhtnuHB9EyVYNrB58jhzymyqW4ElTQDGVopLlOjCKm1TJmmFw_ZtVxPwZgyy72OveV5TlP0lgZ-wGPY5HJX8k-IIJTGR3oCLr3m-Ds_sVPs8MJ2wFDxSCouVrMYsgBrHvrlkPltkGDJcu5Fbd4KzyOjdVxrsNW1j0NIJx7fQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"termsAgreementList\": [\r\n        {\r\n            \"termsSid\": 100,\r\n            \"agrmntYn\": true\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/order/2023030216175610019/sample/return",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"order",
+								"2023030216175610019",
+								"sample",
+								"return"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "쿠폰/포인트",
+			"item": []
+		},
+		{
+			"name": "약관/정책",
+			"item": [
+				{
+					"name": "약관/정책 목록 조회 (특정 시점에서 사용하는)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/terms/loc?termsUseLocCd=820004",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"terms",
+								"loc"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "",
+									"disabled": true
+								},
+								{
+									"key": "termsUseLocCd",
+									"value": "820004"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "약관/정책 목록 조회 (메뉴에서 사용하는)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/terms/menu",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"terms",
+								"menu"
+							],
+							"query": [
+								{
+									"key": "termsUseLocCd",
+									"value": "820002",
+									"description": "820002 : 회원가입, 820003 : 키트반송, 820004 : 키트재반송",
+									"disabled": true
+								},
+								{
+									"key": "termsMenuYn",
+									"value": "true",
+									"description": "설정 메뉴 사용 여부",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "해당 약관 버전 목록 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/terms/1/version",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"terms",
+								"1",
+								"version"
+							],
+							"query": [
+								{
+									"key": "",
+									"value": "820002",
+									"description": "820002 : 회원가입, 820003 : 키트반송, 820004 : 키트재반송",
+									"disabled": true
+								},
+								{
+									"key": "",
+									"value": "true",
+									"description": "설정 메뉴 사용 여부",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "약관/정책 상세조회 (최신버전)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/terms/1",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"terms",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "약관/정책 상세조회 (이전 버전)",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/terms/3/ver/0.2",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"terms",
+								"3",
+								"ver",
+								"0.2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "약관 동의/거부 처리 (철회아님)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\"termsSid\":1,\"agrmntYn\" : true},\n    {\"termsSid\":2,\"agrmntYn\" : true},\n    {\"termsSid\":3,\"agrmntYn\" : true},\n    {\"termsSid\":4,\"agrmntYn\" : true}\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/terms/signup/agreement",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"terms",
+								"signup",
+								"agreement"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "유형테스트",
+			"item": [
+				{
+					"name": "유형테스트 목록 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents?orderTypeCd=100603",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents"
+							],
+							"query": [
+								{
+									"key": "regDtEd",
+									"value": "2023-02-01",
+									"disabled": true
+								},
+								{
+									"key": "regDtSt",
+									"value": "2023-02-10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "orderTypeCd",
+									"value": "100603"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "유형테스트 추천 목록 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/recommend",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"recommend"
+							],
+							"query": [
+								{
+									"key": "regDtEd",
+									"value": "2023-02-01",
+									"disabled": true
+								},
+								{
+									"key": "regDtSt",
+									"value": "2023-02-10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "2",
+									"disabled": true
+								},
+								{
+									"key": "size",
+									"value": "2",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "MBTI",
+			"item": [
+				{
+					"name": "댓글",
+					"item": [
+						{
+							"name": "MBTI 댓글 목록 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/mbti/15/comment?orderTypeCd=100603",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"mbti",
+										"15",
+										"comment"
+									],
+									"query": [
+										{
+											"key": "pcommentSid",
+											"value": "7",
+											"disabled": true
+										},
+										{
+											"key": "orderTypeCd",
+											"value": "100603"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "MBTI 댓글 등록",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment\":\"재밌네요~ㅋㅋㅋㅋㅋㅋ\",\n    \"pcommentSid\":null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/mbti/15/comment",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"mbti",
+										"15",
+										"comment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "MBTI 댓글 수정",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment\":\"나 이거 친구한테 공유했는데 둘다 자지러지게 웃었다!!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/mbti/1/comment/120",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"mbti",
+										"1",
+										"comment",
+										"120"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "MBTI 내 댓글 삭제",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/mbti/15/comment/175",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"mbti",
+										"15",
+										"comment",
+										"175"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "MBTI 댓글 이모션 추가",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"emotionCd\" : 400101\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/mbti/15/comment/176/emotion",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"mbti",
+										"15",
+										"comment",
+										"176",
+										"emotion"
+									],
+									"query": [
+										{
+											"key": "emotionCd",
+											"value": "400101",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "MBTI 댓글 이모션 취소",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/mbti/15/comment/175/emotion",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"mbti",
+										"15",
+										"comment",
+										"175",
+										"emotion"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "MBTI 목록 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/mbti",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"mbti"
+							],
+							"query": [
+								{
+									"key": "mainDisplayYn",
+									"value": "true",
+									"description": "메인노출여부",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MBTI 상세 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/mbti/1",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"mbti",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MBTI 문항 목록 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/mbti/15/question",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"mbti",
+								"15",
+								"question"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MBTI 이모션 추가",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"emotionCd\" : 400101\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/mbti/2/emotion",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"mbti",
+								"2",
+								"emotion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MBTI 이모션 취소",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/mbti/2/emotion",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"mbti",
+								"2",
+								"emotion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MBTI 답변 제출",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"answerList\": [\n        {\n            \"questnSid\": 1,\n            \"itemQuestnSid\": 2\n        },\n        {\n            \"questnSid\": 2,\n            \"itemQuestnSid\": 4\n        },\n        {\n            \"questnSid\": 3,\n            \"itemQuestnSid\": 6\n        },\n        {\n            \"questnSid\": 4,\n            \"itemQuestnSid\": 8\n        },\n        {\n            \"questnSid\": 5,\n            \"itemQuestnSid\": 9\n        },\n        {\n            \"questnSid\": 6,\n            \"itemQuestnSid\": 11\n        },\n        {\n            \"questnSid\": 8,\n            \"itemQuestnSid\": 15\n        },\n        {\n            \"questnSid\": 7,\n            \"itemQuestnSid\": 13\n        },\n        {\n            \"questnSid\": 9,\n            \"itemQuestnSid\": 17\n        },\n        {\n            \"questnSid\": 10,\n            \"itemQuestnSid\": 19\n        },\n        {\n            \"questnSid\": 11,\n            \"itemQuestnSid\": 21\n        },\n        {\n            \"questnSid\": 12,\n            \"itemQuestnSid\": 23\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/mbti/15/answer",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"mbti",
+								"15",
+								"answer"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "MBTI 결과 유형 상세 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/mbti/1/result/type/istj",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"mbti",
+								"1",
+								"result",
+								"type",
+								"istj"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Game",
+			"item": [
+				{
+					"name": "댓글",
+					"item": [
+						{
+							"name": "게임 댓글 목록 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/9/comment?orderTypeCd=100603",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"9",
+										"comment"
+									],
+									"query": [
+										{
+											"key": "pcommentSid",
+											"value": "7",
+											"disabled": true
+										},
+										{
+											"key": "orderTypeCd",
+											"value": "100603"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "게임 댓글 등록",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment\":\"우히히힣\",\n    \"pcommentSid\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/9/comment",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"9",
+										"comment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "게임 댓글 수정",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment\":\"나 이거 친구한테 공유했는데 둘다 자지러지게 웃었다!!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/9/comment/7",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"9",
+										"comment",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "게임 내 댓글 삭제",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment\":\"아니 이게 무슨일이야~~\",\n    \"pcommentSid\":12\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/9/comment/7",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"9",
+										"comment",
+										"7"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "게임 댓글 이모션 추가",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"emotionCd\" : 400101\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/9/comment/5/emotion",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"9",
+										"comment",
+										"5",
+										"emotion"
+									],
+									"query": [
+										{
+											"key": "emotionCd",
+											"value": "400101",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "게임 댓글 이모션 취소",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/9/comment/6/emotion",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"9",
+										"comment",
+										"6",
+										"emotion"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "질문 댓글",
+					"item": [
+						{
+							"name": "게임 질문 댓글 목록 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/1/questn/3/comment",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"1",
+										"questn",
+										"3",
+										"comment"
+									],
+									"query": [
+										{
+											"key": "orderTypeCd",
+											"value": "100603",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "게임 질문 댓글 등록",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment\":\"우화하하하!!\",\n    \"pcommentSid\": null\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/1/questn/3/comment",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"1",
+										"questn",
+										"3",
+										"comment"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "게임 질문 댓글 수정",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment\":\"나 이거 친구한테 공유했는데 둘다 자지러지게 웃었다!!\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/1/questn/3/comment/5",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"1",
+										"questn",
+										"3",
+										"comment",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "게임 질문 내 댓글 삭제",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"comment\":\"아니 이게 무슨일이야~~\",\n    \"pcommentSid\":12\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/1/questn/3/comment/5",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"1",
+										"questn",
+										"3",
+										"comment",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "게임 질문 댓글 이모션 추가",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"emotionCd\" : 400101\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/1/questn/3/comment/6/emotion",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"1",
+										"questn",
+										"3",
+										"comment",
+										"6",
+										"emotion"
+									],
+									"query": [
+										{
+											"key": "emotionCd",
+											"value": "400101",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "게임 질문 댓글 이모션 취소",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/game/1/questn/3/comment/6/emotion",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"game",
+										"1",
+										"questn",
+										"3",
+										"comment",
+										"6",
+										"emotion"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "게임 목록 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/game",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"game"
+							],
+							"query": [
+								{
+									"key": "mainDisplayYn",
+									"value": "true",
+									"description": "메인노출여부",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게임 상세 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/game/2",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"game",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게임 문항 전체 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/game/7/question",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"game",
+								"7",
+								"question"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게임 이모션 추가",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"emotionCd\" : 400101\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/game/2/emotion",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"game",
+								"2",
+								"emotion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게임 이모션 취소",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/game/9/emotion",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"game",
+								"9",
+								"emotion"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "게임 답변 제출",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"answer\": {\n        \"questnSid\": 16,\n        \"itemQuestnSid\": 14\n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/game/5/answer",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"game",
+								"5",
+								"answer"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "설정",
+			"item": [
+				{
+					"name": "앱 정보 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/app/info",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"app",
+								"info"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림설정 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif/setting",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif",
+								"setting"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림설정 수정(푸시알림)",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif/setting/push?notiYn=true",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif",
+								"setting",
+								"push"
+							],
+							"query": [
+								{
+									"key": "notiYn",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림설정 수정(이벤트/프로모션알림) Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif/setting/event?notiYn=true",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif",
+								"setting",
+								"event"
+							],
+							"query": [
+								{
+									"key": "notiYn",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림설정 수정(마케팅알림) Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif/setting/marketing?notiYn=true",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif",
+								"setting",
+								"marketing"
+							],
+							"query": [
+								{
+									"key": "notiYn",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림설정 수정(이메일알림) Copy",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif/setting/email?notiYn=true",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif",
+								"setting",
+								"email"
+							],
+							"query": [
+								{
+									"key": "notiYn",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림설정 수정(알림톡/SMS알림) Copy 2",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif/setting/sms?notiYn=true",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif",
+								"setting",
+								"sms"
+							],
+							"query": [
+								{
+									"key": "notiYn",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "고객센터",
+			"item": [
+				{
+					"name": "공지사항 목록 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notice",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notice"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "공지사항 상세 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notice/2",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notice",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FAQ 목록 조회",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "",
+								"value": "",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{common-service}}/common/v1/faq?faqTypeCd=상품",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"faq"
+							],
+							"query": [
+								{
+									"key": "faqTypeCd",
+									"value": "상품"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "FAQ 상세 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/faq/1",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"faq",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1:1문의 목록 조회",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/inquiry",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"inquiry"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1:1문의 등록",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzkwNTMzOTAsImlhdCI6MTY3OTA1Mjc5MCwianRpIjoiNmE0NWUyNDAtNDgyMi00NzdkLWI5ZDQtMTNhMzQ2NzdlMzkwIiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMTIiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI4YmYwMjNkZC05NmE4LTQ3ODctOWM5Yy05YTYxOTQ0NGEzYWYiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjhiZjAyM2RkLTk2YTgtNDc4Ny05YzljLTlhNjE5NDQ0YTNhZiIsInVzZXJObSI6Iuq5gOy2qeunjCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJjbmRha3M5MjA1IiwibG9naW5UeXBlIjp7ImNvZGUiOjkwMDAwMiwidmFsdWUiOiJOYXZlciIsInBjb2RlIjo5MDAwfSwidXNlclNpZCI6MjAxMiwibmlja05tIjoi6rmA7Lap66eMIiwibGFuZ0NkIjoia28iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJjbmRha3M5MjA1In0.j-aIN4JEOxUb_RVF6BdxvcAeuY4NvCJD8LXgx_L1hb7tEwMw16ONB1akStY8z37nZFSve8LlmZP50aaHit8v7y-9LLVKUc2TloZXpO2xfSipeBh8wDT-d2rt3xuOMFVSvAS8DUnDKWHY9O5WrqOU45RSzi_jLgqfmNq2svwpV2xUVVBu9TnVj6EImjgbrUy-xr4k_9FclCqwE5tqO_sY1yxv6STMi1VCcbbSp9K2pKNyGLNdwVSTQStHwnqLF7Mnewh4qkWhfqk3oCyIq83P-Jj4lrSNNkUWzc5f335TxTfmGTVncbK5i4JEr0DJsaiNjTeh6p1mmCBXnpROY_r5nQ",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "cont",
+								"value": "",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "multipart/form-data",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "inquiryNm",
+									"value": "test nm5",
+									"type": "text"
+								},
+								{
+									"key": "inquiryConts",
+									"value": "test conts5",
+									"type": "text"
+								},
+								{
+									"key": "uploadFiles",
+									"type": "file",
+									"src": "/C:/Users/USER/Pictures/686317.png"
+								},
+								{
+									"key": "uploadFiles",
+									"value": "",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "inquiryTypeCd",
+									"value": "840001",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/inquiry",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"inquiry"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1:1문의 상세 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/inquiry/6",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"inquiry",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1:1문의 수정",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "regDt",
+									"value": "1675822331058",
+									"type": "text"
+								},
+								{
+									"key": "updDt",
+									"value": "1675822331058",
+									"type": "text"
+								},
+								{
+									"key": "inquirySid",
+									"value": "6",
+									"type": "text"
+								},
+								{
+									"key": "appId",
+									"value": "funtodna",
+									"type": "text"
+								},
+								{
+									"key": "userSid",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "inquiryNm",
+									"value": "test nm",
+									"type": "text"
+								},
+								{
+									"key": "inquiryConts",
+									"value": "test conts",
+									"type": "text"
+								},
+								{
+									"key": "answerConts",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "answerOprtrSid",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "inquiryTypeCd",
+									"value": "840001",
+									"type": "text"
+								},
+								{
+									"key": "inquiryAnswerSid",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "inquiryAnswer",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "regUser",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "updUser",
+									"value": "",
+									"type": "text"
+								},
+								{
+									"key": "inquiryNm",
+									"value": "test nm",
+									"type": "text"
+								},
+								{
+									"key": "inquiryConts",
+									"value": "test conts",
+									"type": "text"
+								},
+								{
+									"key": "uploadFiles",
+									"type": "file",
+									"src": "/C:/Users/USER/Pictures/271ff1e94a380310ebdbed776ce0654e_1632663938_82.jpg"
+								},
+								{
+									"key": "uploadFiles",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								},
+								{
+									"key": "attachImgPathList",
+									"value": "/contents/inquiry/2023/02/22/110457-4050203248939983460.jpg",
+									"type": "text"
+								},
+								{
+									"key": "attachImgPathList",
+									"value": "/contents/inquiry/2023/02/22/110529-7077469728039921250.jpg",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/inquiry/6",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"inquiry",
+								"6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "1:1문의 삭제",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/inquiry/1",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"inquiry",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림 목록 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림 확인",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif/3/check",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif",
+								"3",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림 확인 (전체)",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif/check",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif",
+								"check"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림 삭제 (개별삭제)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif/1",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "알림 삭제 (다중삭제)",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/notif?notifSidList=1&notifSidList=2",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"notif"
+							],
+							"query": [
+								{
+									"key": "notifSidList",
+									"value": "1"
+								},
+								{
+									"key": "notifSidList",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "이벤트",
+			"item": [
+				{
+					"name": "이벤트 목록 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzY1OTYwMjMsImlhdCI6MTY3NjU5NTcyMywianRpIjoiM2QzOTNiNGQtZDZkNC00ZDAzLWEyMDAtMWJhNjQwMDZhNTk3IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjA2OjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI3MDY2YmU2NC1mZDFhLTQxMmUtODY4ZS0zZjQzZjlhYjYyNzciLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjcwNjZiZTY0LWZkMWEtNDEyZS04NjhlLTNmNDNmOWFiNjI3NyIsInVzZXJObSI6InRlc3QiLCJuYXRpb25DZCI6ImtyIiwiYWNudFN0dHNDZCI6eyJjb2RlIjoxMDEwMCwidmFsdWUiOiLsoJXsg4EiLCJwY29kZSI6MTAxfSwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJsb2dpbklkIjoidHQiLCJ1c2VyU2lkIjoxLCJuaWNrTm0iOiJ0ZXN0IiwibGFuZ0NkIjoia28iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ0dCJ9.Mgk5lfB9rP8h5oX89FVz2kTY8hX9QgJLV2007cguul2NzXBzxnrbG8lJuGIr5b0NyMg1rha0Lr-Rc_q40Prxyb_4vcay6_NUE3b1wvLrKZEJNjeJ_7vkMBQaVxY4ullILy8dLhGj0U2bEjhTBaZTpGVqNnVk_TkaZHi_A4pXfAum1gsuQtuTlNf4E2Lyn7zFZyhdA_QjVNchaDYAA0u4NHPB_juYKb7nx30kSRZOpfoSIxeGFRvHoh80ODqdRc4UoL6JI-W_k18fQyW1U9ryozxXLS6tWwsLg3Gx1iUXO4eWQbEgDTFMvb_Gf5s6LfL9lOkaHsWd3yakAensy3Wv4w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/event?orderTypeCd=100602",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"event"
+							],
+							"query": [
+								{
+									"key": "orderTypeCd",
+									"value": "100602",
+									"description": "(최신순 : 100601, 마감순 : 100602, 인기순 : 100603)"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "이벤트 상세정보 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2NzY1OTYwMjMsImlhdCI6MTY3NjU5NTcyMywianRpIjoiM2QzOTNiNGQtZDZkNC00ZDAzLWEyMDAtMWJhNjQwMDZhNTk3IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjA2OjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjEiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI3MDY2YmU2NC1mZDFhLTQxMmUtODY4ZS0zZjQzZjlhYjYyNzciLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjcwNjZiZTY0LWZkMWEtNDEyZS04NjhlLTNmNDNmOWFiNjI3NyIsInVzZXJObSI6InRlc3QiLCJuYXRpb25DZCI6ImtyIiwiYWNudFN0dHNDZCI6eyJjb2RlIjoxMDEwMCwidmFsdWUiOiLsoJXsg4EiLCJwY29kZSI6MTAxfSwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJsb2dpbklkIjoidHQiLCJ1c2VyU2lkIjoxLCJuaWNrTm0iOiJ0ZXN0IiwibGFuZ0NkIjoia28iLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJ0dCJ9.Mgk5lfB9rP8h5oX89FVz2kTY8hX9QgJLV2007cguul2NzXBzxnrbG8lJuGIr5b0NyMg1rha0Lr-Rc_q40Prxyb_4vcay6_NUE3b1wvLrKZEJNjeJ_7vkMBQaVxY4ullILy8dLhGj0U2bEjhTBaZTpGVqNnVk_TkaZHi_A4pXfAum1gsuQtuTlNf4E2Lyn7zFZyhdA_QjVNchaDYAA0u4NHPB_juYKb7nx30kSRZOpfoSIxeGFRvHoh80ODqdRc4UoL6JI-W_k18fQyW1U9ryozxXLS6tWwsLg3Gx1iUXO4eWQbEgDTFMvb_Gf5s6LfL9lOkaHsWd3yakAensy3Wv4w",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/event/3",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"event",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "이벤트 참여(응모)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/event/16/prtcptn",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"event",
+								"16",
+								"prtcptn"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "[테스트용] 이벤트 참여 취소",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/test/event/16/prtcptn",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"test",
+								"event",
+								"16",
+								"prtcptn"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "내가 참여한 이벤트 목록 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/event/prtcptn?winYn=true",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"event",
+								"prtcptn"
+							],
+							"query": [
+								{
+									"key": "winYn",
+									"value": "true",
+									"description": "null : all, true : 당첨된것만, false : 당첨되지 않는 것만"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "결과카드",
+			"item": [
+				{
+					"name": "결과카드 목록 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/test/result",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"test",
+								"result"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "내 검사 결과카드 목록 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/my/test/result",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"my",
+								"test",
+								"result"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "내 검사 결과카드 상세 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/my/test/result/single/1",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"my",
+								"test",
+								"result",
+								"single",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "설문",
+			"item": [
+				{
+					"name": "내가 참여한 설문 목록 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/survey/participation",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"survey",
+								"participation"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "설문 상세보기",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/survey/4",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"survey",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "설문 답변 일괄 임시저장",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"answerList\": [\n        {\n            \"surveyQuestnSid\": 8,\n            \"questnItemList\": [\n                {\n                    \"surveyQuestnItemSid\": 222,\n                    \"answerText\": null\n                }\n            ]\n        },\n        {\n            \"surveyQuestnSid\": 9,\n            \"questnItemList\": [\n                {\n                    \"surveyQuestnItemSid\": 224,\n                    \"answerText\": null\n                }\n            ]\n        },\n        {\n            \"surveyQuestnSid\": 10,\n            \"questnItemList\": [\n                {\n                    \"surveyQuestnItemSid\": 230,\n                    \"answerText\": null\n                }\n            ]\n        },\n        {\n            \"surveyQuestnSid\": 11,\n            \"questnItemList\": [\n                {\n                    \"surveyQuestnItemSid\": 233,\n                    \"answerText\": null\n                }\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/survey/4/save",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"survey",
+								"4",
+								"save"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "설문 답변 일괄 제출",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"answerList\": [\n        {\n            \"surveyQuestnSid\": 8,\n            \"questnItemList\": [\n                {\n                    \"surveyQuestnItemSid\": 222,\n                    \"answerText\": null\n                }\n            ]\n        },\n        {\n            \"surveyQuestnSid\": 9,\n            \"questnItemList\": [\n                {\n                    \"surveyQuestnItemSid\": 224,\n                    \"answerText\": null\n                }\n            ]\n        },\n        {\n            \"surveyQuestnSid\": 10,\n            \"questnItemList\": [\n                {\n                    \"surveyQuestnItemSid\": 230,\n                    \"answerText\": null\n                }\n            ]\n        },\n        {\n            \"surveyQuestnSid\": 11,\n            \"questnItemList\": [\n                {\n                    \"surveyQuestnItemSid\": 233,\n                    \"answerText\": null\n                }\n            ]\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/survey/4/submission",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"survey",
+								"4",
+								"submission"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "설문 질문 1개씩 답변 제출",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"questnItemList\" : [\n        {\n            \"surveyQuestnItemSid\" : 211,\n            \"answerText\" : null\n        }\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{common-service}}/common/v1/survey/3/questn/5/submission",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"survey",
+								"3",
+								"questn",
+								"5",
+								"submission"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "마켓",
+			"item": [
+				{
+					"name": "장바구니",
+					"item": [
+						{
+							"name": "장바구니 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/cart",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"cart"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "장바구니 상품 담기",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/cart/goods/",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"cart",
+										"goods",
+										""
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "장바구니 상품 수정 (미사용)",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/cart/goods/11",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"cart",
+										"goods",
+										"11"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "장바구니 상품 삭제",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/cart/goods/12",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"cart",
+										"goods",
+										"12"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "장바구니 상품 선택 목록 삭제",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/cart/goods?goodsSidList=12",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"cart",
+										"goods"
+									],
+									"query": [
+										{
+											"key": "goodsSidList",
+											"value": "",
+											"disabled": true
+										},
+										{
+											"key": "goodsSidList",
+											"value": "12"
+										},
+										{
+											"key": "goodsSidList",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "장바구니 비우기",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/cart",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"cart"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "상품",
+					"item": [
+						{
+							"name": "댓글",
+							"item": [
+								{
+									"name": "상품 댓글 목록 조회",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{common-service}}/common/v1/goods/1/comment?orderTypeCd=100601",
+											"host": [
+												"{{common-service}}"
+											],
+											"path": [
+												"common",
+												"v1",
+												"goods",
+												"1",
+												"comment"
+											],
+											"query": [
+												{
+													"key": "orderTypeCd",
+													"value": "100601"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "상품 댓글 등록",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"comment\":\"졸려요\",\n    \"pcommentSid\" : null\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{common-service}}/common/v1/goods/1/comment",
+											"host": [
+												"{{common-service}}"
+											],
+											"path": [
+												"common",
+												"v1",
+												"goods",
+												"1",
+												"comment"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "상품 댓글 수정",
+									"request": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"comment\":\"나 이거 친구한테 공유했는데 둘다 자지러지게 웃었다!!\"\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{common-service}}/common/v1/goods/1/comment/9373",
+											"host": [
+												"{{common-service}}"
+											],
+											"path": [
+												"common",
+												"v1",
+												"goods",
+												"1",
+												"comment",
+												"9373"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "상품 내 댓글 삭제",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"comment\":\"아니 이게 무슨일이야~~\",\n    \"pcommentSid\":12\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{common-service}}/common/v1/goods/1/comment/8",
+											"host": [
+												"{{common-service}}"
+											],
+											"path": [
+												"common",
+												"v1",
+												"goods",
+												"1",
+												"comment",
+												"8"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "상품 댓글 이모션 추가",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"emotionCd\" : 400101\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{common-service}}/common/v1/goods/42/comment/9378/emotion",
+											"host": [
+												"{{common-service}}"
+											],
+											"path": [
+												"common",
+												"v1",
+												"goods",
+												"42",
+												"comment",
+												"9378",
+												"emotion"
+											],
+											"query": [
+												{
+													"key": "emotionCd",
+													"value": "400101",
+													"disabled": true
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "상품 댓글 이모션 취소",
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{common-service}}/common/v1/goods/42/comment/9378/emotion",
+											"host": [
+												"{{common-service}}"
+											],
+											"path": [
+												"common",
+												"v1",
+												"goods",
+												"42",
+												"comment",
+												"9378",
+												"emotion"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "리뷰",
+							"item": [
+								{
+									"name": "상품 리뷰 목록 조회",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{common-service}}/common/v1/goods/6/review",
+											"host": [
+												"{{common-service}}"
+											],
+											"path": [
+												"common",
+												"v1",
+												"goods",
+												"6",
+												"review"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "상품 리뷰 이모션 추가",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "{{access_token}}",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"emotionCd\" : 400101\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{common-service}}/common/v1/goods/6/order/2023022818283010016/review/emotion",
+											"host": [
+												"{{common-service}}"
+											],
+											"path": [
+												"common",
+												"v1",
+												"goods",
+												"6",
+												"order",
+												"2023022818283010016",
+												"review",
+												"emotion"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "상품 리뷰 이모션 취소",
+									"request": {
+										"auth": {
+											"type": "bearer",
+											"bearer": [
+												{
+													"key": "token",
+													"value": "eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJ2SnNRaWt3Q2Z1dXZvVUZkNkQ3dXFUNkhWNVJ6aDg1MWJuOGFpSUJVU2hnIn0.eyJleHAiOjE2Nzc3NjY5NzIsImlhdCI6MTY3NzczMDk3MiwianRpIjoiOTg5ZTAxNTAtYzQyMC00NWVmLTgzYzktYjA1ZTY0NjJkNTU5IiwiaXNzIjoiaHR0cDovLzE5Mi4xNjguMTAuMjAzOjE4MDgwL2F1dGgvcmVhbG1zL21hY3JvZ2VuIiwiYXVkIjoiYWNjb3VudCIsInN1YiI6ImY6NjI5YjA5NzAtYmZkZi00ZjY2LTkxYzYtMmZlYTExMGNmYTA2OjIwMDYiLCJ0eXAiOiJCZWFyZXIiLCJhenAiOiJjb21tb24tc2VydmljZSIsInNlc3Npb25fc3RhdGUiOiI0YzQyOGFmNi05NTY2LTQ1NzYtYTNmOC1mOGMzNDRhODA0MTEiLCJhY3IiOiIxIiwicmVhbG1fYWNjZXNzIjp7InJvbGVzIjpbIm9mZmxpbmVfYWNjZXNzIiwidW1hX2F1dGhvcml6YXRpb24iXX0sInJlc291cmNlX2FjY2VzcyI6eyJhY2NvdW50Ijp7InJvbGVzIjpbIm1hbmFnZS1hY2NvdW50IiwibWFuYWdlLWFjY291bnQtbGlua3MiLCJ2aWV3LXByb2ZpbGUiXX19LCJzY29wZSI6ImVtYWlsIG1hY3JvZ2VuX3VzZXIgcHJvZmlsZSIsInNpZCI6IjRjNDI4YWY2LTk1NjYtNDU3Ni1hM2Y4LWY4YzM0NGE4MDQxMSIsInVzZXJObSI6Iuq5gOyYiOyngCIsIm5hdGlvbkNkIjoia3IiLCJhY250U3R0c0NkIjp7ImNvZGUiOjEwMTAwLCJ2YWx1ZSI6IuygleyDgSIsInBjb2RlIjoxMDF9LCJlbWFpbF92ZXJpZmllZCI6ZmFsc2UsImxvZ2luSWQiOiJ5amtpbSIsInVzZXJTaWQiOjIwMDYsIm5pY2tObSI6IuuniOuLueydtOuPhOuLpCIsImxhbmdDZCI6ImtvIiwicHJlZmVycmVkX3VzZXJuYW1lIjoieWpraW0ifQ.nptQBiyauTq988rFT9oal7TQuuIeAovaFb56Zn6PsQ_pnM4v4v44rhZS21Pr8ZLRNhPRawRvg5Bvb28-Uw7plRdEXcpYsmBzk3HWXh5z62ZePF0IdUDrdcjeG5a2KjC_zOq1YnsvarOEol6Hqm-bm6C-sDV3NTxzvD0YKJtMeEAsWy-B8aw2wkfihPNP_4_mGV_NbWRiJL1zQgy_OTNxsY8e3iJtSTTjrKW-fj7-1yCMgEwffaWw-6u_cIW9NesNjaZ2h6oHqAUzRvTFTnSNwKfWeYMFcSOrcsp38ftvIZHGgwqcUBXQzHn412YZ_M9B0q4QY2OhQJE5YnRgFXJE1g",
+													"type": "string"
+												}
+											]
+										},
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{common-service}}/common/v1/goods/1/order/2023022400020310009/review/emotion",
+											"host": [
+												"{{common-service}}"
+											],
+											"path": [
+												"common",
+												"v1",
+												"goods",
+												"1",
+												"order",
+												"2023022400020310009",
+												"review",
+												"emotion"
+											]
+										}
+									},
+									"response": []
+								}
+							]
+						},
+						{
+							"name": "상품 카테고리 목록 조회",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/goods/category",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"goods",
+										"category"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "상품 목록 조회",
+							"request": {
+								"auth": {
+									"type": "noauth"
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/goods?goodsOrderTypeCd=230001",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"goods"
+									],
+									"query": [
+										{
+											"key": "ctegrySid",
+											"value": "1",
+											"disabled": true
+										},
+										{
+											"key": "goodsOrderTypeCd",
+											"value": "230001"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "상품 상세 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/goods/1",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"goods",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "상품 이모션 추가",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"emotionCd\" : 400101\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/goods/59/emotion",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"goods",
+										"59",
+										"emotion"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "상품 이모션 취소",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "DELETE",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/goods/1/emotion",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"goods",
+										"1",
+										"emotion"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "상품 추천 목록 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/goods/recommend",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"goods",
+										"recommend"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "마켓 Main 데이터 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/market/main",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"market",
+										"main"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "마이페이지",
+			"item": [
+				{
+					"name": "리뷰",
+					"item": [
+						{
+							"name": "상품 리뷰 등록",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "review",
+											"value": "123456789010",
+											"type": "text"
+										},
+										{
+											"key": "evalScore",
+											"value": "4.3",
+											"type": "text"
+										},
+										{
+											"key": "uploadFiles",
+											"type": "file",
+											"src": [
+												"/Users/yjkim/Desktop/test2.png",
+												"/Users/yjkim/Desktop/test3.jpg"
+											]
+										}
+									]
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/goods/2/order/3023031800000000000/review",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"goods",
+										"2",
+										"order",
+										"3023031800000000000",
+										"review"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "상품 리뷰 수정",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "review",
+											"value": "DNA를 알수 있다니!!!",
+											"type": "text"
+										},
+										{
+											"key": "evalScore",
+											"value": "4.8",
+											"type": "text"
+										},
+										{
+											"key": "attachImgPathList",
+											"value": "\n            /contents/review/2023/03/07/170556-3631367366970258788.svg,\n            /contents/review/2023/03/07/170556-3833799560090038626.svg",
+											"type": "text"
+										},
+										{
+											"key": "uploadFiles",
+											"type": "file",
+											"src": "/Users/yjkim/Desktop/projects/13 마크로젠/98.기타(작업자료)/이미지/coupon-banner-2.svg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{common-service}}/common/v1/goods/16/order/2023030716361210022/review",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"goods",
+										"16",
+										"order",
+										"2023030716361210022",
+										"review"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "내가 작성한 리뷰 목록 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/review",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"review"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "작성 가능한 리뷰 목록 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/review/possible",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"review",
+										"possible"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "좋아요",
+					"item": [
+						{
+							"name": "좋아요한 유형테스트 목록 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/like",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"like"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "좋아요한 상품 목록 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/goods/like",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"goods",
+										"like"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "나의 카드&DNA검사결과",
+					"item": [
+						{
+							"name": "나의 MBTI 결과카드 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/contents/mbti/my/result",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"contents",
+										"mbti",
+										"my",
+										"result"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "나의 DNA 결과카드 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/dna/my/result?onlyMine=true&orderTypeCd=100603&ctegrySid=1",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"dna",
+										"my",
+										"result"
+									],
+									"query": [
+										{
+											"key": "onlyMine",
+											"value": "true"
+										},
+										{
+											"key": "orderTypeCd",
+											"value": "100603",
+											"description": "null : id순 /  100601 : 최신순(카드받은순) / 100603 : 인기순(별점순)"
+										},
+										{
+											"key": "ctegrySid",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "결과카드 상세 조회",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{access_token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{common-service}}/common/v1/dna/my/result/single/1",
+									"host": [
+										"{{common-service}}"
+									],
+									"path": [
+										"common",
+										"v1",
+										"dna",
+										"my",
+										"result",
+										"single",
+										"1"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "검사항목 카테고리 목록 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/dna/category",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"dna",
+								"category"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "마이페이지 Main 데이터 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/mypage/main",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"mypage",
+								"main"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "최근 본 캔디(상품) 목록 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/goods/recently/viewed",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"goods",
+								"recently",
+								"viewed"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "최근 Play한 컨텐츠 목록 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/contents/recently/played",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"contents",
+								"recently",
+								"played"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "추천인코드 조회",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{access_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/user/recommend/code",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"user",
+								"recommend",
+								"code"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "주문-분석G/W 연동",
+			"item": [
+				{
+					"name": "주문연동 생성",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/test/order/analysis/{orderNo}",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"test",
+								"order",
+								"analysis",
+								"{orderNo}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "주문상태 조회",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{common-service}}/common/v1/test/order/analysis/2023031803444810058",
+							"host": [
+								"{{common-service}}"
+							],
+							"path": [
+								"common",
+								"v1",
+								"test",
+								"order",
+								"analysis",
+								"2023031803444810058"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "{{admin-service}}/admin/menu Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{admin-service}}/admin/menu",
+					"host": [
+						"{{admin-service}}"
+					],
+					"path": [
+						"admin",
+						"menu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{admin-service}}/admin/menu Copy",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{admin-service}}/admin/operation/menu",
+					"host": [
+						"{{admin-service}}"
+					],
+					"path": [
+						"admin",
+						"operation",
+						"menu"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{admin-service}}/admin/menu Copy 2",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "userId",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "userPwd",
+							"value": "1234",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "localhost:9080/admin/loginProcess",
+					"host": [
+						"localhost"
+					],
+					"port": "9080",
+					"path": [
+						"admin",
+						"loginProcess"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "{{admin-service}}/admin/menu Copy 3",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "userId",
+							"value": "admin",
+							"type": "text"
+						},
+						{
+							"key": "userPwd",
+							"value": "qhdks@00",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "192.168.10.200:8080/v1/loginProcess",
+					"host": [
+						"192",
+						"168",
+						"10",
+						"200"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"loginProcess"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

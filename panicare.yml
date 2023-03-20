@@ -1,0 +1,2712 @@
+openapi: 3.0.1
+info:
+  title: Panicare API
+  description: Panicare API Restful Web Service Endpoints
+  version: "1.0"
+servers:
+- url: //test.panicare.kr:8083/
+tags:
+- name: admin
+  description: Admin Controller
+- name: badge-info
+  description: Badge Info Controller
+- name: common-code
+  description: Common Code Controller
+- name: daily-word
+  description: Daily Word Controller
+- name: drug-info
+  description: Drug Info Controller
+- name: item
+  description: Item Controller
+- name: mem-atdn
+  description: Mem Atdn Controller
+- name: mem-atdn-item
+  description: Mem Atdn Item Controller
+- name: mem-badge
+  description: Mem Badge Controller
+- name: mem-calendar
+  description: Mem Calendar Controller
+- name: mem-drug-record
+  description: Mem Drug Record Controller
+- name: mem-drug-setting
+  description: Mem Drug Setting Controller
+- name: mem-my-day
+  description: Mem My Day Controller
+- name: mem-unrst
+  description: Mem Unrst Controller
+- name: member
+  description: Member Controller
+- name: panic-attack-record
+  description: Panic Attack Record Controller
+- name: panic-scale
+  description: Panic Scale Controller
+- name: panic-scale-record
+  description: Panic Scale Record Controller
+- name: study-detail
+  description: Study Detail Controller
+- name: unrst-actn-record
+  description: Unrst Actn Record Controller
+- name: unrst
+  description: Unrst Controller
+paths:
+  /api/admin:
+    get:
+      tags:
+      - admin
+      summary: search
+      operationId: searchUsingGET
+      parameters:
+      - name: loginId
+        in: query
+        schema:
+          type: string
+      - name: loginPw
+        in: query
+        schema:
+          type: string
+      - name: memEmail
+        in: query
+        schema:
+          type: string
+      - name: memIndstry
+        in: query
+        schema:
+          type: string
+      - name: memName
+        in: query
+        schema:
+          type: string
+      - name: memSid
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: memTel
+        in: query
+        schema:
+          type: string
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: paged
+        in: query
+        schema:
+          type: boolean
+      - name: pageNumber
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: regDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: sort.sorted
+        in: query
+        schema:
+          type: boolean
+      - name: sort.unsorted
+        in: query
+        schema:
+          type: boolean
+      - name: unpaged
+        in: query
+        schema:
+          type: boolean
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - admin
+      summary: insert
+      operationId: insertUsingPOST
+      requestBody:
+        description: admin
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Admin'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: admin
+  /api/admin/{memSid}:
+    get:
+      tags:
+      - admin
+      summary: get
+      operationId: getUsingGET
+      parameters:
+      - name: memSid
+        in: path
+        description: memSid
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    put:
+      tags:
+      - admin
+      summary: update
+      operationId: updateUsingPUT
+      parameters:
+      - name: memSid
+        in: path
+        description: memSid
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: admin
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Admin'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: admin
+    delete:
+      tags:
+      - admin
+      summary: delete
+      operationId: deleteUsingDELETE
+      parameters:
+      - name: memSid
+        in: path
+        description: memSid
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/badgeInfo:
+    get:
+      tags:
+      - badge-info
+      summary: badgeInfo
+      operationId: badgeInfoUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/calendar:
+    get:
+      tags:
+      - mem-calendar
+      summary: search
+      operationId: searchUsingGET_3
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - mem-calendar
+      summary: save
+      operationId: saveUsingPOST
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: drugYn
+        in: query
+        schema:
+          type: string
+      - name: memSid
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: myDayYn
+        in: query
+        schema:
+          type: string
+      - name: pnicAtkYn
+        in: query
+        schema:
+          type: string
+      - name: rcrdDt
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/commonCode:
+    get:
+      tags:
+      - common-code
+      summary: search
+      operationId: searchUsingGET_1
+      parameters:
+      - name: codeId
+        in: query
+        schema:
+          type: string
+      - name: codeNm
+        in: query
+        schema:
+          type: string
+      - name: gubnCd
+        in: query
+        schema:
+          type: string
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: paged
+        in: query
+        schema:
+          type: boolean
+      - name: pageNumber
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: parntsCodeId
+        in: query
+        schema:
+          type: string
+      - name: sort.sorted
+        in: query
+        schema:
+          type: boolean
+      - name: sort.unsorted
+        in: query
+        schema:
+          type: boolean
+      - name: typeCd
+        in: query
+        schema:
+          type: string
+      - name: unpaged
+        in: query
+        schema:
+          type: boolean
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - common-code
+      summary: insert
+      operationId: insertUsingPOST_1
+      requestBody:
+        description: commonCode
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommonCode'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: commonCode
+  /api/commonCode/{codeId}:
+    get:
+      tags:
+      - common-code
+      summary: get
+      operationId: getUsingGET_1
+      parameters:
+      - name: codeId
+        in: path
+        description: codeId
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    put:
+      tags:
+      - common-code
+      summary: update
+      operationId: updateUsingPUT_1
+      parameters:
+      - name: codeId
+        in: path
+        description: codeId
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: commonCode
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommonCode'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: commonCode
+    delete:
+      tags:
+      - common-code
+      summary: delete
+      operationId: deleteUsingDELETE_1
+      parameters:
+      - name: codeId
+        in: path
+        description: codeId
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/dailyWord:
+    get:
+      tags:
+      - daily-word
+      summary: getMemberInfo
+      operationId: getMemberInfoUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/drugInfo:
+    get:
+      tags:
+      - drug-info
+      summary: drugSearch
+      operationId: drugSearchUsingGET
+      parameters:
+      - name: drugParam
+        in: query
+        description: drugParam
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/item:
+    post:
+      tags:
+      - item
+      summary: todakUpdateYn
+      operationId: todakUpdateYnUsingPOST
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/memAtdn:
+    get:
+      tags:
+      - mem-atdn
+      summary: memAttendeance
+      operationId: memAttendeanceUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/memAtdnItem:
+    get:
+      tags:
+      - mem-atdn-item
+      summary: search
+      operationId: searchUsingGET_2
+      parameters:
+      - name: getDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: itemId
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: memSid
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: paged
+        in: query
+        schema:
+          type: boolean
+      - name: pageNumber
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: sort.sorted
+        in: query
+        schema:
+          type: boolean
+      - name: sort.unsorted
+        in: query
+        schema:
+          type: boolean
+      - name: unpaged
+        in: query
+        schema:
+          type: boolean
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - mem-atdn-item
+      summary: insert
+      operationId: insertUsingPOST_2
+      requestBody:
+        description: memAtdnItem
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemAtdnItem'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: memAtdnItem
+  /api/memAtdnItem/{memSid}/{itemId}:
+    get:
+      tags:
+      - mem-atdn-item
+      summary: get
+      operationId: getUsingGET_2
+      parameters:
+      - name: itemId
+        in: path
+        description: itemId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: memSid
+        in: path
+        description: memSid
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    put:
+      tags:
+      - mem-atdn-item
+      summary: update
+      operationId: updateUsingPUT_2
+      parameters:
+      - name: itemId
+        in: path
+        description: itemId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: memSid
+        in: path
+        description: memSid
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: memAtdnItem
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemAtdnItem'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: memAtdnItem
+    delete:
+      tags:
+      - mem-atdn-item
+      summary: delete
+      operationId: deleteUsingDELETE_2
+      parameters:
+      - name: itemId
+        in: path
+        description: itemId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: memSid
+        in: path
+        description: memSid
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/memBadge:
+    get:
+      tags:
+      - mem-badge
+      summary: badgeList
+      operationId: badgeListUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - mem-badge
+      summary: badgeUpdateYn
+      operationId: badgeUpdateYnUsingPOST
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/memDrugRecord:
+    post:
+      tags:
+      - mem-drug-record
+      summary: memDrugRecord
+      operationId: memDrugRecordUsingPOST
+      parameters:
+      - name: daysInfo
+        in: query
+        description: daysInfo
+        schema:
+          type: integer
+          format: int32
+      requestBody:
+        description: memDrugRecord
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/MemDrugRecord'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: memDrugRecord
+  /api/memDrugSetting:
+    get:
+      tags:
+      - mem-drug-setting
+      summary: drugSetting
+      operationId: drugSettingUsingGET
+      parameters:
+      - name: daysInfo
+        in: query
+        description: daysInfo
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - mem-drug-setting
+      summary: memDrugSetting
+      operationId: memDrugSettingUsingPOST
+      requestBody:
+        description: memDrugSetting
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemDrugSetting'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: memDrugSetting
+  /api/memDrugSetting/getWeekList:
+    get:
+      tags:
+      - mem-drug-setting
+      summary: memDrugWeekList
+      operationId: memDrugWeekListUsingGET
+      parameters:
+      - name: weekInfo
+        in: query
+        description: weekInfo
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/memMyDay:
+    get:
+      tags:
+      - mem-my-day
+      summary: dailyRecord
+      operationId: dailyRecordUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - mem-my-day
+      summary: dailyRecordSet
+      operationId: dailyRecordSetUsingPOST
+      parameters:
+      - name: content
+        in: query
+        description: content
+        required: true
+        schema:
+          type: string
+      - name: daysInfo
+        in: query
+        description: daysInfo
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/memMyDay/getDetail:
+    get:
+      tags:
+      - mem-my-day
+      summary: dailyRecordDetail
+      operationId: dailyRecordDetailUsingGET
+      parameters:
+      - name: daysInfo
+        in: query
+        description: daysInfo
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/memUnrst:
+    get:
+      tags:
+      - mem-unrst
+      summary: search
+      operationId: searchUsingGET_4
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - mem-unrst
+      summary: insert
+      operationId: insertUsingPOST_3
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: memUnrst
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/MemUnrst'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: memUnrst
+  /api/member:
+    get:
+      tags:
+      - member
+      summary: isDuplicate
+      operationId: isDuplicateUsingGET
+      parameters:
+      - name: ci
+        in: query
+        schema:
+          type: string
+      - name: hsptlCd
+        in: query
+        schema:
+          type: string
+      - name: lastLoginDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: loginId
+        in: query
+        schema:
+          type: string
+      - name: loginPwd
+        in: query
+        schema:
+          type: string
+      - name: memBirth
+        in: query
+        schema:
+          type: string
+      - name: memEmail
+        in: query
+        schema:
+          type: string
+      - name: memName
+        in: query
+        schema:
+          type: string
+      - name: memSid
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: memSsn
+        in: query
+        schema:
+          type: string
+      - name: memTel
+        in: query
+        schema:
+          type: string
+      - name: recipeYn
+        in: query
+        schema:
+          type: string
+      - name: regDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: tokenVal
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - member
+      summary: joinCheck
+      operationId: joinCheckUsingPOST
+      parameters:
+      - name: ci
+        in: query
+        schema:
+          type: string
+      - name: hsptlCd
+        in: query
+        schema:
+          type: string
+      - name: lastLoginDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: loginId
+        in: query
+        schema:
+          type: string
+      - name: loginPwd
+        in: query
+        schema:
+          type: string
+      - name: memBirth
+        in: query
+        schema:
+          type: string
+      - name: memEmail
+        in: query
+        schema:
+          type: string
+      - name: memName
+        in: query
+        schema:
+          type: string
+      - name: memSid
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: memSsn
+        in: query
+        schema:
+          type: string
+      - name: memTel
+        in: query
+        schema:
+          type: string
+      - name: recipeYn
+        in: query
+        schema:
+          type: string
+      - name: regDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: tokenVal
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/member/changePwd:
+    post:
+      tags:
+      - member
+      summary: changePwd
+      operationId: changePwdUsingPOST
+      parameters:
+      - name: newPwd
+        in: query
+        description: newPwd
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/member/findPwd:
+    post:
+      tags:
+      - member
+      summary: findPwd
+      operationId: findPwdUsingPOST
+      parameters:
+      - name: ci
+        in: query
+        schema:
+          type: string
+      - name: hsptlCd
+        in: query
+        schema:
+          type: string
+      - name: lastLoginDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: loginId
+        in: query
+        schema:
+          type: string
+      - name: loginPwd
+        in: query
+        schema:
+          type: string
+      - name: memBirth
+        in: query
+        schema:
+          type: string
+      - name: memEmail
+        in: query
+        schema:
+          type: string
+      - name: memName
+        in: query
+        schema:
+          type: string
+      - name: memSid
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: memSsn
+        in: query
+        schema:
+          type: string
+      - name: memTel
+        in: query
+        schema:
+          type: string
+      - name: recipeYn
+        in: query
+        schema:
+          type: string
+      - name: regDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: tokenVal
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/member/join:
+    post:
+      tags:
+      - member
+      summary: join
+      operationId: joinUsingPOST
+      parameters:
+      - name: ci
+        in: query
+        schema:
+          type: string
+      - name: hsptlCd
+        in: query
+        schema:
+          type: string
+      - name: lastLoginDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: loginId
+        in: query
+        schema:
+          type: string
+      - name: loginPwd
+        in: query
+        schema:
+          type: string
+      - name: memBirth
+        in: query
+        schema:
+          type: string
+      - name: memEmail
+        in: query
+        schema:
+          type: string
+      - name: memName
+        in: query
+        schema:
+          type: string
+      - name: memSid
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: memSsn
+        in: query
+        schema:
+          type: string
+      - name: memTel
+        in: query
+        schema:
+          type: string
+      - name: recipeYn
+        in: query
+        schema:
+          type: string
+      - name: regDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: tokenVal
+        in: query
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/panicAttackRecord:
+    get:
+      tags:
+      - panic-attack-record
+      summary: search
+      operationId: searchUsingGET_5
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      - name: memSid
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: pnicAtkCnt
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pnicSmlyCnt
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: rcrdDt
+        in: query
+        schema:
+          type: string
+      - name: regDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: weekInfo
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - panic-attack-record
+      summary: insert
+      operationId: insertUsingPOST_4
+      parameters:
+      - name: Authrization
+        in: header
+        description: Authrization
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: panicAttackRecord
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PanicAttackRecord'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: panicAttackRecord
+  /api/panicAttackRecord/getResult:
+    get:
+      tags:
+      - panic-attack-record
+      summary: getPanicAttackChart
+      operationId: getPanicAttackChartUsingGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/panicScale:
+    get:
+      tags:
+      - panic-scale
+      summary: search
+      operationId: searchUsingGET_6
+      parameters:
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: paged
+        in: query
+        schema:
+          type: boolean
+      - name: pageNumber
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: qstContent
+        in: query
+        schema:
+          type: string
+      - name: qstId
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: sort.sorted
+        in: query
+        schema:
+          type: boolean
+      - name: sort.unsorted
+        in: query
+        schema:
+          type: boolean
+      - name: unpaged
+        in: query
+        schema:
+          type: boolean
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - panic-scale
+      summary: insert
+      operationId: insertUsingPOST_5
+      requestBody:
+        description: panicScale
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PanicScale'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: panicScale
+  /api/panicScale/{qstId}:
+    get:
+      tags:
+      - panic-scale
+      summary: get
+      operationId: getUsingGET_3
+      parameters:
+      - name: qstId
+        in: path
+        description: qstId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    put:
+      tags:
+      - panic-scale
+      summary: update
+      operationId: updateUsingPUT_3
+      parameters:
+      - name: qstId
+        in: path
+        description: qstId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: panicScale
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PanicScale'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: panicScale
+    delete:
+      tags:
+      - panic-scale
+      summary: delete
+      operationId: deleteUsingDELETE_3
+      parameters:
+      - name: qstId
+        in: path
+        description: qstId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content: {}
+        204:
+          description: No Content
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/panicScaleRecord:
+    get:
+      tags:
+      - panic-scale-record
+      summary: search
+      operationId: searchUsingGET_7
+      parameters:
+      - name: answerNo
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: memSid
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: paged
+        in: query
+        schema:
+          type: boolean
+      - name: pageNumber
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: qstId
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: regDt
+        in: query
+        schema:
+          type: string
+          format: date-time
+      - name: score
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: sort.sorted
+        in: query
+        schema:
+          type: boolean
+      - name: sort.unsorted
+        in: query
+        schema:
+          type: boolean
+      - name: unpaged
+        in: query
+        schema:
+          type: boolean
+      - name: weekInfo
+        in: query
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - panic-scale-record
+      summary: insert
+      operationId: insertUsingPOST_6
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: panicScaleRecord
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/PanicScaleRecord'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: panicScaleRecord
+  /api/studyDetail:
+    get:
+      tags:
+      - study-detail
+      summary: learnDetail
+      operationId: learnDetailUsingGET
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/studyDetail/studyDetailList:
+    get:
+      tags:
+      - study-detail
+      summary: learnVrDetail
+      operationId: learnVrDetailUsingGET
+      parameters:
+      - name: learnWeek
+        in: query
+        description: learnWeek
+        required: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/unrst:
+    get:
+      tags:
+      - unrst
+      summary: search
+      operationId: searchUsingGET_8
+      parameters:
+      - name: actnNm
+        in: query
+        schema:
+          type: string
+      - name: offset
+        in: query
+        schema:
+          type: integer
+          format: int64
+      - name: paged
+        in: query
+        schema:
+          type: boolean
+      - name: pageNumber
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: pageSize
+        in: query
+        schema:
+          type: integer
+          format: int32
+      - name: sort.sorted
+        in: query
+        schema:
+          type: boolean
+      - name: sort.unsorted
+        in: query
+        schema:
+          type: boolean
+      - name: unpaged
+        in: query
+        schema:
+          type: boolean
+      - name: unrstId
+        in: query
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+  /api/unrstActnRecord:
+    get:
+      tags:
+      - unrst-actn-record
+      summary: searchResult
+      operationId: searchResultUsingGET
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+    post:
+      tags:
+      - unrst-actn-record
+      summary: insert
+      operationId: insertUsingPOST_7
+      parameters:
+      - name: Authorization
+        in: header
+        description: Authorization
+        required: true
+        schema:
+          type: string
+      requestBody:
+        description: unrstActnRecord
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/UnrstActnRecord'
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ResponseEntity'
+        201:
+          description: Created
+          content: {}
+        401:
+          description: Unauthorized
+          content: {}
+        403:
+          description: Forbidden
+          content: {}
+        404:
+          description: Not Found
+          content: {}
+      security:
+      - Authorization:
+        - global
+      x-codegen-request-body-name: unrstActnRecord
+components:
+  schemas:
+    Admin:
+      title: Admin
+      type: object
+      properties:
+        loginId:
+          type: string
+        loginPw:
+          type: string
+        memEmail:
+          type: string
+        memIndstry:
+          type: string
+        memName:
+          type: string
+        memSid:
+          type: integer
+          format: int64
+        memTel:
+          type: string
+        regDt:
+          type: string
+          example: yyyy-MM-dd HH:mm:ss
+    CommonCode:
+      title: CommonCode
+      type: object
+      properties:
+        codeId:
+          type: string
+        codeNm:
+          type: string
+        gubnCd:
+          type: string
+        parntsCodeId:
+          type: string
+        typeCd:
+          type: string
+    MemAtdnItem:
+      title: MemAtdnItem
+      type: object
+      properties:
+        getDt:
+          type: string
+          example: yyyy-MM-dd HH:mm:ss
+        itemId:
+          type: integer
+          format: int64
+        memSid:
+          type: integer
+          format: int64
+    MemDrugRecord:
+      title: MemDrugRecord
+      type: object
+      properties:
+        daysInfo:
+          type: integer
+          format: int32
+        drugId:
+          type: integer
+          format: int64
+        drugNm:
+          type: string
+        emgBfreSleep:
+          type: string
+        emgDnnr:
+          type: string
+        emgLnch:
+          type: string
+        emgMrng:
+          type: string
+        memSid:
+          type: integer
+          format: int64
+        rcrdDt:
+          type: string
+        regDt:
+          type: string
+          example: yyyy-MM-dd HH:mm:ss
+        takeTime:
+          type: string
+        takeTimeNm:
+          type: string
+        takeYn:
+          type: string
+    MemDrugSetting:
+      title: MemDrugSetting
+      type: object
+      properties:
+        beforeSleep:
+          type: string
+        bslpTime:
+          type: string
+        dinTime:
+          type: string
+        dinner:
+          type: string
+        drugId:
+          type: integer
+          format: int64
+        drugList:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemDrugSettingSub'
+        drugSetId:
+          type: integer
+          format: int64
+        emergency:
+          type: string
+        emgTime:
+          type: string
+        lnchTime:
+          type: string
+        lunch:
+          type: string
+        memSid:
+          type: integer
+          format: int64
+        mngTime:
+          type: string
+        morning:
+          type: string
+    MemDrugSettingSub:
+      title: MemDrugSettingSub
+      type: object
+      properties:
+        beforeSleep:
+          type: string
+        bslpTime:
+          type: string
+        dinTime:
+          type: string
+        dinner:
+          type: string
+        drugId:
+          type: integer
+          format: int64
+        drugSetId:
+          type: integer
+          format: int64
+        emergency:
+          type: string
+        emgTime:
+          type: string
+        lnchTime:
+          type: string
+        lunch:
+          type: string
+        memSid:
+          type: integer
+          format: int64
+        mngTime:
+          type: string
+        morning:
+          type: string
+    MemUnrst:
+      title: MemUnrst
+      type: object
+      properties:
+        actnNm:
+          type: string
+        gubn:
+          type: string
+        memSid:
+          type: integer
+          format: int64
+        memUnrstSid:
+          type: integer
+          format: int64
+        unrstId:
+          type: integer
+          format: int64
+    PanicAttackRecord:
+      title: PanicAttackRecord
+      type: object
+      properties:
+        memSid:
+          type: integer
+          format: int64
+        pnicAtkCnt:
+          type: integer
+          format: int32
+        pnicSmlyCnt:
+          type: integer
+          format: int32
+        rcrdDt:
+          type: string
+        regDt:
+          type: string
+          example: yyyy-MM-dd HH:mm:ss
+        weekInfo:
+          type: integer
+          format: int32
+    PanicScale:
+      title: PanicScale
+      type: object
+      properties:
+        qstContent:
+          type: string
+        qstId:
+          type: integer
+          format: int64
+    PanicScaleRecord:
+      title: PanicScaleRecord
+      type: object
+      properties:
+        answerNo:
+          type: integer
+          format: int32
+        memSid:
+          type: integer
+          format: int64
+        qstId:
+          type: integer
+          format: int64
+        regDt:
+          type: string
+          example: yyyy-MM-dd HH:mm:ss
+        score:
+          type: integer
+          format: int32
+        weekInfo:
+          type: integer
+          format: int32
+    ResponseEntity:
+      title: ResponseEntity
+      type: object
+      properties:
+        body:
+          type: object
+          properties: {}
+        statusCode:
+          type: string
+          enum:
+          - ACCEPTED
+          - ALREADY_REPORTED
+          - BAD_GATEWAY
+          - BAD_REQUEST
+          - BANDWIDTH_LIMIT_EXCEEDED
+          - CHECKPOINT
+          - CONFLICT
+          - CONTINUE
+          - CREATED
+          - DESTINATION_LOCKED
+          - EXPECTATION_FAILED
+          - FAILED_DEPENDENCY
+          - FORBIDDEN
+          - FOUND
+          - GATEWAY_TIMEOUT
+          - GONE
+          - HTTP_VERSION_NOT_SUPPORTED
+          - IM_USED
+          - INSUFFICIENT_SPACE_ON_RESOURCE
+          - INSUFFICIENT_STORAGE
+          - INTERNAL_SERVER_ERROR
+          - I_AM_A_TEAPOT
+          - LENGTH_REQUIRED
+          - LOCKED
+          - LOOP_DETECTED
+          - METHOD_FAILURE
+          - METHOD_NOT_ALLOWED
+          - MOVED_PERMANENTLY
+          - MOVED_TEMPORARILY
+          - MULTIPLE_CHOICES
+          - MULTI_STATUS
+          - NETWORK_AUTHENTICATION_REQUIRED
+          - NON_AUTHORITATIVE_INFORMATION
+          - NOT_ACCEPTABLE
+          - NOT_EXTENDED
+          - NOT_FOUND
+          - NOT_IMPLEMENTED
+          - NOT_MODIFIED
+          - NO_CONTENT
+          - OK
+          - PARTIAL_CONTENT
+          - PAYLOAD_TOO_LARGE
+          - PAYMENT_REQUIRED
+          - PERMANENT_REDIRECT
+          - PRECONDITION_FAILED
+          - PRECONDITION_REQUIRED
+          - PROCESSING
+          - PROXY_AUTHENTICATION_REQUIRED
+          - REQUESTED_RANGE_NOT_SATISFIABLE
+          - REQUEST_ENTITY_TOO_LARGE
+          - REQUEST_HEADER_FIELDS_TOO_LARGE
+          - REQUEST_TIMEOUT
+          - REQUEST_URI_TOO_LONG
+          - RESET_CONTENT
+          - SEE_OTHER
+          - SERVICE_UNAVAILABLE
+          - SWITCHING_PROTOCOLS
+          - TEMPORARY_REDIRECT
+          - TOO_EARLY
+          - TOO_MANY_REQUESTS
+          - UNAUTHORIZED
+          - UNAVAILABLE_FOR_LEGAL_REASONS
+          - UNPROCESSABLE_ENTITY
+          - UNSUPPORTED_MEDIA_TYPE
+          - UPGRADE_REQUIRED
+          - URI_TOO_LONG
+          - USE_PROXY
+          - VARIANT_ALSO_NEGOTIATES
+        statusCodeValue:
+          type: integer
+          format: int32
+    UnrstActnRecord:
+      title: UnrstActnRecord
+      type: object
+      properties:
+        dgeScore:
+          type: integer
+          format: int32
+        memSid:
+          type: integer
+          format: int64
+        memUnrstSid:
+          type: integer
+          format: int64
+        rcrdDt:
+          type: string
+        regDt:
+          type: string
+          example: yyyy-MM-dd HH:mm:ss
+        unrstScore:
+          type: integer
+          format: int32
+        weekInfo:
+          type: integer
+          format: int32
+  securitySchemes:
+    Authorization:
+      type: apiKey
+      name: Authorization
+      in: header

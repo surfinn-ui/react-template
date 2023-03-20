@@ -68,7 +68,7 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
       pending() {
         error.set(null);
         state.set(FetchStates.PENDING);
-        requestAnimationFrame(() => loadingStore.setLoading(true));
+        // requestAnimationFrame(() => loadingStore.setLoading(true));
       },
 
       /**
@@ -77,7 +77,7 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
       done() {
         error.set(null);
         state.set(FetchStates.DONE);
-        setTimeout(() => loadingStore.setLoading(false), 600);
+        // setTimeout(() => loadingStore.setLoading(false), 600);
       },
 
       /**
@@ -88,7 +88,7 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
       error(err: TApiErrorResponse) {
         error.set(err);
         state.set(FetchStates.ERROR);
-        setTimeout(() => loadingStore.setLoading(false), 600);
+        // setTimeout(() => loadingStore.setLoading(false), 600);
       },
 
       /**
@@ -98,11 +98,11 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
        */
       setFetchState(newState: FetchStates) {
         state.set(newState);
-        if (newState === FetchStates.PENDING) {
-          requestAnimationFrame(() => loadingStore.setLoading(true));
-        } else {
-          setTimeout(() => loadingStore.setLoading(false), 600);
-        }
+        // if (newState === FetchStates.PENDING) {
+        //   requestAnimationFrame(() => loadingStore.setLoading(true));
+        // } else {
+        //   setTimeout(() => loadingStore.setLoading(false), 600);
+        // }
       },
 
       /**
@@ -111,7 +111,7 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
        */
       setError(fetchError: TApiErrorResponse) {
         error.set(fetchError);
-        setTimeout(() => loadingStore.setLoading(false), 600);
+        // setTimeout(() => loadingStore.setLoading(false), 600);
       },
 
       /**
