@@ -2,6 +2,8 @@ import { Instance, SnapshotOut, types } from 'mobx-state-tree';
 import { LoadingStore } from './LoadingStore';
 
 // ^ generated store imports
+// $ generated store imports
+
 // ----------------------------------------------------------------------------
 
 /**
@@ -10,10 +12,16 @@ import { LoadingStore } from './LoadingStore';
 export const RootStore = types
   .model('RootStore')
   .props({
-    loadingStore: types.late(() => LoadingStore),
-    // STORES
+    loadingStore: types.optional(LoadingStore, {}),
+    // ^ generated store registrations
+    // $ generated store registrations
   })
-  .actions((self) => ({}));
+  .actions((self) => ({}))
+  .actions((self) => ({
+    afterCreate() {
+      // self.loadingStore.setMessage('RootStore.afterCreate()');
+    }
+  }));
 
 /**
  * The RootStore instance.

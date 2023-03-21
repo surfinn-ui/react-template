@@ -16,7 +16,7 @@ import {
   RootStoreProvider,
   setupRootStore,
   useInitialRootStore,
-} from './stores';
+} from './models';
 
 type ThemeKey = keyof typeof THEMES;
 
@@ -27,7 +27,6 @@ function App() {
   const theme = useMemo(() => THEMES[themeKey] || THEMES['light'], [themeKey]);
 
   const { rehydrated } = useInitialRootStore(() => {
-    console.log('useInitialRootStore()');
     // hide the splash screen
   });
 

@@ -57,5 +57,3 @@ type TLoadingStoreSnapshot = SnapshotOut<typeof LoadingStore>;
 export interface ILoadingStore extends TLoadingStore {}
 export type TLoadingStoreKeys = keyof TLoadingStoreSnapshot & string;
 export interface ILoadingStoreSnapshot extends TLoadingStoreSnapshot {}
-export const createLoadingStore = () =>
-  types.optional(LoadingStore, {} as TLoadingStore);

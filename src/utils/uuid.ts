@@ -57,7 +57,7 @@ export const validate = (uuid: string) => {
 };
 
 const UUID = {
-  generate,
+  v4: generate,
   validate,
 };
 
