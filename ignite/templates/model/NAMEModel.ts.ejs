@@ -1,0 +1,29 @@
+---
+destinationDir: src/models/<%= props.camelCaseName %>
+patches:
+  - path: "src/models/index.ts"
+    before: "// $ export generated models\n"
+    insert: "export * from \"./<%= props.camelCaseName %>/<%= props.pascalCaseName %>Model\"\n" 
+    skip: <%= props.skipIndexFile %>
+---
+import { Instance, SnapshotIn, SnapshotOut, types } from "mobx-state-tree"
+import { withSetPropAction } from "../withSetPropAction"
+import { <%= props.pascalCaseName %>ModelProps } from "./<%= props.pascalCaseName %>ModelProps"
+
+/**
+ * <%= props.pascalCaseName %>Model 
+ * 
+ */
+export const <%= props.pascalCaseName %>Model = types
+  .model("<%= props.pascalCaseName %>", {
+    ...<%= props.pascalCaseName %>ModelProps,
+    // add your own properties
+  })
+  .actions(withSetPropAction)
+//  .views((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+//  .actions((self) => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+
+export interface I<%= props.pascalCaseName %>Model extends Instance<typeof <%= props.pascalCaseName %>Model> {} // prettier-ignore
+export interface I<%= props.pascalCaseName %>ModelSnapshotOut extends SnapshotOut<typeof <%= props.pascalCaseName %>Model> {} // prettier-ignore
+export interface I<%= props.pascalCaseName %>ModelSnapshotIn extends SnapshotIn<typeof <%= props.pascalCaseName %>Model> {} // prettier-ignore
+export type T<%= props.pascalCaseName %>ModelKeys = keyof I<%= props.pascalCaseName %>ModelSnapshotIn & string; // prettier-ignore

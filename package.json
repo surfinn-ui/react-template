@@ -6,6 +6,7 @@
   "bin": {
     "surfinn": "./bin/surfinn.js"
   },
+  "license": "MIT",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
@@ -16,6 +17,7 @@
     "format:md": "prettier --write \"**/*.md\"",
     "format:ts": "prettier --write \"src/**/*.ts{,x}\"",
     "postinstall": "patch-package",
+    "gen:openapi": "openapi-generator/bin/generator",
     "gen": "ignite-cli generate",
     "doctor": "ignite-cli doctor",
     "test": "vitest"

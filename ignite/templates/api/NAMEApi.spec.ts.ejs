@@ -1,0 +1,13 @@
+---
+destinationDir: src/services/api/<%= props.camelCaseName %>/specs
+---
+import { describe, expect, it } from 'vitest';
+import { <%= props.camelCaseName %>Api } from "../<%= props.pascalCaseName %>Api"
+
+describe("<%= props.pascalCaseName %>Api", () => {
+
+  it("can be created", () => {
+    expect(<%= props.camelCaseName %>Api).toBeTruthy();
+  });
+
+});

@@ -1,15 +1,20 @@
 import { ComponentStory, ComponentMeta } from '@storybook/react';
-import MainPage from './MainPage';
+import { MainPageView } from './MainPageView';
 
 export default {
   title: 'Pages/MainPage',
-  component: MainPage,
+  component: MainPageView,
   parameters: {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-} as ComponentMeta<typeof MainPage>;
+} as ComponentMeta<typeof MainPageView>;
 
-const Template: ComponentStory<typeof MainPage> = () => <MainPage />;
+const Template: ComponentStory<typeof MainPageView> = (args) => (
+  <MainPageView {...args}/>
+);
 
 export const Default = Template.bind({});
+
+Default.args = {
+};

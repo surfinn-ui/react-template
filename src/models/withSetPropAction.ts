@@ -30,7 +30,11 @@ import {
 export const withSetPropAction = <T extends IStateTreeNode>(
   mstInstance: T,
 ) => ({
-  // generic setter for all properties
+  /**
+   * Sets a single property on the model.
+   * @param field
+   * @param newValue
+   */
   setProp<K extends keyof SnapshotIn<T>, V extends SnapshotIn<T>[K]>(
     field: K,
     newValue: V,
@@ -42,6 +46,10 @@ export const withSetPropAction = <T extends IStateTreeNode>(
     });
   },
 
+  /**
+   * Sets multiple properties on the model.
+   * @param newValues
+   */
   setProps(newValues: Partial<SnapshotIn<T>>) {
     applySnapshot(mstInstance, { ...getSnapshot(mstInstance), ...newValues });
   },

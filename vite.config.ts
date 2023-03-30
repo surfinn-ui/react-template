@@ -1,4 +1,5 @@
-import react from '@vitejs/plugin-react-swc';
+// import react from '@vitejs/plugin-react-swc';
+import react from '@vitejs/plugin-react';
 import { fileURLToPath } from 'url';
 import { defineConfig } from 'vite';
 import removeConsole from 'vite-plugin-remove-console';

@@ -1,9 +1,11 @@
-export * from './api';
-export * from './api.types';
-export * from './Auth.api';
+export * from './Api';
+export * from './ApiTypes';
+export * from './AuthApi';
 // ------------------------------------
-export * from './Pet.api';
-export * from './Store.api';
-export * from './User.api';
-// export generated api goes hear
+// Add your own apis here
+
 // ------------------------------------
+//   GENERATED APIS
+// ------------------------------------
+// ^ export generated apis
+// $ export generated apis
