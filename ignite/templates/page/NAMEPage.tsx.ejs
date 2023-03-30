@@ -11,8 +11,9 @@ import {
 
 const <%= props.pascalCaseName %>Page = observer(() => {
   // Pull in one of our MST stores
-  // const { <%= props.camelCaseName%>Store } = useStores();
-
+  const rootStore = useStores();
+  // const { <%= props.camelCaseName%>Store } = rootStore;
+  
   const viewProps = useMemo<I<%= props.pascalCaseName %>PageViewProps>(() => ({
     title: '<%= props.pascalCaseName %>',
   }), []);

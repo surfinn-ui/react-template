@@ -32,7 +32,6 @@ function App() {
   );
 
   const { rehydrated } = useInitialRootStore(() => {
-    console.log('useInitialRootStore()');
     // hide the splash screen
   });
 

@@ -17,7 +17,12 @@ export const RootStore = types
     // ^ generated store props
     // $ generated store props
   })
-  .actions((self) => ({}));
+  .actions((self) => ({}))
+  .actions((self) => ({
+    afterCreate() {
+      // self.loadingStore.setMessage('RootStore.afterCreate()');
+    }
+  }));
 
 /**
  * The RootStore instance.
