@@ -32,7 +32,7 @@ export const LoadingStore = types
       self.loading = true;
     },
     allLoadingNoMsg: () => {
-      self.message = '';
+      // self.message = '';
       self.loading = true;
     },
     closeLoadingNoMsg: () => {
@@ -40,7 +40,7 @@ export const LoadingStore = types
       self.loading = false;
     },
     tableLoadingNoMsg: () => {
-      self.tableMessage = '';
+      // self.tableMessage = '';
       self.tableLoading = true;
     },
     tableCloseLoadingNoMsg: () => {
@@ -57,5 +57,3 @@ type TLoadingStoreSnapshot = SnapshotOut<typeof LoadingStore>;
 export interface ILoadingStore extends TLoadingStore {}
 export type TLoadingStoreKeys = keyof TLoadingStoreSnapshot & string;
 export interface ILoadingStoreSnapshot extends TLoadingStoreSnapshot {}
-export const createLoadingStore = () =>
-  types.optional(LoadingStore, {} as TLoadingStore);

@@ -39,7 +39,7 @@ const {
  * @param {*} callback
  */
 function generateStores(callback) {
-  const tagNames = getTagNames();
+  const tagNames = getTagNames().filter((tagName) => !tagName.startsWith('SuccessResponse'));
   const generators = [];
   tagNames.forEach((tagName) => {
     if (fs.existsSync(getStoreFilePath(tagName))) {
@@ -76,7 +76,7 @@ function generateStores(callback) {
       const object = node.value;
       jsonpath
         .query(object, '$..["$ref"]')
-        .map((ref) => ref.substring(ref.lastIndexOf('/') + 1))
+        .map((ref) => ref.substring(ref.lastIndexOf('/') + 1).replace(/SuccessResponse(List)?/i, ''))
         .forEach((ref) => {
           imports.add(
             `import { I${toPascalCase(ref)}Model } from '../${toCamelCase(
@@ -255,8 +255,7 @@ function getActionCodes(path, object) {
       // const options = parseOptions(pathInfo);
       const requestBody = parseRequestBody(pathInfo.requestBody);
       const responses = parseResponses(pathInfo.responses);
-console.log('responses', responses)
-      const resultType = returnType(object, method);
+      const responseModel = returnType(object, method);
 
       return `
     /**
@@ -279,10 +278,9 @@ console.log('responses', responses)
         .map((i) => i[0])
         .join(', ')});
       if (response.kind === 'ok') {
-        
         // TODO - TRANSLATE RESPONSE TO STORE 
-        const data = response.data.data as ${resultType};
-        ${ resultType?.pagination ? `const pagination = response.data.pagination as IPagination;` : '' }
+        const data = response.data.data as ${responseModel};
+        ${ responseModel?.pagination ? `const pagination = response.data.pagination as IPagination;` : '' }
 
         // --------------------------------------------------------------------
         console.log('${operationId}()', JSON.stringify(data, null, 2));

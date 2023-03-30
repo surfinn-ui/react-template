@@ -1,8 +1,0 @@
-{
-  "servers": [
-    {
-      "url": "https://devf2dapi.surfinn.kr",
-      "description": "Development environment server"
-    }
-  ]
-}

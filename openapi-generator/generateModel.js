@@ -47,7 +47,8 @@ function generateModels(callback) {
       const name = node.path.pop();
       const object = node.value;
       return { name, value: object };
-    });
+    })
+    .filter((schema) => !schema.name.startsWith('SuccessResponse'));
 
   // console.log(getSchemasFromComponents());
 
@@ -160,21 +161,20 @@ function addPropsToModel(schema, callback) {
  * @returns
  */
 function getModelPropsCode(schema) {
-  const schemaName = toCamelCase(schema.name);
-  const requires = schema.value.required || [];
   const properties = schema.value.properties;
-  const codeLines = [];
   if (!properties) {
     return '';
   }
 
+  // console.log('schema', schema.name, JSON.stringify(properties, null, 2))
+
+  const schemaName = toCamelCase(schema.name);
+  const requires = schema.value.required || [];
+  const codeLines = [];
+
   Object.keys(properties).forEach((propName) => {
     let propValue = properties[propName];
     let type = 'types.string';
-
-    if (propValue.writeOnly) {
-      return;
-    }
 
     let $ref = null;
     let $refName = '';
@@ -194,7 +194,13 @@ function getModelPropsCode(schema) {
       case 'boolean': type = 'types.boolean'; break;
       case 'array':
         if (propValue.items.type) {
-          type = `types.array(types.${propValue.items.type})`;
+          switch (propValue.items.type) {
+            case 'integer': type = 'types.array(types.number)';  break;
+            case 'number' : type = 'types.array(types.number)';  break;
+            case 'string' : type = 'types.array(types.string)';  break;
+            case 'boolean': type = 'types.array(types.boolean)'; break;
+            case 'object': type = 'types.array(types.frozen({}))'; break;
+          }
         } else if (propValue.items.$ref) {
           $ref = getComponentBy$ref(propValue.items.$ref);
           if ($ref.type === 'object') {
@@ -204,8 +210,8 @@ function getModelPropsCode(schema) {
           }
         }
         break;
-      case 'object':
-        if ($ref) {
+        case 'object':
+          if ($ref) {
           if ($ref.type === 'object') {
             if (toPascalCase($refName) === toPascalCase(schemaName)) {
               type = `types.late((): IAnyModelType => ${toPascalCase($refName)}Model)`
@@ -240,8 +246,8 @@ function getModelPropsCode(schema) {
       ) {
         type =
           propValue.type === 'string'
-            ? 'types.identifier'
-            : 'types.identifierNumber';
+            ? 'types.maybeNull(types.identifier)'
+            : 'types.maybeNull(types.identifierNumber)';
         requires.push(propName);
       } else {
         // NOTE - 참조하는 스키마의 아이디 - 명시적으로 $ref를 사용하지 않아도 참조하는 스키마의 아이디를 찾아서 추가한다. ???
@@ -252,11 +258,16 @@ function getModelPropsCode(schema) {
     codeLines.push('/**');
     if (propValue.description !== undefined)
       codeLines.push(` * @description  ${propValue.description}`);
-
+    if (propValue.type) 
+      codeLines.push(` * @type ${propValue.type}`);
     if (propValue.format !== undefined)
       codeLines.push(` * @format ${propValue.format}`);
     if (propValue.pattern !== undefined)
       codeLines.push(` * @pattern ${propValue.pattern}`);
+    if (propValue.enum !== undefined) {
+      if (propValue.type === 'string') codeLines.push(` * @enum '${propValue.enum.join("' | '")}'`);
+      else codeLines.push(` * @enum ${propValue.enum.join(' | ')}`);
+    }
 
     // string
     if (propValue.minLength !== undefined)
@@ -272,6 +283,10 @@ function getModelPropsCode(schema) {
 
     if (propValue.example !== undefined)
       codeLines.push(` * @example ${propValue.example}`);
+
+    if (propValue.writeOnly) {
+      codeLines.push(` * @writeOnly `);
+    }
 
     if (requires.includes(propName)) {
       codeLines.push(

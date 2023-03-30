@@ -17,6 +17,10 @@ const {
   getRequestBodyByPathAndMethod,
 
   // ----------------------------------
+  parseMediaType,
+  parseReference,
+  parseRequestBody,
+  // ----------------------------------
 
   convertDataType,
   isResponseTypeArray,
@@ -29,6 +33,7 @@ const {
 
   toCamelCase,
   toPascalCase,
+  toParagraphCase,
   toSnakeCase,
   toConstantCase,
   toKebabCase,
@@ -42,7 +47,7 @@ const {
  */
 async function generateApis(callback) {
   const generators = [];
-  console.log('Start generateApis()');
+  // console.log('Start generateApis()');
   // Create API documents with each tag
   getTagNames().forEach((tagName) => {
     if (
@@ -83,7 +88,7 @@ async function generateApis(callback) {
     const imports = new Set();
     jsonpath
       .query(object, '$..["$ref"]')
-      .map((ref) => ref.substring(ref.lastIndexOf('/') + 1))
+      .map((ref) => ref.substring(ref.lastIndexOf('/') + 1).replace(/^successResponse(list)?/i, ''))
       .forEach((ref) => {
         imports.add(
           `import { I${toPascalCase(
@@ -216,7 +221,7 @@ function getApiCode(tag, path, node) {
   methods.forEach((method) => {
     const operationId = toCamelCase(node[method].operationId);
 
-    const { docs, params } = translateParameters(node[method]);
+    const { docs, params } = parseParameters(node[method]);
     const url = `${path.replaceAll('{', '${')}`;
 
     const {
@@ -224,15 +229,16 @@ function getApiCode(tag, path, node) {
       params: requestBodyParams,
       requestBody,
       requestConfig,
-    } = translateRequestBody(path, method);
+    } = parseRequestBodyForApi(path, method);
     // requestBodyDocs && console.log('API requestBodyDocs', node[method].operationId, requestBodyDocs)
     const apiBaseMethodName = getApiBaseMethodName(node, method);
 
-    let resultType = returnType(node, method);
+    let responseModel = returnType(node, method);
+    // console.log(responseModel);
     codeLines.push(`
   /**
-   * ## ${node[method].summary}
-   * ${node[method].description}
+   * ## ${node[method].summary || toParagraphCase(node[method].operationId)}
+   * ${node[method].description || ''}
    * 
 ${
   docs || requestBodyDocs
@@ -278,7 +284,7 @@ ${
         )
         .join('\n')} `}
 
-    return this.${apiBaseMethodName}${resultType ? `<${resultType}>` : ''}(
+    return this.${apiBaseMethodName}${responseModel ? `<${responseModel}>` : ''}(
       \`${url}${
       (method === 'post' || method === 'put' || method === 'patch') &&
       params.query.length
@@ -337,16 +343,16 @@ function getApiBaseMethodName(node, method) {
  * @param {*} node
  * @returns
  */
-function translateParameters(node) {
+function parseParameters(node) {
   const parameters = jsonpath.query(node, '$..parameters[*]');
 
-  const headerParams = translateHeaderParameters(
+  const headerParams = parseHeaderParameters(
     parameters.filter((p) => p.in === 'header'),
   );
-  const pathParams = translatePathParameters(
+  const pathParams = parsePathParameters(
     parameters.filter((p) => p.in === 'path'),
   );
-  const queryParams = translateQueryParameters(
+  const queryParams = parseQueryParameters(
     parameters.filter((p) => p.in === 'query'),
   );
 
@@ -368,9 +374,9 @@ function translateParameters(node) {
  * @param {*} placement
  * @returns
  */
-function translateParam(param, placement) {
+function parseParam(param, placement) {
   // placement === 'header' && console.log('header.param', param);
-  placement === 'path' && console.log('path.param', param);
+  // placement === 'path' && console.log('path.param', param);
   // placement === 'query' &&  console.log('query.param', param)
   if (param.schema?.$ref) {
     // console.log('param', param);
@@ -439,12 +445,12 @@ function translateParam(param, placement) {
  * @param {*} parameters
  * @returns
  */
-function translateHeaderParameters(parameters) {
+function parseHeaderParameters(parameters) {
   const docs = [];
   const params = [];
   if (parameters) {
     parameters.forEach((p) => {
-      const { info, param } = translateParam(p, 'header');
+      const { info, param } = parseParam(p, 'header');
       docs.push(info);
       params.push(param);
     });
@@ -458,12 +464,12 @@ function translateHeaderParameters(parameters) {
  * @param {*} parameters
  * @returns
  */
-function translatePathParameters(parameters) {
+function parsePathParameters(parameters) {
   const docs = [];
   const params = [];
   if (parameters) {
     parameters.forEach((p) => {
-      const { info, param } = translateParam(p, 'param');
+      const { info, param } = parseParam(p, 'param');
       docs.push(info);
       params.push(param);
     });
@@ -476,12 +482,12 @@ function translatePathParameters(parameters) {
  * @param {*} parameters
  * @returns
  */
-function translateQueryParameters(parameters) {
+function parseQueryParameters(parameters) {
   const docs = [];
   const params = [];
   if (parameters) {
     parameters.forEach((p) => {
-      const { info, param } = translateParam(p, 'query');
+      const { info, param } = parseParam(p, 'query');
       docs.push(info);
       params.push(param);
     });
@@ -490,19 +496,27 @@ function translateQueryParameters(parameters) {
 }
 
 /**
+ * Request Body
  *
+ * Request Body Object | Reference Object
+ *
+ * The request body applicable for this operation.
+ * The requestBody is fully supported in HTTP methods where the HTTP 1.1 specification RFC7231
+ * has explicitly defined semantics for request bodies. In other cases where the HTTP spec is vague
+ * (such as GET, HEAD and DELETE), requestBody is permitted but does not have well-defined semantics
+ * and SHOULD be avoided if possible.
  * @param {*} path
  * @param {*} method
  * @returns
  */
-function translateRequestBody(path, method) {
+function parseRequestBodyForApi(path, method) {
   const hasRequestBody = ['post', 'put', 'patch'].includes(method);
 
   const requestBody = hasRequestBody
     ? getRequestBodyByPathAndMethod(path, method)
     : undefined;
 
-  if (requestBody === undefined) {
+  if (!requestBody) {
     return {
       docs: '',
       params: [],
@@ -511,14 +525,54 @@ function translateRequestBody(path, method) {
     };
   }
 
-  // console.log('requestBody', path, method, requestBody);
-  const contentType = requestBody.type;
+  // Has Reference Object
+  // #/components/requestBodies/ 에 정의된 객체를 참조한다.
+  // 따라서, Request Body Object의 형을 갖추어야 한다.
+  // 파싱은 Reference Object를 파싱하는 함수를 사용한다.
+  if (requestBody.$ref) {
+    const { type, $refObject, summary, description } =
+      parseReferenceObject(requestBody);
 
-  const content =
-    requestBody.schema === 'string' ? 'JSON.stringify(payload)' : 'payload';
+    // const obj = parseRequestBody(jsonpath.query(document, path));
+    // console.log(path, method, 'Request Body $ref', JSON.stringify(obj, null, 2));
+
+    const docs = hasRequestBody
+      ? `   * @param {${type || '*'}} payload **(REQUIRED)** ${
+          summary ? `${summary}\n   *         ` : ''
+        }${description ? `- ${description}` : ''}`
+      : '';
+    const params = hasRequestBody ? [ref] : [];
+    const requestConfig = '';
+    return {
+      docs,
+      params,
+      requestBody: 'payload',
+      requestConfig,
+    };
+  }
+
+  // Has Request Body Object
+  // console.log('request body object', JSON.stringify(jsonpath.query(document, `$.paths['${path}']['${method}'].requestBody`)[0], null, 2))
+  const { required, contentType, content } = parseRequestBody(
+    jsonpath.query(document, `$.paths['${path}']['${method}'].requestBody`)[0],
+  );
+  // console.log(path, method, 'Request Body Object', JSON.stringify(requestBody, null, 2))
+  // console.log(
+  //   'Parsed Request Body Object\n',
+  //   performance.now(),
+  //   '\n',
+  //   path,
+  //   '\n',
+  //   method,
+  //   '\n----------------------------------------------\n',
+  //   JSON.stringify({ required, contentType, content }, null, 2),
+  //   '\n----------------------------------------------\n',
+  // );
+
+  const description = requestBody.description;
 
   const requestConfig =
-    contentType && contentType !== 'application/json' // && content !== ''
+    contentType && contentType !== 'application/json'
       ? {
           headers: {
             'Content-Type': contentType,
@@ -527,20 +581,29 @@ function translateRequestBody(path, method) {
       : '';
 
   const type =
-    requestBody.schema === 'string'
+    content.schema.type === 'string'
       ? 'string'
-      : requestBody.schema === 'integer'
+      : content.schema.type === 'integer'
       ? 'number'
-      : requestBody.schema === 'number'
+      : content.schema.type === 'number'
       ? 'number'
-      : `I${requestBody.schema}Model`;
+      : content.schema.type === 'object'
+      ? content.schema.additionalProperties
+        ? content.schema.additionalProperties.$ref
+          ? `Record<string, I${toPascalCase(
+              content.schema.additionalProperties.$ref.split('/').pop(),
+            )}Model>`
+          : `Record<string, ${content.schema.additionalProperties.type}>`
+        : `I${content.schema.$refModel}Model`
+      : content.schema.type === 'array'
+      ? `Array<I${content.schema.items.$refModel}Model>`
+      : content.schema.type === 'boolean'
+      ? 'boolean'
+      : 'any';
   const format = contentType ? requestBody.content.schema?.format : '';
-  const description = hasRequestBody ? requestBody?.description : '';
-  const docs = hasRequestBody
-    ? `   * @param {${type || '*'}} payload **(REQUIRED)** ${
-        format ? `{${format}}` : ''
-      }  ${description ? description : ''}`
-    : '';
+  const docs = `   * @param {${type || '*'}} payload ${
+    required ? '**(REQUIRED)** ' : ''
+  }${format ? `{${format}}` : ''} ${description ? description : ''}`;
   const params = hasRequestBody
     ? [
         {

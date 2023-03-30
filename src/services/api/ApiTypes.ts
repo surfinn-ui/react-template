@@ -90,6 +90,7 @@ export type TResult<T> =
 export type TApiOkResponse<T> =
   | {
       resultCode: 'S';
+      statusCode: string;
       data?: T | T[];
       pagination?: IPagination;
     } & T;

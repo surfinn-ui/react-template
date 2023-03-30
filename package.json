@@ -6,6 +6,7 @@
   "bin": {
     "surfinn": "./bin/surfinn.js"
   },
+  "license": "MIT",
   "scripts": {
     "start": "vite",
     "build": "tsc && vite build",
