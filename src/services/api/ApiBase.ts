@@ -1,21 +1,20 @@
 import { ApiResponse } from 'apisauce';
 import { AxiosRequestConfig } from 'axios';
-import { IPagination } from '../../models/withPagination';
 import { api } from './Api';
 import { getGeneralApiProblem, TGeneralApiProblem } from './ApiProblem';
 import {
   TApiOkResponse,
   TApiResponse,
+  TCreateOkResult,
+  TCreateResult,
   TDeleteOkResult,
   TDeleteResult,
   TFindOkResult,
   TFindResult,
+  TPartialUpdateResult,
   TSearchOkResult,
   TSearchResult,
-  TPartialUpdateResult,
-  TCreateResult,
   TUpdateResult,
-  TCreateOkResult,
 } from './ApiTypes';
 
 type TParams = Record<string, any> | undefined;

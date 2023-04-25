@@ -53,17 +53,9 @@ export class Api {
     });
 
     this.apisauce = create({
-      axiosInstance: this.axios,
       baseURL: this.config.url,
+      axiosInstance: this.axios,
     });
-
-    // this.apisauce = create({
-    //   baseURL: this.config.url,
-    //   timeout: this.config.timeout,
-    //   headers: {
-    //     Accept: 'application/json',
-    //   },
-    // });
   }
 }
 
