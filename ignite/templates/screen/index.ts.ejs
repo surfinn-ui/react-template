@@ -1,0 +1,23 @@
+---
+destinationDir: src/screens/<%= props.pascalCaseName %>
+patch:
+  path: src/screens/index.ts
+  before: "// export generated screens here\n"
+  insert: "export { default as <%= props.pascalCaseName %>Screen } from './<%= props.pascalCaseName %>';\n"
+  skip: <%= props.skipIndexFile %>
+<!-- patches:
+  - path: "src/routes/Main.routes.tsx"
+    before: "\n} from '../screens';\n"
+    insert: "\n  <%= props.pascalCaseName %>Screen,"
+  - path: "src/routes/Main.navigator.tsx"
+    before: "\n  // 🔥 Your screens go here"
+    insert: "\n  <%= props.pascalCaseName %>: undefined;"
+  - path: "src/routes/Main.routes.tsx"
+    before: "\n    </Stack.Navigator>"
+    insert: "\n      <Stack.Screen name=\"<%= props.pascalCaseName %>\" component={<%= props.pascalCaseName %>Screen} />"
+  - path: "src/screens/index.ts"
+    after: "// export other screens here\n"
+    insert: "export * from './<%= props.pascalCaseName %>.screens';\n"
+    skip: <%= props.skipIndexFile %> -->
+---
+export { default } from './<%= props.pascalCaseName %>Screen';

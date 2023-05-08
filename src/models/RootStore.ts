@@ -9,11 +9,10 @@ import { LoadingStore } from './LoadingStore';
 /**
  * A RootStore model.
  */
-// prettier-ignore
 export const RootStore = types
   .model('RootStore')
   .props({
-    loadingStore:            types.optional(LoadingStore, {}),
+    loadingStore: types.optional(LoadingStore, {}),
     // ^ generated store props
     // $ generated store props
   })
@@ -21,7 +20,7 @@ export const RootStore = types
   .actions((self) => ({
     afterCreate() {
       // self.loadingStore.setMessage('RootStore.afterCreate()');
-    }
+    },
   }));
 
 /**

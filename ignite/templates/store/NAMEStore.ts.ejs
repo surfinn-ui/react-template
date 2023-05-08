@@ -5,7 +5,7 @@ patches:
     after: "// ^ generated store imports\n"
     insert: "import { <%= props.pascalCaseName %>Store } from './<%= props.camelCaseName %>/<%= props.pascalCaseName %>Store';\n"
   - path: "src/models/RootStore.ts"
-    after: "types.model('RootStore').props({\n"
+    before: "// $ generated store props\n"
     insert: "  <%= props.camelCaseName %>Store: types.optional(<%= props.pascalCaseName %>Store, {}),\n"
   - path: "src/models/index.ts"
     before: "// $ export generated stores\n"

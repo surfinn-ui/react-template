@@ -22,7 +22,6 @@ export const PageHeaderView = observer(
 
 PageHeaderView.displayName = 'PageHeader_Component_View';
 
-
 function Shadow({ sx, ...other }: BoxProps) {
   const theme = useTheme();
   return (

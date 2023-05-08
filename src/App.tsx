@@ -1,15 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import { Container, CssBaseline, ThemeProvider } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-
-import reactLogo from './assets/react.svg';
-import muiLogo from './assets/mui.svg';
-import mstLogo from './assets/mst.svg';
-import storybookLogo from './assets/storybook.svg';
-
-import './App.css';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 
 import THEMES from './themes';
 
@@ -19,6 +10,8 @@ import {
   setupRootStore,
   useInitialRootStore,
 } from './models';
+import { BrowserRouter } from 'react-router-dom';
+import Router from './routes';
 
 type TThemeMode = keyof typeof THEMES;
 
@@ -31,77 +24,19 @@ function App() {
     [themeMode],
   );
 
-  const { rehydrated } = useInitialRootStore(() => {
+  const { rootStore, rehydrated } = useInitialRootStore(() => {
     // hide the splash screen
+    console.log('rehydrated, rootStore:', JSON.stringify(rootStore, null, 2));
   });
 
-  if (!rehydrated) {
-    return null;
-  }
-
   return (
-    <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <AppView />
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        {!rehydrated ? <div>Loading...</div> : <Router />}
+      </ThemeProvider>
+    </BrowserRouter>
   );
 }
 
 export default App;
-
-const AppView = () => {
-  const [count, setCount] = useState(0);
-  return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <div>
-        <a href="https://mobx-state-tree.js.org/" target="_blank">
-          <img src={mstLogo} className="logo" alt="MobX-state-tree logo" />
-        </a>
-        <a href="https://mui.org" target="_blank">
-          <img src={muiLogo} className="logo" alt="Material UI logo" />
-        </a>
-        <a href="https://storybook.js.org/" target="_blank">
-          <img src={storybookLogo} className="logo" alt="Storybook logo" />
-        </a>
-        <a href="https://github.com/infinitered/ignite" target="_blank">
-          <img src="/ignite.png" className="logo" alt="Ignite logo" />
-        </a>
-        <a href="https://www.openapis.org/" target="_blank">
-          <img
-            src="/OpenAPI_Logo_Pantone-1.png"
-            className="logo"
-            alt="OpenAPI logo"
-          />
-        </a>
-      </div>
-
-      <h1>Vite + React</h1>
-      <ul style={{ textAlign: 'left' }}>
-        <li>MobX-state-tree</li>
-        <li>Material UI</li>
-        <li>Storybook</li>
-        <li>Ignite-cli Generator</li>
-        <li>OpenAPI</li>
-      </ul>
-
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-
-      <p className="read-the-docs">Click on the logos to learn more</p>
-    </div>
-  );
-};

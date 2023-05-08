@@ -19,20 +19,32 @@ if (args[2] === 'validate') {
 generate(args[2]);
 
 function validate(documentURI) {
-  try {
-    SwaggerParser.validate(documentURI, (err, api) => {
-      if (err) {
-        console.error(err);
-        return;
-      }
-      console.log('✅ Open API Document is valid.');
-    });
-  } catch (err) {
-    console.error(err);
-  }
+  return new Promise((resolve, reject) => {
+    try {
+      SwaggerParser.validate(documentURI, (err, api) => {
+        if (err) {
+          console.log('❌ Open API Document is invalid.');
+          console.error(err);
+          reject(err);
+          return;
+        }
+        console.log('✅ Open API Document is valid.');
+        resolve(api);
+      });
+    } catch (err) {
+      console.error(err);
+      reject(err);
+    }
+  });
 }
 
 async function generate(documentURI) {
+  const validation = await validate(documentURI);
+  if (!validation) {
+    // console.log('❌ Open API Document is invalid.');
+    return;
+  }
+
   startTime = performance.now();
   console.log('-----------------------------------------------------');
   console.log('OPEN API CLIENT GENERATE FOR SURFINN UI');
@@ -96,14 +108,4 @@ function findTags(callback) {
       description: `${toPascalCase(t)} Controller`,
     })),
   });
-  // console.log(
-  //   JSON.stringify(
-  //     [...tagSet].map((t) => ({
-  //       name: t,
-  //       description: `${toPascalCase(t)} Controller`,
-  //     })),
-  //     null,
-  //     2,
-  //   ),
-  // );
 }

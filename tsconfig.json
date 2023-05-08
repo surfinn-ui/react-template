@@ -7,7 +7,6 @@
       "DOM.Iterable",
       "ESNext"
     ],
-    "strict": true,
     "noEmit": true,
     "allowJs": false,
     "module": "ESNext",
@@ -19,6 +18,12 @@
     "moduleResolution": "Node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true
   },
   "baseUrl": ".",
   "include": [

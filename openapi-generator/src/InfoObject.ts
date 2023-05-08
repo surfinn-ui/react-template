@@ -1,5 +1,6 @@
-import { Contact } from "./ContactObject";
-import { License } from "./LicenseObject";
+import { title } from 'process';
+import { Contact } from './ContactObject';
+import { License } from './LicenseObject';
 
 export class Info {
   title: string;
@@ -9,4 +10,5 @@ export class Info {
   contact?: Contact;
   license?: License;
   version: string;
+  
 }

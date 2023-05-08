@@ -88,7 +88,14 @@ async function generateApis(callback) {
     const imports = new Set();
     jsonpath
       .query(object, '$..["$ref"]')
-      .map((ref) => ref.substring(ref.lastIndexOf('/') + 1).replace(/^successResponse(list)?/i, ''))
+      .map((ref) =>
+        ref
+          .substring(ref.lastIndexOf('/') + 1)
+          .replace(/^SuccessResponse(List)?/i, ''),
+      )
+      .filter((ref) => {
+        return ['Object', 'String', 'Number', 'Boolean'].indexOf(ref) === -1;
+      })
       .forEach((ref) => {
         imports.add(
           `import { I${toPascalCase(
@@ -284,7 +291,9 @@ ${
         )
         .join('\n')} `}
 
-    return this.${apiBaseMethodName}${responseModel ? `<${responseModel}>` : ''}(
+    return this.${apiBaseMethodName}${
+      responseModel ? `<${responseModel}>` : ''
+    }(
       \`${url}${
       (method === 'post' || method === 'put' || method === 'patch') &&
       params.query.length

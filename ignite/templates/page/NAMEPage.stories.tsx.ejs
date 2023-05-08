@@ -1,8 +1,11 @@
 ---
 destinationDir: src/pages/<%= props.pascalCaseName %>
 ---
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { <%= props.pascalCaseName %>PageView } from './<%= props.pascalCaseName %>PageView';
+import { StoryFn, Meta } from '@storybook/react';
+import { 
+  <%= props.pascalCaseName %>PageView, 
+  I<%= props.pascalCaseName %>PageViewProps 
+} from './<%= props.pascalCaseName %>PageView';
 
 export default {
   title: 'Pages/<%= props.pascalCaseName %>Page',
@@ -11,9 +14,9 @@ export default {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-} as ComponentMeta<typeof <%= props.pascalCaseName %>PageView>;
+} as Meta<typeof <%= props.pascalCaseName %>PageView>;
 
-const Template: ComponentStory<typeof <%= props.pascalCaseName %>PageView> = (args) => (
+const Template: StoryFn<typeof <%= props.pascalCaseName %>PageView> = (args: I<%= props.pascalCaseName %>PageViewProps) => (
   <<%= props.pascalCaseName %>PageView {...args}/>
 );
 

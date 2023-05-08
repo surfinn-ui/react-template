@@ -1,0 +1,26 @@
+---
+destinationDir: src/screens/<%= props.pascalCaseName %>
+---
+import { FC, useEffect, useCallback, useMemo, useState } from "react";
+import { observer } from "mobx-react-lite";
+import { useStores } from "../../models";
+import { 
+  <%= props.pascalCaseName %>ScreenView, 
+  I<%= props.pascalCaseName %>ScreenViewProps 
+} from "./<%= props.pascalCaseName %>ScreenView";
+
+const <%= props.pascalCaseName %>Screen = observer(() => {
+  // Pull in one of our MST stores
+  const rootStore = useStores();
+  // const { <%= props.camelCaseName%>Store } = rootStore;
+  
+  const viewProps = useMemo<I<%= props.pascalCaseName %>ScreenViewProps>(() => ({
+    title: '<%= props.pascalCaseName %>',
+  }), []);
+
+  return <<%= props.pascalCaseName %>ScreenView {...viewProps} />
+})
+
+<%= props.pascalCaseName %>Screen.displayName = '<%= props.pascalCaseName %>_Screen';
+
+export default <%= props.pascalCaseName %>Screen;

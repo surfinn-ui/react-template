@@ -1,4 +1,4 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
+import { StoryFn, Meta } from '@storybook/react';
 import { MainPageView } from './MainPageView';
 
 export default {
@@ -8,13 +8,12 @@ export default {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-} as ComponentMeta<typeof MainPageView>;
+} as Meta<typeof MainPageView>;
 
-const Template: ComponentStory<typeof MainPageView> = (args) => (
-  <MainPageView {...args}/>
+const Template: StoryFn<typeof MainPageView> = (args) => (
+  <MainPageView {...args} />
 );
 
 export const Default = Template.bind({});
 
-Default.args = {
-};
+Default.args = {};

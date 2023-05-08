@@ -39,7 +39,9 @@ const {
  * @param {*} callback
  */
 function generateStores(callback) {
-  const tagNames = getTagNames().filter((tagName) => !tagName.startsWith('SuccessResponse'));
+  const tagNames = getTagNames().filter(
+    (tagName) => !tagName.startsWith('SuccessResponse'),
+  );
   const generators = [];
   tagNames.forEach((tagName) => {
     if (fs.existsSync(getStoreFilePath(tagName))) {
@@ -76,7 +78,14 @@ function generateStores(callback) {
       const object = node.value;
       jsonpath
         .query(object, '$..["$ref"]')
-        .map((ref) => ref.substring(ref.lastIndexOf('/') + 1).replace(/SuccessResponse(List)?/i, ''))
+        .map((ref) =>
+          ref
+            .substring(ref.lastIndexOf('/') + 1)
+            .replace(/SuccessResponse(List)?/i, ''),
+        )
+        .filter((ref) => {
+          return ['Object', 'String', 'Number', 'Boolean'].indexOf(ref) === -1;
+        })
         .forEach((ref) => {
           imports.add(
             `import { I${toPascalCase(ref)}Model } from '../${toCamelCase(
@@ -262,7 +271,9 @@ function getActionCodes(path, object) {
      * ## ${pathInfo.summary}
      * ${pathInfo.description}
      * @tags ${pathInfo.tags ? `\`${pathInfo.tags.join(', ')}\`` : ''}
-     * ${[].concat(parameters.paramDocs, requestBody.docs, responses.docs).join('\n     * ')}
+     * ${[]
+        .concat(parameters.paramDocs, requestBody.docs, responses.docs)
+        .join('\n     * ')}
      */
     const ${operationId} = flow(function* (${parameters.paramArgs
         .concat(requestBody.payload)
@@ -271,26 +282,31 @@ function getActionCodes(path, object) {
     ) {
       if(self.isPending) return;
       self.pending();
-      const response = yield ${toCamelCase(
+      const result = yield ${toCamelCase(
         pathInfo.tags[0],
       )}Api.${operationId}(${[]
         .concat(parameters.paramArgs, requestBody.payload)
         .map((i) => i[0])
         .join(', ')});
-      if (response.kind === 'ok') {
+      if (result.kind === 'ok') {
+        const data = result.data as ${responseModel};
         // TODO - TRANSLATE RESPONSE TO STORE 
-        const data = response.data.data as ${responseModel};
-        ${ responseModel?.pagination ? `const pagination = response.data.pagination as IPagination;` : '' }
+
+        ${
+          responseModel?.pagination
+            ? `const pagination = result.pagination as IPagination;`
+            : ''
+        }
 
         // --------------------------------------------------------------------
         console.log('${operationId}()', JSON.stringify(data, null, 2));
-        throw new Error('TODO - TRANSLATE RESPONSE TO STORE ${operationId}()');
+        throw new Error('TODO - TRANSLATE RESULT TO STORE ${operationId}()');
         // --------------------------------------------------------------------
 
         self.done();
       } else {
-        self.error(response);
-        console.error(JSON.stringify(response, null, 2));
+        self.error(result);
+        console.error(JSON.stringify(result, null, 2));
       }
     });`;
     })

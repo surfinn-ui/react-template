@@ -20,8 +20,6 @@ import {
 type TParams = Record<string, any> | undefined;
 
 export class ApiBase {
-  private Base_URL: string = '';
-
   /**
    * 단건 조회
    * @param url 조회 URL

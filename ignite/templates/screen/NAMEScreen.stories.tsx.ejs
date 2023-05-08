@@ -1,0 +1,29 @@
+---
+destinationDir: src/screens/<%= props.pascalCaseName %>
+---
+import { StoryFn, Meta } from '@storybook/react';
+import { 
+  <%= props.pascalCaseName %>ScreenView, 
+  I<%= props.pascalCaseName %>ScreenViewProps 
+} from './<%= props.pascalCaseName %>ScreenView';
+
+export default {
+  title: 'Screens/<%= props.pascalCaseName %>Screen',
+  component: <%= props.pascalCaseName %>ScreenView,
+  parameters: {
+    // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
+    layout: 'fullscreen',
+  },
+} as Meta<typeof <%= props.pascalCaseName %>ScreenView>;
+
+const Template: StoryFn<typeof <%= props.pascalCaseName %>ScreenView> = (
+  args: I<%= props.pascalCaseName %>ScreenViewProps
+) => (
+  <<%= props.pascalCaseName %>ScreenView {...args}/>
+);
+
+export const Default = Template.bind({});
+
+Default.args = {
+  // Add props here
+};

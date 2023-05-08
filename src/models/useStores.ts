@@ -56,7 +56,7 @@ export const useInitialRootStore = (callback: () => void | Promise<void>) => {
     let _unsubscribe: () => void;
     (async () => {
       // set up the RootStore (returns the state restored from AsyncStorage)
-      const { restoredState, unsubscribe } = await setupRootStore(rootStore);
+      const { unsubscribe } = await setupRootStore(rootStore);
       _unsubscribe = unsubscribe;
 
       // reactotron integration with the MST root store (DEV only)
@@ -66,7 +66,7 @@ export const useInitialRootStore = (callback: () => void | Promise<void>) => {
       setRehydrated(true);
 
       // invoke the callback, if provided
-      if (callback) callback();
+      callback?.();
     })();
 
     return () => {

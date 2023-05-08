@@ -1,5 +1,5 @@
-import { ComponentStory, ComponentMeta } from '@storybook/react';
-import { DemoPageView } from './DemoPageView';
+import { StoryFn, Meta } from '@storybook/react';
+import { DemoPageView, IDemoPageViewProps } from './DemoPageView';
 
 export default {
   title: 'Pages/DemoPage',
@@ -8,13 +8,12 @@ export default {
     // More on Story layout: https://storybook.js.org/docs/react/configure/story-layout
     layout: 'fullscreen',
   },
-} as ComponentMeta<typeof DemoPageView>;
+} as Meta<typeof DemoPageView>;
 
-const Template: ComponentStory<typeof DemoPageView> = (args) => (
-  <DemoPageView {...args}/>
+const Template: StoryFn<typeof DemoPageView> = (args: IDemoPageViewProps) => (
+  <DemoPageView {...args} />
 );
 
 export const Default = Template.bind({});
 
-Default.args = {
-};
+Default.args = {};

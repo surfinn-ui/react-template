@@ -2940,7 +2940,7 @@ paths:
     get:
       tags:
         - goods
-      operationId: getGoodsrecentlyViewed
+      operationId: getGoodsRecentlyViewed
       responses:
         '200':
           description: OK

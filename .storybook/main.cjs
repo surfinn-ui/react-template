@@ -6,10 +6,11 @@ module.exports = {
     '@storybook/addon-essentials',
     '@storybook/addon-storysource',
     '@storybook/addon-interactions',
+    '@storybook/addon-mdx-gfm',
   ],
-  framework: '@storybook/react',
-  core: {
-    builder: '@storybook/builder-vite',
+  framework: {
+    name: '@storybook/react-vite',
+    options: {},
   },
   features: {
     storyStoreV7: true,
@@ -33,5 +34,8 @@ module.exports = {
           ? !/node_modules\/(?!@mui)/.test(prop.parent.fileName)
           : true,
     },
+  },
+  docs: {
+    autodocs: true,
   },
 };

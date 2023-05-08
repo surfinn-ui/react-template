@@ -65,14 +65,14 @@ export function useFormFields<T>(
       // min
       if (
         options[field as keyof T & string]?.min &&
-        value < options[field as keyof T & string]?.min?.value!
+        Number(value) < options[field as keyof T & string]?.min?.value!
       ) {
         return options[field as keyof T & string]?.min?.message;
       }
       // max
       if (
         options[field as keyof T & string]?.max &&
-        value > options[field as keyof T & string]?.max?.value!
+        Number(value) > options[field as keyof T & string]?.max?.value!
       ) {
         return options[field as keyof T & string]?.max?.message;
       }

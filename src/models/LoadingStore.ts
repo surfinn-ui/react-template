@@ -14,7 +14,6 @@ export const LoadingStore = types
     tableLoading: types.optional(types.boolean, false),
     tableMessage: types.optional(types.string, ''),
   })
-  // eslint-disable-line @typescript-eslint/no-unused-vars
   .views((self) => ({}))
   .actions((self) => ({
     setLoading: (loading: boolean) => {

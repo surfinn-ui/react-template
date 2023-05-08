@@ -8,4 +8,7 @@ export * from './AuthApi';
 //   GENERATED APIS
 // ------------------------------------
 // ^ export generated apis
+export * from './pet/PetApi';
+export * from './store/StoreApi';
+export * from './user/UserApi';
 // $ export generated apis

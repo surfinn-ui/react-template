@@ -35,7 +35,7 @@ export async function setupRootStore(rootStore: IRootStore) {
   }
 
   // stop tracking state changes if we've already setup
-  if (_disposer) _disposer();
+  _disposer?.();
 
   // track changes & save to AsyncStorage
   _disposer = onSnapshot(rootStore, (snapshot) =>
@@ -47,5 +47,5 @@ export async function setupRootStore(rootStore: IRootStore) {
     _disposer = null;
   };
 
-  return { rootStore, restoredState, unsubscribe };
+  return { unsubscribe };
 }

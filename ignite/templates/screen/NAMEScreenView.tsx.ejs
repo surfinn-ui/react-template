@@ -1,0 +1,27 @@
+---
+destinationDir: src/screens/<%= props.pascalCaseName %>
+---
+import { SxProps, Theme } from '@mui/material';
+import { FC } from "react";
+import { observer } from "mobx-react-lite";
+import { Screen } from "../../components";
+
+export interface I<%= props.pascalCaseName %>ScreenViewProps {
+  title: string;
+}
+
+export const <%= props.pascalCaseName %>ScreenView = observer((props: I<%= props.pascalCaseName %>ScreenViewProps) => {
+  return (
+    <Screen title="<%= props.pascalCaseName %>" sx={styles.screen}>
+      <p><%= props.pascalCaseName %> contents goes hear.</p>
+    </Screen>
+  )
+})
+
+const styles: { [key: string]: SxProps<Theme> } = {
+  screen: {
+    flex: 1,
+  }
+}
+
+<%= props.pascalCaseName %>ScreenView.displayName = '<%= props.pascalCaseName %>_Screen_View';

@@ -3,7 +3,7 @@ destinationDir: src/pages/<%= props.pascalCaseName %>
 patch:
   path: src/pages/index.ts
   before: "// export generated pages here\n"
-  insert: "export { default as <%= props.pascalCaseName %>Page } from \"./<%= props.pascalCaseName %>\"\n"
+  insert: "export { default as <%= props.pascalCaseName %>Page } from \"./<%= props.pascalCaseName %>\";\n"
   skip: <%= props.skipIndexFile %>
 <!-- patches:
   - path: "src/routes/Main.routes.tsx"

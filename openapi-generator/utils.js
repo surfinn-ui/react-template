@@ -66,35 +66,120 @@ function isResponseTypeArray(node, method) {
 }
 
 function returnType(node, method) {
-  if (
-    jsonpath.query(node[method], '$..responses..content[*].schema.type')[0] ===
-    'array'
-  ) {
-    const refs = jsonpath.query(node[method], '$.responses..items["$ref"]')[0];
-    if (refs) {
-      return `I${toPascalCase(
-        refs
-          .substring(refs.lastIndexOf('/') + 1)
-          .replace(/^successResponse(list)?/i, ''),
-      )}Model`;
+  const ref = jsonpath.query(node[method], '$.responses..schema["$ref"]')[0];
+
+  if (ref) {
+    const refDataType = isResponseTypeArray(node, method);
+    if (refDataType === 'array') {
+      const itemTypeRef = jsonpath.query(
+        document,
+        `$.components.schemas.${ref.substring(
+          ref.lastIndexOf('/') + 1,
+        )}.properties.data.items["$ref"]`,
+      )[0];
+      if (itemTypeRef) {
+        const itemType = itemTypeRef
+          .substring(itemTypeRef.lastIndexOf('/') + 1)
+          .replace(/^successResponse(list)?/i, '');
+        switch ((itemType||'').toLowerCase()) {
+          case 'string':
+            return 'string[]';
+          case 'object':
+            return 'any[]';
+          case 'number':
+            return 'number[]';
+          case 'boolean':
+            return 'boolean[]';
+          default:
+            return `I${toPascalCase(itemType)}Model[]`;
+        }
+      } else {
+        return 'any[]';
+      }
     } else {
-      return `${jsonpath.query(node[method], '$.responses..items.type')[0]}[]`;
+      const type = ref
+        .substring(ref.lastIndexOf('/') + 1)
+        .replace(/^successResponse(list)?/i, '');
+      switch ((type||'').toLowerCase()) {
+        case 'string':
+          return 'string';
+        case 'object':
+          return 'any';
+        case 'number':
+          return 'number';
+        case 'boolean':
+          return 'boolean';
+        default:
+          return `I${toPascalCase(type)}Model`;
+      }
     }
   } else {
-    const refs = jsonpath.query(node[method], '$.responses..schema["$ref"]')[0];
-    if (refs) {
-      return `I${toPascalCase(
-        refs
-          .substring(refs.lastIndexOf('/') + 1)
-          .replace(/^successResponse(list)?/i, ''),
-      )}Model`;
-    } else {
-      const refs = jsonpath.query(node[method], '$.responses..schema.type')[0];
-      return convertDataType(
-        refs?.substring(refs.lastIndexOf('/') + 1) || 'any',
-      );
+    const type = jsonpath.query(node[method], '$.responses..schema.type')[0];
+    switch ((type||'').toLowerCase()) {
+      case 'array':
+        const hasItemsRef = jsonpath.query(node[method], '$.responses..items["$ref"]')[0];
+        if (hasItemsRef) {
+          const itemType = hasItemsRef
+            .substring(hasItemsRef.lastIndexOf('/') + 1)
+            .replace(/^successResponse(list)?/i, '');
+          switch ((itemType||'').toLowerCase()) {
+            case 'string':
+              return 'string[]';
+            case 'object':
+              return 'any[]';
+            case 'number':
+              return 'number[]';
+            case 'boolean':
+              return 'boolean[]';
+            default:
+              return `I${toPascalCase(itemType)}Model[]`;
+          }
+        } else {
+          return 'any[]';
+        }
+      case 'object':
+        return 'any';
+      case 'string':
+        return 'string';
+      case 'number':
+      case 'integer':
+        return 'number';
+      case 'boolean':
+        return 'boolean';
+      default:
+        return 'any';
     }
   }
+
+  // if (
+  //   jsonpath.query(node[method], '$..responses..content[*].schema.type')[0] ===
+  //   'array'
+  // ) {
+  //   const refs = jsonpath.query(node[method], '$.responses..items["$ref"]')[0];
+  //   if (refs) {
+  //     return `I${toPascalCase(
+  //       refs
+  //         .substring(refs.lastIndexOf('/') + 1)
+  //         .replace(/^successResponse(list)?/i, ''),
+  //     )}Model`;
+  //   } else {
+  //     return `${jsonpath.query(node[method], '$.responses..items.type')[0]}[]`;
+  //   }
+  // } else {
+  //   const refs = jsonpath.query(node[method], '$.responses..schema["$ref"]')[0];
+  //   if (refs) {
+  //     return `I${toPascalCase(
+  //       refs
+  //         .substring(refs.lastIndexOf('/') + 1)
+  //         .replace(/^successResponse(list)?/i, ''),
+  //     )}Model`;
+  //   } else {
+  //     const refs = jsonpath.query(node[method], '$.responses..schema.type')[0];
+  //     return convertDataType(
+  //       refs?.substring(refs.lastIndexOf('/') + 1) || 'any',
+  //     );
+  //   }
+  // }
 }
 
 function addImports(filepath, imports, callback) {
