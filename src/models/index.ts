@@ -11,4 +11,5 @@ export * from './withSetPropAction';
 // $ export generated models
 
 // ^ export generated stores
+export * from './user/UserStore';
 // $ export generated stores

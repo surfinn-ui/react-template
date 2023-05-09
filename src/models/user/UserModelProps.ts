@@ -13,7 +13,7 @@ export const UserModelProps = {
    * @example 10
    * @required
    */
-  id: types.maybeNull(types.identifierNumber),
+  id: types.identifierNumber,
   /**
    * @type string
    * @example theUser
@@ -25,31 +25,31 @@ export const UserModelProps = {
    * @example John
    * @nullable
    */
-  firstName: types.optional(types.maybeNull(types.string), ''),
+  firstName: types.maybeNull(types.string),
   /**
    * @type string
    * @example James
    * @nullable
    */
-  lastName: types.optional(types.maybeNull(types.string), ''),
+  lastName: types.maybeNull(types.string),
   /**
    * @type string
    * @example john@email.com
    * @nullable
    */
-  email: types.optional(types.maybeNull(types.string), ''),
+  email: types.maybeNull(types.string),
   /**
    * @type string
    * @example 12345
    * @nullable
    */
-  password: types.optional(types.maybeNull(types.string), ''),
+  password: types.maybeNull(types.string),
   /**
    * @type string
    * @example 12345
    * @nullable
    */
-  phone: types.optional(types.maybeNull(types.string), ''),
+  phone: types.maybeNull(types.string),
   /**
    * @description  User Status
    * @type integer

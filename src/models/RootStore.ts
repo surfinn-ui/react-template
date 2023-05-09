@@ -2,6 +2,7 @@ import { Instance, SnapshotOut, types } from 'mobx-state-tree';
 import { LoadingStore } from './LoadingStore';
 
 // ^ generated store imports
+import { UserStore } from './user/UserStore';
 // $ generated store imports
 
 // ----------------------------------------------------------------------------
@@ -14,6 +15,7 @@ export const RootStore = types
   .props({
     loadingStore: types.optional(LoadingStore, {}),
     // ^ generated store props
+    userStore: types.optional(UserStore, {}),
     // $ generated store props
   })
   .actions((self) => ({}))

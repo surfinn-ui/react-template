@@ -13,7 +13,7 @@ export const CategoryModelProps = {
    * @example 1
    * @required
    */
-  id: types.maybeNull(types.identifierNumber),
+  id: types.identifierNumber,
   /**
    * @type string
    * @example Dogs

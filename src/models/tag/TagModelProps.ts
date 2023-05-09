@@ -12,7 +12,7 @@ export const TagModelProps = {
    * @format int64
    * @required
    */
-  id: types.maybeNull(types.identifierNumber),
+  id: types.identifierNumber,
   /**
    * @type string
    * @required

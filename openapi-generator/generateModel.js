@@ -246,8 +246,8 @@ function getModelPropsCode(schema) {
       ) {
         type =
           propValue.type === 'string'
-            ? 'types.maybeNull(types.identifier)'
-            : 'types.maybeNull(types.identifierNumber)';
+            ? 'types.identifier'
+            : 'types.identifierNumber';
         requires.push(propName);
       } else {
         // NOTE - 참조하는 스키마의 아이디 - 명시적으로 $ref를 사용하지 않아도 참조하는 스키마의 아이디를 찾아서 추가한다. ???
@@ -301,19 +301,7 @@ function getModelPropsCode(schema) {
         ' */',
         `    '${toCamelCase(
           propName,
-        )}': types.optional(types.maybeNull(${type}), ${
-          propValue.type === 'boolean'
-            ? 'false'
-            : propValue.type === 'number' || propValue.type === 'integer'
-            ? '0'
-            : propValue.type === 'array'
-            ? '[]'
-            : propValue.type === 'object'
-            ? '{}'
-            : propValue.enum
-            ? `"${propValue.enum[0]}"`
-            : "''"
-        }), `,
+        )}': types.maybeNull(${type}),`,
       );
     }
   });
