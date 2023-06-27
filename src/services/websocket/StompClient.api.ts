@@ -11,10 +11,9 @@ export class StompClient {
   private subscriptions: { [key: string]: StompSubscription };
 
   constructor() {
-    const { VITE_APP_WS_PREFIX, VITE_APP_WS_URL, VITE_APP_API_CONTEXT_PATH } =
-      process.env;
+    const { REACT_APP_WS_URL } = process.env;
     this.client = new Client({
-      brokerURL: `${VITE_APP_WS_PREFIX}${VITE_APP_WS_URL}${VITE_APP_API_CONTEXT_PATH}/ws/maiwacs`,
+      brokerURL: `${REACT_APP_WS_URL}`,
       debug: function (str) {
         console.log(str);
       },

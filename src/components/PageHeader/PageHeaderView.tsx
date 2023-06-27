@@ -22,7 +22,6 @@ export const PageHeaderView = observer(
 
 PageHeaderView.displayName = 'PageHeader_Component_View';
 
-
 function Shadow({ sx, ...other }: BoxProps) {
   const theme = useTheme();
   return (
@@ -38,7 +37,7 @@ function Shadow({ sx, ...other }: BoxProps) {
         position: 'absolute',
         width: `calc(100% - 48px)`,
         maxWidth: theme.breakpoints.values.xl,
-        boxShadow: (theme) => theme.customShadows.z8,
+        boxShadow: (theme) => theme.shadows[24],
         ...sx,
       }}
       {...other}

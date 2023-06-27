@@ -1,7 +1,9 @@
 import { Instance, SnapshotOut, types } from 'mobx-state-tree';
-import { LoadingStore } from './LoadingStore';
 
 // ^ generated store imports
+import { UserStore } from './user/UserStore';
+import { StoreStore } from './store/StoreStore';
+import { PetStore } from './pet/PetStore';
 // $ generated store imports
 
 // ----------------------------------------------------------------------------
@@ -13,14 +15,12 @@ import { LoadingStore } from './LoadingStore';
 export const RootStore = types
   .model('RootStore')
   .props({
-    loadingStore:            types.optional(LoadingStore, {}),
     // ^ generated store props
     // $ generated store props
   })
   .actions((self) => ({}))
   .actions((self) => ({
     afterCreate() {
-      // self.loadingStore.setMessage('RootStore.afterCreate()');
     }
   }));
 

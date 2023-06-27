@@ -10,11 +10,19 @@ import { CssBaseline, ThemeProvider } from '@mui/material';
 import { INITIAL_VIEWPORTS } from '@storybook/addon-viewport';
 
 import THEMES from '../src/themes';
+import { MemoryRouter } from 'react-router-dom';
 
 export const parameters = {
   options: {
     storySort: {
-      order: ['Introduction', 'Foundation', 'Components', 'Pages', 'Material UI', 'Example'],
+      order: [
+        'Introduction',
+        'Foundation',
+        'Components',
+        'Pages',
+        'Material UI',
+        'Example',
+      ],
       includeName: true,
     },
   },
@@ -43,8 +51,10 @@ export const withMuiTheme = (Story, context) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
-      <Story />
+      <MemoryRouter>
+        <CssBaseline />
+        <Story />
+      </MemoryRouter>
     </ThemeProvider>
   );
 };

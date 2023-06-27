@@ -1,24 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 
-import { Container, CssBaseline, ThemeProvider } from '@mui/material';
-import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
+import { CssBaseline, ThemeProvider } from '@mui/material';
 
-import reactLogo from './assets/react.svg';
-import muiLogo from './assets/mui.svg';
 import mstLogo from './assets/mst.svg';
+import muiLogo from './assets/mui.svg';
+import reactLogo from './assets/react.svg';
 import storybookLogo from './assets/storybook.svg';
 
 import './App.css';
 
 import THEMES from './themes';
 
-import {
-  IRootStore,
-  RootStoreProvider,
-  setupRootStore,
-  useInitialRootStore,
-} from './models';
+import { useInitialRootStore } from './models';
 
 type TThemeMode = keyof typeof THEMES;
 

@@ -16,7 +16,7 @@ for (let i = 0; i < 256; i++) {
  * Create a version 4 (random) UUID
  * @returns uuid v4
  */
-export const generate = () => {
+export const v4 = () => {
   const d0 = (Math.random() * 0xffffffff) | 0;
   const d1 = (Math.random() * 0xffffffff) | 0;
   const d2 = (Math.random() * 0xffffffff) | 0;
@@ -57,7 +57,7 @@ export const validate = (uuid: string) => {
 };
 
 const UUID = {
-  v4: generate,
+  v4,
   validate,
 };
 

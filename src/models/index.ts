@@ -14,11 +14,22 @@ export * from './withSetPropAction';
 // ------------------------------------
 // MODELS
 // ^ export generated models
+export * from './order/OrderModel';
+export * from './customer/CustomerModel';
+export * from './address/AddressModel';
+export * from './category/CategoryModel';
+export * from './user/UserModel';
+export * from './tag/TagModel';
+export * from './pet/PetModel';
+export * from './apiResponse/ApiResponseModel';
 // $ export generated models
 // ------------------------------------
 
 // ------------------------------------
 // STORES
 // ^ export generated stores
+export * from './pet/PetStore';
+export * from './store/StoreStore';
+export * from './user/UserStore';
 // $ export generated stores
 // ------------------------------------

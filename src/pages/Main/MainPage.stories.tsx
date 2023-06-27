@@ -11,10 +11,9 @@ export default {
 } as ComponentMeta<typeof MainPageView>;
 
 const Template: ComponentStory<typeof MainPageView> = (args) => (
-  <MainPageView {...args}/>
+  <MainPageView {...args} />
 );
 
 export const Default = Template.bind({});
 
-Default.args = {
-};
+Default.args = {};

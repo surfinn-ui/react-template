@@ -62,17 +62,18 @@ export function useFormFields<T>(
 
     // number check
     if (typeof value === 'number' || value instanceof Number) {
+      const _value = value as number;
       // min
       if (
         options[field as keyof T & string]?.min &&
-        value < options[field as keyof T & string]?.min?.value!
+        _value < options[field as keyof T & string]?.min?.value!
       ) {
         return options[field as keyof T & string]?.min?.message;
       }
       // max
       if (
         options[field as keyof T & string]?.max &&
-        value > options[field as keyof T & string]?.max?.value!
+        _value > options[field as keyof T & string]?.max?.value!
       ) {
         return options[field as keyof T & string]?.max?.message;
       }

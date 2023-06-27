@@ -1,7 +1,6 @@
 import { observable } from 'mobx';
 import { IStateTreeNode } from 'mobx-state-tree';
 import { TApiErrorResponse } from '../services/api/ApiTypes';
-import { getRootStore } from './getRootStore';
 
 /**
  * The fetch states.
@@ -20,7 +19,6 @@ export enum FetchStates {
  * @returns
  */
 export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
-  const { loadingStore } = getRootStore(instance);
   const state = observable.box(FetchStates.NONE);
   const error = observable.box<TApiErrorResponse | null>(null);
   return {
@@ -68,7 +66,6 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
       pending() {
         error.set(null);
         state.set(FetchStates.PENDING);
-        // requestAnimationFrame(() => loadingStore.setLoading(true));
       },
 
       /**
@@ -77,7 +74,6 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
       done() {
         error.set(null);
         state.set(FetchStates.DONE);
-        // setTimeout(() => loadingStore.setLoading(false), 600);
       },
 
       /**
@@ -88,7 +84,6 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
       error(err: TApiErrorResponse) {
         error.set(err);
         state.set(FetchStates.ERROR);
-        // setTimeout(() => loadingStore.setLoading(false), 600);
       },
 
       /**
@@ -99,9 +94,7 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
       setFetchState(newState: FetchStates) {
         state.set(newState);
         // if (newState === FetchStates.PENDING) {
-        //   requestAnimationFrame(() => loadingStore.setLoading(true));
         // } else {
-        //   setTimeout(() => loadingStore.setLoading(false), 600);
         // }
       },
 
@@ -111,7 +104,6 @@ export const withFetchStates = <T extends IStateTreeNode>(instance: T) => {
        */
       setError(fetchError: TApiErrorResponse) {
         error.set(fetchError);
-        // setTimeout(() => loadingStore.setLoading(false), 600);
       },
 
       /**
