@@ -17,6 +17,16 @@
 - Or run `yarn storybook` to start the storybook server
 - Open `http://localhost:6006` in your browser
 
+## How do I create a new component or page?
+
+- Run `yarn gen component <component-name>` to create a new component
+- Run `yarn gen page <page-name>` to create a new page
+- Run `yarn gen model <model-name>` to create a new model
+- Run `yarn gen api <service-name>` to create a new service
+- Run `yarn gen store <store-name>` to create a new store
+
+  Check out [Ignite CLI Generators](https://github.com/infinitered/ignite/blob/master/docs/Generators.md) for more info.
+
 ## How do I create OpenAPI clients?
 
 - You can generate an OpenAPI client using `yarn gen:openapi <path-to-openapi-spec>`.
