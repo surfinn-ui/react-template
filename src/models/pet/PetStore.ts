@@ -13,8 +13,8 @@ import {
   TUpdateResult,
   TPartialUpdateResult,
   TDeleteResult,
-} from '../../services/api';
-import { petApi } from '../../services/api/pet/PetApi';
+} from '@/services/api';
+import { petApi } from '@/services/api/pet/PetApi';
 import { FetchStates, withFetchStates } from '../withFetchStates';
 import { withPagination, IPagination } from '../withPagination';
 import { IPetModel } from '../pet/PetModel';

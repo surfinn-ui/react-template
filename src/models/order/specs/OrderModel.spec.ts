@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { OrderModel } from '../OrderModel';
+import { IOrderModel, OrderModel } from '../OrderModel';
 
 describe('OrderModel', () => {
   it('can be created', () => {
-    const instance = OrderModel.create({});
+    const instance = OrderModel.create({} as IOrderModel);
     expect(instance).toBeTruthy();
   });
 });

@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import Base64 from '../../utils/Base64';
+import Base64 from '@/utils/Base64';
 
 class AuthApi {
   async requestRefresh(refreshToken: string): Promise<string> {

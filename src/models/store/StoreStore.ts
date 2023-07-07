@@ -13,8 +13,8 @@ import {
   TUpdateResult,
   TPartialUpdateResult,
   TDeleteResult,
-} from '../../services/api';
-import { storeApi } from '../../services/api/store/StoreApi';
+} from '@/services/api';
+import { storeApi } from '@/services/api/store/StoreApi';
 import { FetchStates, withFetchStates } from '../withFetchStates';
 import { withPagination, IPagination } from '../withPagination';
 import { IOrderModel } from '../order/OrderModel';

@@ -1,7 +1,7 @@
 import { SxProps, Theme } from '@mui/material';
 import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
-import { Page, PageHeader } from '../../components';
+import { Page, PageHeader } from '@/components';
 
 export interface IDemoPageViewProps {
   title: string;

@@ -1,5 +1,5 @@
 import { ApiBase } from '../ApiBase';
-import { IOrderModel } from '../../../models/order/OrderModel';
+import { IOrderModel } from '@/models/order/OrderModel';
 
 /**
  * StoreApiCore

@@ -3,14 +3,14 @@ import { FC } from 'react';
 import { observer } from 'mobx-react-lite';
 import { Page } from '@/components';
 
-export interface IMainPageViewProps {
+export interface IPdfPageViewProps {
   title: string;
 }
 
-export const MainPageView = observer((props: IMainPageViewProps) => {
+export const PdfPageView = observer((props: IPdfPageViewProps) => {
   return (
-    <Page title="Main" sx={styles.page}>
-      <p>Main contents goes hear.</p>
+    <Page title="Pdf" sx={styles.page}>
+      <p>Pdf contents goes hear.</p>
     </Page>
   );
 });
@@ -21,4 +21,4 @@ const styles: { [key: string]: SxProps<Theme> } = {
   },
 };
 
-MainPageView.displayName = 'Main_Page_View';
+PdfPageView.displayName = 'Pdf_Page_View';

@@ -15,6 +15,7 @@ import './App.css';
 import THEMES from './themes';
 
 import { useInitialRootStore } from './models';
+import Reactotron from 'reactotron-react-js';
 
 type TThemeMode = keyof typeof THEMES;
 
@@ -82,6 +83,9 @@ const AppView = () => {
         <li>Material UI</li>
         <li>Storybook</li>
         <li>Ignite-cli Generator</li>
+        <li>OpenAPI</li>
+        <li>mobx-devtools-mst</li>
+        <li>Reactotron</li>
         <li>OpenAPI</li>
       </ul>
 

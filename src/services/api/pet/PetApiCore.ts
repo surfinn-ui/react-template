@@ -1,6 +1,6 @@
 import { ApiBase } from '../ApiBase';
-import { IPetModel } from '../../../models/pet/PetModel';
-import { IApiResponseModel } from '../../../models/apiResponse/ApiResponseModel';
+import { IPetModel } from '@/models/pet/PetModel';
+import { IApiResponseModel } from '@/models/apiResponse/ApiResponseModel';
 
 /**
  * PetApiCore

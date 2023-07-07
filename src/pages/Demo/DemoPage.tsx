@@ -1,6 +1,6 @@
 import { FC, useEffect, useCallback, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useStores } from '../../models';
+import { useStores } from '@/models';
 import { DemoPageView, IDemoPageViewProps } from './DemoPageView';
 
 const DemoPage = observer(() => {

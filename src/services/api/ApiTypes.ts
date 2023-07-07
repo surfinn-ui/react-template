@@ -1,4 +1,4 @@
-import { IPagination } from '../../models/withPagination';
+import { IPagination } from '@/models/withPagination';
 import { TGeneralApiProblem } from './ApiProblem';
 
 /**

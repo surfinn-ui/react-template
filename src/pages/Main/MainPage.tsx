@@ -1,6 +1,6 @@
 import { FC, useEffect, useCallback, useMemo, useState } from 'react';
 import { observer } from 'mobx-react-lite';
-import { useStores } from '../../models';
+import { useStores } from '@/models';
 import { MainPageView, IMainPageViewProps } from './MainPageView';
 
 const MainPage = observer(() => {

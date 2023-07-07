@@ -1,5 +1,5 @@
 import { ApiBase } from '../ApiBase';
-import { IUserModel } from '../../../models/user/UserModel';
+import { IUserModel } from '@/models/user/UserModel';
 
 /**
  * UserApiCore

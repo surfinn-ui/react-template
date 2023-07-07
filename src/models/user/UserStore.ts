@@ -13,8 +13,8 @@ import {
   TUpdateResult,
   TPartialUpdateResult,
   TDeleteResult,
-} from '../../services/api';
-import { userApi } from '../../services/api/user/UserApi';
+} from '@/services/api';
+import { userApi } from '@/services/api/user/UserApi';
 import { FetchStates, withFetchStates } from '../withFetchStates';
 import { withPagination, IPagination } from '../withPagination';
 import { IUserModel, UserModel } from '../user/UserModel';

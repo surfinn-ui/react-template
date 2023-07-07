@@ -14,8 +14,8 @@ patches:
 ---
 import { flow, Instance, SnapshotIn, SnapshotOut, types } from 'mobx-state-tree';
 import { withSetPropAction } from '../withSetPropAction';
-import { TSearchResult, TFindResult, TCreateResult, TUpdateResult, TPartialUpdateResult, TDeleteResult } from '../../services/api';
-import { <%= props.camelCaseName %>Api } from '../../services/api/<%= props.camelCaseName %>/<%= props.pascalCaseName %>Api';
+import { TSearchResult, TFindResult, TCreateResult, TUpdateResult, TPartialUpdateResult, TDeleteResult } from '@/services/api';
+import { <%= props.camelCaseName %>Api } from '@/services/api/<%= props.camelCaseName %>/<%= props.pascalCaseName %>Api';
 import { FetchStates, withFetchStates } from '../withFetchStates';
 import { withPagination, IPagination } from '../withPagination';
 
