@@ -65,7 +65,7 @@ export const globalTypes = {
     name: 'Theme',
     title: 'Mui Theme',
     description: 'Mui Theme for your components',
-    defaultValue: 'dark',
+    defaultValue: 'light',
     toolbar: {
       icon: 'paintbrush',
       dynamicTitle: true,
