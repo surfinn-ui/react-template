@@ -2,14 +2,13 @@ module.exports = {
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
-    'storybook-addon-designs',
     '@storybook/addon-essentials',
     '@storybook/addon-storysource',
     '@storybook/addon-interactions',
   ],
-  framework: '@storybook/react',
-  core: {
-    builder: '@storybook/builder-vite',
+  framework: {
+    name: '@storybook/react-vite',
+    options: {},
   },
   features: {
     storyStoreV7: true,
@@ -33,5 +32,8 @@ module.exports = {
           ? !/node_modules\/(?!@mui)/.test(prop.parent.fileName)
           : true,
     },
+  },
+  docs: {
+    autodocs: true,
   },
 };
