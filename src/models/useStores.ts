@@ -1,6 +1,7 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { IRootStore, RootStore } from './RootStore';
 import { setupRootStore } from './setupRootStore';
+import makeInspectable from 'mobx-devtools-mst';
 
 /**
  * Create the initial (empty) global RootStore instance here.
@@ -56,11 +57,14 @@ export const useInitialRootStore = (callback: () => void | Promise<void>) => {
     let _unsubscribe: () => void;
     (async () => {
       // set up the RootStore (returns the state restored from AsyncStorage)
-      const { restoredState, unsubscribe } = await setupRootStore(rootStore);
+      const { unsubscribe } = await setupRootStore(rootStore);
       _unsubscribe = unsubscribe;
 
       // reactotron integration with the MST root store (DEV only)
-      // setReactotronRootStore(rootStore, restoredState);
+      if (process.env.NODE_ENV === 'development') {
+        console.tron?.trackMstNode?.(rootStore);
+        makeInspectable(rootStore);
+      }
 
       // let the app know we've finished rehydrating
       setRehydrated(true);

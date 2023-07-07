@@ -1,3 +1,6 @@
+if (process.env.NODE_ENV === 'development') {
+  import('./devtools/ReactotronConfig.js');
+}
 import { useMemo, useState } from 'react';
 
 import { CssBaseline, ThemeProvider } from '@mui/material';
@@ -26,16 +29,13 @@ function App() {
 
   const { rehydrated } = useInitialRootStore(() => {
     // hide the splash screen
+    
   });
-
-  if (!rehydrated) {
-    return null;
-  }
 
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <AppView />
+      {!rehydrated ? <div>Loading...</div> : <AppView />}
     </ThemeProvider>
   );
 }

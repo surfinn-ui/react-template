@@ -10,7 +10,7 @@
  * @refresh reset
  */
 import { applySnapshot, IDisposer, onSnapshot } from 'mobx-state-tree';
-import type { IRootStore } from './RootStore';
+import type { IRootStore, IRootStoreSnapshot } from './RootStore';
 import * as storage from '../utils/storage';
 
 /**
@@ -23,15 +23,18 @@ const ROOT_STATE_STORAGE_KEY = 'root-v1';
  */
 let _disposer: IDisposer | null;
 export async function setupRootStore(rootStore: IRootStore) {
-  let restoredState: any;
+  let restoredState: IRootStoreSnapshot | undefined;
 
   try {
     // load the last known state from AsyncStorage
-    restoredState = (await storage.load(ROOT_STATE_STORAGE_KEY)) || {};
+    restoredState = ((await storage.load(ROOT_STATE_STORAGE_KEY)) ||
+      {}) as IRootStoreSnapshot;
     applySnapshot(rootStore, restoredState);
   } catch (error) {
     // if there's any problems loading, then inform the dev what happened
-    console.error(error);
+    if (process.env.NODE_ENV === 'development') {
+      console.error(error);
+    }
   }
 
   // stop tracking state changes if we've already setup

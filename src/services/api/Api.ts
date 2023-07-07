@@ -61,5 +61,3 @@ export class Api {
 
 // Singleton instance of the API for convenience
 export const api = new Api();
-
-console.log('api', api);

@@ -16,6 +16,9 @@ export const RootStore = types
   .model('RootStore')
   .props({
     // ^ generated store props
+    user: types.optional(UserStore, {}),
+    store: types.optional(StoreStore, {}),
+    pet: types.optional(PetStore, {}),
     // $ generated store props
   })
   .actions((self) => ({}))

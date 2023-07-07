@@ -1,7 +1,7 @@
-import localforage from 'localforage';
+import Storage from 'localforage';
 
-localforage.config({
-  driver: localforage.INDEXEDDB, // Force WebSQL; same as using setDriver()
+Storage.config({
+  driver: Storage.INDEXEDDB, // Force WebSQL; same as using setDriver()
   name: 'MyApp',
   version: 1.0,
   size: 4980736, // Size of database, in bytes. WebSQL-only for now.
@@ -16,7 +16,7 @@ localforage.config({
  */
 export async function loadString(key: string): Promise<string | null> {
   try {
-    return await localforage.getItem(key);
+    return await Storage.getItem(key);
   } catch {
     // not sure why this would fail... even reading the RN docs I'm unclear
     return null;
@@ -31,7 +31,7 @@ export async function loadString(key: string): Promise<string | null> {
  */
 export async function saveString(key: string, value: string): Promise<boolean> {
   try {
-    await localforage.setItem(key, value);
+    await Storage.setItem(key, value);
     return true;
   } catch {
     return false;
@@ -45,9 +45,8 @@ export async function saveString(key: string, value: string): Promise<boolean> {
  */
 export async function load(key: string): Promise<any | null> {
   try {
-    const almostThere = await localforage.getItem(key);
-    console.log(`localforage.load(${key}): `, almostThere);
-    return almostThere; //JSON.parse(almostThere);
+    const almostThere = await Storage.getItem(key);
+    return almostThere; 
   } catch {
     return null;
   }
@@ -61,7 +60,7 @@ export async function load(key: string): Promise<any | null> {
  */
 export async function save(key: string, value: any): Promise<boolean> {
   try {
-    await localforage.setItem(key, JSON.stringify(value));
+    await Storage.setItem(key, JSON.stringify(value));
     return true;
   } catch {
     return false;
@@ -75,7 +74,7 @@ export async function save(key: string, value: any): Promise<boolean> {
  */
 export async function remove(key: string): Promise<void> {
   try {
-    await localforage.removeItem(key);
+    await Storage.removeItem(key);
   } catch {}
 }
 
@@ -84,6 +83,6 @@ export async function remove(key: string): Promise<void> {
  */
 export async function clear(): Promise<void> {
   try {
-    await localforage.clear();
+    await Storage.clear();
   } catch {}
 }
