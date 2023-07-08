@@ -16,6 +16,9 @@ import THEMES from './themes';
 
 import { useInitialRootStore } from './models';
 import Reactotron from 'reactotron-react-js';
+import { useUserStore } from './models/user/useUserStore';
+import { getSnapshot } from 'mobx-state-tree';
+import { useStoreStore } from './models/store/useStoreStore';
 
 type TThemeMode = keyof typeof THEMES;
 
@@ -28,9 +31,15 @@ function App() {
     [themeMode],
   );
 
-  const { rehydrated } = useInitialRootStore(() => {
+  const [userStore, unsubscribeUserStore] = useUserStore();
+  console.log('userStore', userStore ? getSnapshot(userStore) : undefined);
+
+  const [storeStore, unsubscribeStoreStore] = useStoreStore();
+  console.log('storeStore', storeStore ? getSnapshot(storeStore) : undefined);
+
+  const { rootStore, rehydrated } = useInitialRootStore(() => {
     // hide the splash screen
-    
+    console.log(rootStore);
   });
 
   return (

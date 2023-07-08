@@ -3,15 +3,14 @@
  * free desktop app for inspecting and debugging your React Native app.
  * @see https://github.com/infinitered/reactotron
  */
-import Storage from 'localforage';
 import { ArgType } from 'reactotron-core-client';
 import { mst } from 'reactotron-mst';
 
 import { clear } from '../utils/storage';
 // import { goBack, resetRoot, navigate } from "app/navigators/navigationUtilities"
 
-import { Reactotron } from './ReactotronClient';
 import * as PackageJSON from '../../package.json';
+import { Reactotron } from './ReactotronClient';
 
 Reactotron.configure({
   name: PackageJSON.name,

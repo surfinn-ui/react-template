@@ -31,7 +31,7 @@
 
 - You can generate an OpenAPI client using `yarn gen:openapi <path-to-openapi-spec>`.
 - When generating an OpenAPI client by running `yarn gen:openapi ./openapi-docs/petstore3.0.3.yml`.
-Create models, services and stores based on the OpenAPI specification in the `./openapi-docs/petstore3.0.3.yml` file.
+  Create models, services and stores based on the OpenAPI specification in the `./openapi-docs/petstore3.0.3.yml` file.
 - You can also use 'yarn gen:openapi https://petstore3.swagger.io/api/v3/openapi.json'
 
 ## How do I contribute?

@@ -1,6 +1,8 @@
 import {
   flow,
+  IDisposer,
   Instance,
+  onSnapshot,
   SnapshotIn,
   SnapshotOut,
   types,

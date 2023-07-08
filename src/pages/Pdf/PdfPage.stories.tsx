@@ -11,10 +11,9 @@ export default {
 } as Meta<typeof PdfPageView>;
 
 const Template: StoryFn<typeof PdfPageView> = (args) => (
-  <PdfPageView {...args}/>
+  <PdfPageView {...args} />
 );
 
 export const Default = Template.bind({});
 
-Default.args = {
-};
+Default.args = {};

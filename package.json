@@ -9,8 +9,10 @@
   "license": "MIT",
   "scripts": {
     "start": "vite",
-    "build": "tsc && vite build",
-    "preview": "tsc && vite build && vite preview",
+    "prebuild": "tsc",
+    "build": "vite build",
+    "prepreview": "yarn build",
+    "preview": "vite preview",
     "storybook": "storybook dev -p 6006",
     "storybook:build": "storybook build",
     "storybook:preview": "storybook build && npx serve storybook-static -l 8080",
